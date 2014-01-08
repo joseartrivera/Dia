@@ -1,11 +1,11 @@
-package com.josetheprogrammer.gameObjects;
+package com.josetheprogrammer.dia.gameObjects;
 
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.items.Item;
-import com.josetheprogrammer.items.ItemType;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.items.ItemType;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 /**

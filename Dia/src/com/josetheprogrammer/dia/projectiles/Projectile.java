@@ -1,11 +1,11 @@
-package com.josetheprogrammer.projectiles;
+package com.josetheprogrammer.dia.projectiles;
 
 
 import java.awt.Image;
 import java.awt.Point;
 
-import com.josetheprogrammer.gameObjects.Stage;
-import com.josetheprogrammer.mobs.Mob;
+import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.mobs.Mob;
 
 
 /**

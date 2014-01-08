@@ -1,14 +1,14 @@
-package com.josetheprogrammer.items;
+package com.josetheprogrammer.dia.items;
 
 
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.gameObjects.Direction;
-import com.josetheprogrammer.gameObjects.Player;
-import com.josetheprogrammer.projectiles.Bullet;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.gameObjects.Direction;
+import com.josetheprogrammer.dia.gameObjects.Player;
+import com.josetheprogrammer.dia.projectiles.Bullet;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 /**

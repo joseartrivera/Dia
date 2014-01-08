@@ -1,11 +1,11 @@
-package com.josetheprogrammer.mobs;
+package com.josetheprogrammer.dia.mobs;
 
 
 import java.awt.Image;
 import java.awt.Point;
 
-import com.josetheprogrammer.blocks.BlockProperty;
-import com.josetheprogrammer.gameObjects.Stage;
+import com.josetheprogrammer.dia.blocks.BlockProperty;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 
 
 /**

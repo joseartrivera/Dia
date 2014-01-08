@@ -1,13 +1,13 @@
-package com.josetheprogrammer.gameObjects;
+package com.josetheprogrammer.dia.gameObjects;
 
 
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.blocks.BlockProperty;
-import com.josetheprogrammer.items.Item;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.blocks.BlockProperty;
+import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 

@@ -1,4 +1,4 @@
-package com.josetheprogrammer.view;
+package com.josetheprogrammer.dia.view;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.josetheprogrammer.items;
+package com.josetheprogrammer.dia.items;
 
 /**
  * Represents the current state of an item

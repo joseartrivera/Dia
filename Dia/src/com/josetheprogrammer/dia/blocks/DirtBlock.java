@@ -1,11 +1,11 @@
-package com.josetheprogrammer.blocks;
+package com.josetheprogrammer.dia.blocks;
 
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import com.josetheprogrammer.gameObjects.Stage;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 /**

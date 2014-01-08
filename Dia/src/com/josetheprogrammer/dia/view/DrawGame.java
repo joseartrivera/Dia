@@ -1,4 +1,4 @@
-package com.josetheprogrammer.view;
+package com.josetheprogrammer.dia.view;
 
 
 
@@ -10,13 +10,13 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import com.josetheprogrammer.blocks.Block;
-import com.josetheprogrammer.gameObjects.Game;
-import com.josetheprogrammer.gameObjects.Player;
-import com.josetheprogrammer.gameObjects.PlayerInventory;
-import com.josetheprogrammer.items.Item;
-import com.josetheprogrammer.mobs.Mob;
-import com.josetheprogrammer.projectiles.Projectile;
+import com.josetheprogrammer.dia.blocks.Block;
+import com.josetheprogrammer.dia.gameObjects.Game;
+import com.josetheprogrammer.dia.gameObjects.Player;
+import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
+import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.mobs.Mob;
+import com.josetheprogrammer.dia.projectiles.Projectile;
 
 
 

@@ -1,10 +1,10 @@
-package com.josetheprogrammer.blocks;
+package com.josetheprogrammer.dia.blocks;
 
 
 import java.awt.Image;
 import java.awt.Point;
 
-import com.josetheprogrammer.gameObjects.Stage;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 
 /**
  * This abstract block class provides methods that all blocks in the game will implement.

@@ -1,11 +1,11 @@
-package com.josetheprogrammer.gameObjects;
+package com.josetheprogrammer.dia.gameObjects;
 
 import java.awt.Point;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 /**

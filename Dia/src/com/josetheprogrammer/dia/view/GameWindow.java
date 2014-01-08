@@ -1,4 +1,4 @@
-package com.josetheprogrammer.view;
+package com.josetheprogrammer.dia.view;
 
 
 
@@ -9,12 +9,12 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.josetheprogrammer.blocks.DirtBlock;
-import com.josetheprogrammer.gameObjects.Game;
-import com.josetheprogrammer.items.GunItem;
-import com.josetheprogrammer.items.SwordItem;
-import com.josetheprogrammer.listeners.PlayerKeyListener;
-import com.josetheprogrammer.mobs.Slime;
+import com.josetheprogrammer.dia.blocks.DirtBlock;
+import com.josetheprogrammer.dia.gameObjects.Game;
+import com.josetheprogrammer.dia.items.GunItem;
+import com.josetheprogrammer.dia.items.SwordItem;
+import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
+import com.josetheprogrammer.dia.mobs.Slime;
 
 
 

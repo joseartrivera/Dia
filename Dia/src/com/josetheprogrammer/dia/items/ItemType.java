@@ -1,4 +1,4 @@
-package com.josetheprogrammer.items;
+package com.josetheprogrammer.dia.items;
 
 /**
  * Represents the type of item

@@ -1,4 +1,4 @@
-package com.josetheprogrammer.gameObjects;
+package com.josetheprogrammer.dia.gameObjects;
 
 
 import java.awt.Image;
@@ -8,13 +8,13 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.blocks.Block;
-import com.josetheprogrammer.blocks.EmptyBlock;
-import com.josetheprogrammer.blocks.MetalBlock;
-import com.josetheprogrammer.items.Item;
-import com.josetheprogrammer.mobs.Mob;
-import com.josetheprogrammer.projectiles.Projectile;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.blocks.Block;
+import com.josetheprogrammer.dia.blocks.EmptyBlock;
+import com.josetheprogrammer.dia.blocks.MetalBlock;
+import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.mobs.Mob;
+import com.josetheprogrammer.dia.projectiles.Projectile;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 

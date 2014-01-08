@@ -1,4 +1,4 @@
-package com.josetheprogrammer.mobs;
+package com.josetheprogrammer.dia.mobs;
 
 
 import java.awt.Image;
@@ -6,10 +6,10 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.blocks.BlockProperty;
-import com.josetheprogrammer.gameObjects.Direction;
-import com.josetheprogrammer.gameObjects.Stage;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.blocks.BlockProperty;
+import com.josetheprogrammer.dia.gameObjects.Direction;
+import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 

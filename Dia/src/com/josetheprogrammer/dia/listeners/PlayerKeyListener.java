@@ -1,4 +1,4 @@
-package com.josetheprogrammer.listeners;
+package com.josetheprogrammer.dia.listeners;
 
 
 
@@ -7,9 +7,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.josetheprogrammer.gameObjects.Direction;
-import com.josetheprogrammer.gameObjects.Player;
-import com.josetheprogrammer.items.Item;
+import com.josetheprogrammer.dia.gameObjects.Direction;
+import com.josetheprogrammer.dia.gameObjects.Player;
+import com.josetheprogrammer.dia.items.Item;
 
 /**
  * Used to listen for user input to control the player

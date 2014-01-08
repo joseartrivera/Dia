@@ -1,11 +1,11 @@
-package com.josetheprogrammer.items;
+package com.josetheprogrammer.dia.items;
 
 
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.gameObjects.Player;
+import com.josetheprogrammer.dia.gameObjects.Player;
 
 /**
  * Interface for an item, every item in the game will need these methods

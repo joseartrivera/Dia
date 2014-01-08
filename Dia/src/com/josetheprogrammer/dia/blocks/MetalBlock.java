@@ -1,12 +1,12 @@
-package com.josetheprogrammer.blocks;
+package com.josetheprogrammer.dia.blocks;
 
 
 import java.awt.Image;
 import java.awt.Point;
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.gameObjects.Stage;
-import com.josetheprogrammer.view.Resources;
+import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 

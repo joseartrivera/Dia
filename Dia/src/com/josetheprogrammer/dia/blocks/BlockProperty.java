@@ -1,4 +1,4 @@
-package com.josetheprogrammer.blocks;
+package com.josetheprogrammer.dia.blocks;
 
 /**
  * Represents the way a block will behave in game.
