@@ -1,6 +1,5 @@
 package com.josetheprogrammer.dia.items;
 
-
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
@@ -9,8 +8,6 @@ import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.view.Resources;
-
-
 
 /**
  * Sword item used for melee to defeat mobs
@@ -120,10 +117,7 @@ public class SwordItem implements Item {
 	 */
 	@Override
 	public int getEquippedX() {
-		if (player.getAction() == Direction.FACE_RIGHT)
-			return player.getX() + 18;
-		else
-			return player.getX() - 10;
+		return player.getX() + this.getEquippedXOffset();
 	}
 
 	/**
@@ -131,7 +125,7 @@ public class SwordItem implements Item {
 	 */
 	@Override
 	public int getEquippedY() {
-		return player.getY();
+		return player.getY() + this.getEquippedYOffset();
 	}
 
 	/**
@@ -148,6 +142,7 @@ public class SwordItem implements Item {
 
 	/**
 	 * Try to hit an enemy, return whether or not we dealt damage to one
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
@@ -170,6 +165,19 @@ public class SwordItem implements Item {
 	@Override
 	public void altUseItem() {
 
+	}
+
+	@Override
+	public int getEquippedXOffset() {
+		if (player.getAction() == Direction.FACE_RIGHT)
+			return 18;
+		else
+			return -10;
+	}
+
+	@Override
+	public int getEquippedYOffset() {
+		return 0;
 	}
 
 }

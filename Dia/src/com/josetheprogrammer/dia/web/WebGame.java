@@ -1,12 +1,13 @@
-package com.josetheprogrammer.dia.view;
+package com.josetheprogrammer.dia.web;
 
 
 
 import java.awt.Container;
 import java.awt.Point;
+import java.net.URL;
 import java.util.Observer;
 
-import javax.swing.JFrame;
+import javax.swing.JApplet;
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.DirtBlock;
@@ -15,15 +16,17 @@ import com.josetheprogrammer.dia.items.GunItem;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.Slime;
+import com.josetheprogrammer.dia.view.DrawStage;
+import com.josetheprogrammer.dia.view.Resources;
 
 
 
 
 
 @SuppressWarnings("serial")
-public class GameWindow extends JFrame {
+public class WebGame extends JApplet {
 	
-	public static GameWindow gameWindow;
+	public static WebGame gameWindow;
 	
 	//Used to hold our DrawGame
 	private Container cp = getContentPane();
@@ -36,8 +39,29 @@ public class GameWindow extends JFrame {
 	 * Used for starting a quick game at the moment. Quick testing.
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		gameWindow = new GameWindow();
+	public void start() {
+		drawGame.setFocusable(true);
+		drawGame.requestFocusInWindow();
+	}
+
+	public void init() {
+
+		setUpWindow();
+		
+		URL url = getCodeBase();
+		
+		Resources resources = new Resources(url);
+		game = new Game(resources); 
+		drawGame = new DrawStage(game);
+		game.addObserver((Observer) drawGame);
+
+		PlayerKeyListener playerListener = new PlayerKeyListener(game.getPlayer());
+		drawGame.setFocusable(true);
+		drawGame.addKeyListener(playerListener);
+		drawGame.addMouseListener(playerListener);
+		cp.add(drawGame);
+		
+		gameWindow = new WebGame();
 		gameWindow.setVisible(true);
 		
 		game.getStage().setBlock(new DirtBlock(game.getStage(), new Point()), 1, 9);
@@ -61,39 +85,20 @@ public class GameWindow extends JFrame {
 		game.getStage().addMob(new Slime(game.getStage(), new Point(250, 100)));
 		game.getStage().addMob(new Slime(game.getStage(), new Point(600, 100)));
 
-	}
-	
-	/**
-	 * Constructor for the game window
-	 */
-	public GameWindow() {
-
-		setUpWindow();
-		
-		Resources resources = new Resources();
-		game = new Game(resources); 
-		drawGame = new DrawStage(game);
-		game.addObserver((Observer) drawGame);
-		cp.add(drawGame);
-		PlayerKeyListener playerListener = new PlayerKeyListener(game.getPlayer());
-		addKeyListener(playerListener);
-		addMouseListener(playerListener);
-		
 
 		setVisible(true);
 		game.startGame();
 	}
+	
 	
 	/**
 	 * Setup the basics of our game window
 	 */
 	private void setUpWindow() {
 		setLayout(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(640, 480);
 		setLocation(0, 0);
-		setResizable(false);
-		setTitle("Dia");
+		setName("Dia");
 		
 	}
 

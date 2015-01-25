@@ -21,10 +21,14 @@ public interface Item {
 	public ImageIcon getSprite();
 
 	public ImageIcon getEquippedSprite();
-
+	
 	public int getEquippedX();
 
 	public int getEquippedY();
+
+	public int getEquippedXOffset();
+
+	public int getEquippedYOffset();
 
 	public ImageIcon getInventorySprite();
 
@@ -37,4 +41,5 @@ public interface Item {
 	public void useItem();
 
 	public void altUseItem();
+
 }

@@ -78,22 +78,52 @@ public class PlayerKeyListener implements KeyListener, MouseListener{
 			break;
 		}
 		
+		switch (key.getKeyCode()){
+		case KeyEvent.VK_LEFT:
+			player.setRunning(true);
+			player.setAction(Direction.FACE_LEFT);
+			break;
+		case KeyEvent.VK_RIGHT:
+			player.setRunning(true);
+			player.setAction(Direction.FACE_RIGHT);
+			break;
+		case KeyEvent.VK_UP:
+			player.setJumping(true);
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent key) {
 		switch (key.getKeyChar()){
-		case 'a':
-			if(player.getAction() != Direction.FACE_RIGHT)
-				player.setRunning(false);
-			break;
-		case 'd':
-			if(player.getAction() != Direction.FACE_LEFT)
-				player.setRunning(false);
-			break;
-		default:
-			break;
+			case 'a':
+				if(player.getAction() != Direction.FACE_RIGHT)
+					player.setRunning(false);
+				break;
+			case 'd':
+				if(player.getAction() != Direction.FACE_LEFT)
+					player.setRunning(false);
+				break;
+			default:
+				break;
 		}
+		
+		switch (key.getKeyCode()){
+			case KeyEvent.VK_LEFT:
+				if(player.getAction() != Direction.FACE_RIGHT)
+					player.setRunning(false);
+				break;
+			case KeyEvent.VK_RIGHT:
+				if(player.getAction() != Direction.FACE_LEFT)
+					player.setRunning(false);
+				break;
+			default:
+				break;
+		}
+		
 		
 	}
 

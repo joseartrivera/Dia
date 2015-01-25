@@ -1,10 +1,9 @@
 package com.josetheprogrammer.dia.view;
 
-
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,20 +17,17 @@ import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 
-
-
-
-
-
 @SuppressWarnings("serial")
-public class DrawGame extends JPanel implements Observer {
-	public static DrawGame draw;
+public class DrawStage extends JPanel implements Observer {
+	public static DrawStage draw;
 	private Game game;
+	private int cameraWidth, cameraHeight;
+	private int x1, x2, y1, y2; // Camera view
 
 	/**
 	 * Constructor for our DrawGame panel, used to draw the game
 	 */
-	public DrawGame(Game game) {
+	public DrawStage(Game game) {
 		this.game = game;
 		setup();
 		setVisible(true);
@@ -43,8 +39,10 @@ public class DrawGame extends JPanel implements Observer {
 	private void setup() {
 		setLayout(null);
 		setSize(640, 480);
+		cameraWidth = 640 / 2;
+		cameraHeight = 480 / 2;
 		setLocation(0, 0);
-		
+
 	}
 
 	/**
@@ -70,59 +68,67 @@ public class DrawGame extends JPanel implements Observer {
 		drawItems(g2);
 		drawInventory(g2);
 		drawProjectiles(g2);
+		updateCamera(game.getPlayer().getX(), game.getPlayer().getY());
 	}
 
 	/**
 	 * Draws the background for our current stage
+	 * 
 	 * @param g2
 	 */
 	private void drawStage(Graphics2D g2) {
 		g2.drawImage(game.getStage().getBackground(), 0, 0, this);
-		
+
 	}
 
 	/**
 	 * Draws each mob active on the stage
+	 * 
 	 * @param g2
 	 */
 	private void drawMobs(Graphics2D g2) {
-		synchronized (game.getStage().getMobs()){
-			for (Mob mob : game.getStage().getMobs()){
-				g2.drawImage(mob.getSprite(), mob.getX(), mob.getY(), this);
+		synchronized (game.getStage().getMobs()) {
+			for (Mob mob : game.getStage().getMobs()) {
+				drawImageInView(g2, mob.getSprite(), mob.getX(), mob.getY());
 			}
 		}
 	}
 
 	/**
 	 * Draws each active projectile on the stage
+	 * 
 	 * @param g2
 	 */
 	private void drawProjectiles(Graphics2D g2) {
-		synchronized (game.getStage().getProjectiles()){
+		synchronized (game.getStage().getProjectiles()) {
 			for (Projectile projectile : game.getStage().getProjectiles())
-				g2.drawImage(projectile.getSprite(), projectile.getX(), projectile.getY(), this);
+				drawImageInView(g2, projectile.getSprite(), projectile.getX(),
+						projectile.getY());
 		}
 	}
 
 	/**
 	 * Draws the inventory UI
+	 * 
 	 * @param g2
 	 */
 	private void drawInventory(Graphics2D g2) {
 		PlayerInventory inventory = game.getPlayer().getInventory();
-		for (int i = 0; i < inventory.getSize(); i++){
+		for (int i = 0; i < inventory.getSize(); i++) {
 
-			if (inventory.getSelectedIndex() != i){
-				g2.drawImage(inventory.getSprite().getImage(), i * 24 + 6, 6, this);
+			if (inventory.getSelectedIndex() != i) {
+				g2.drawImage(inventory.getSprite().getImage(), i * 24 + 6, 6,
+						this);
+			} else {
+				g2.drawImage(inventory.getSelectedSprite().getImage(),
+						i * 24 + 6, 6, this);
 			}
-			else{
-				g2.drawImage(inventory.getSelectedSprite().getImage(), i * 24 + 6, 6, this);
-			}
-			if (inventory.getItemAtIndex(i) != null){
+			if (inventory.getItemAtIndex(i) != null) {
 				Item item = inventory.getItemAtIndex(i);
-				g2.drawImage(item.getInventorySprite().getImage(), i * 24 + 6 , 6, this);
+				g2.drawImage(item.getInventorySprite().getImage(), i * 24 + 6,
+						6, this);
 			}
-			
+
 			int health = game.getPlayer().getHealth();
 			if (health > 65)
 				g2.setColor(Color.GREEN);
@@ -130,51 +136,72 @@ public class DrawGame extends JPanel implements Observer {
 				g2.setColor(Color.ORANGE);
 			else
 				g2.setColor(Color.RED);
-			
-			g2.fill3DRect(6, 32,
-					health, 6, true);
+
+			g2.fill3DRect(6, 32, health, 6, true);
 		}
-		
-		
+
 	}
 
 	/**
 	 * Draws the active blocks on the stage
+	 * 
 	 * @param g2
 	 */
 	private void drawBlocks(Graphics2D g2) {
 		Block[][] blocks = game.getStage().getBlocks();
-		for (int i = 0; i < blocks.length; i++){
-			for (int j = 0; j < blocks[i].length; j++){
-				g2.drawImage(blocks[i][j].getSprite(), blocks[i][j].getX(), blocks[i][j].getY(), this);
+		for (int i = 0; i < blocks.length; i++) {
+			for (int j = 0; j < blocks[i].length; j++) {
+				drawImageInView(g2, blocks[i][j].getSprite(),
+						blocks[i][j].getX(), blocks[i][j].getY());
 			}
 		}
 	}
-	
+
 	/**
 	 * Draws the active items on the stage
+	 * 
 	 * @param g2
 	 */
 	private void drawItems(Graphics2D g2) {
 		Item[][] items = game.getStage().getItems();
-		for (int i = 0; i < items.length; i++){
-			for (int j = 0; j < items[i].length; j++){
+		for (int i = 0; i < items.length; i++) {
+			for (int j = 0; j < items[i].length; j++) {
 				if (items[i][j] != null)
-					g2.drawImage(items[i][j].getSprite().getImage(), items[i][j].getX(),items[i][j].getY(), this);
+					drawImageInView(g2, items[i][j].getSprite().getImage(),
+							items[i][j].getX(), items[i][j].getY());
 			}
 		}
 	}
 
 	/**
 	 * Draws the player object
+	 * 
 	 * @param g2
 	 */
 	private void drawPlayer(Graphics2D g2) {
 		Player p = game.getPlayer();
-		g2.drawImage(p.getSprite().getImage(), p.getX(), p.getY(), this);
-		if (p.getEquippedItem() != null)
-			g2.drawImage(p.getEquippedItem().getEquippedSprite().getImage(), p.getEquippedItem().getEquippedX(), 
-					p.getEquippedItem().getEquippedY(), this);
+		Item equipped = p.getEquippedItem();
+		g2.drawImage(p.getSprite().getImage(), cameraWidth, cameraHeight, this);
+		if (equipped != null)
+			g2.drawImage(equipped.getEquippedSprite().getImage(),
+					cameraWidth + equipped.getEquippedXOffset(), cameraHeight + equipped.getEquippedYOffset(),this);
+	}
+
+	private void drawImageInView(Graphics2D g2, Image image, int x, int y) {
+		if (inView(x, y)) {
+			g2.drawImage(image, x - x1, y - y1, this);
+		}
+	}
+
+	private boolean inView(int x, int y) {
+		return x1 - 32 < x && x2 + 32 > x && y1 - 32 < y && y2 + 32 > y;
+	}
+
+	private void updateCamera(int x, int y) {
+		x1 = x - cameraWidth;
+		x2 = x + cameraWidth;
+		y1 = y - cameraHeight;
+		y2 = y + cameraHeight;
 	}
 
 }

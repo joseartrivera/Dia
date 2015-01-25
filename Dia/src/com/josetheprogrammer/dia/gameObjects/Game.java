@@ -24,14 +24,19 @@ public class Game extends Observable {
 	/**
 	 * Creates a new game of Dia
 	 */
-	public Game() {
-		resources = new Resources();
+	public Game(Resources resources) {
+		this.resources = resources;
 		stage = new Stage();
 		player = new Player(stage, new Point(stage.getStartPoint().x,
 				stage.getStartPoint().y), 100, 4);
 		stage.setPlayer(player);
+	}
+	
+	/**
+	 * Starts the game
+	 */
+	public void startGame(){
 		startTimers();
-
 	}
 
 	/**
@@ -58,6 +63,9 @@ public class Game extends Observable {
 	private void startTimers() {
 		stepTimer = new Timer();
 		stepTimer.schedule(new GameTasks(), 0, 20);
+		setChanged();
+		notifyObservers();
+		//stepTimer.schedule(new DrawTasks(), 0, 1000);
 	}
 
 	/**
@@ -75,8 +83,6 @@ public class Game extends Observable {
 			stage.updateMobs();
 			player.move();
 			player.applyGravity();
-			setChanged();
-			notifyObservers();
 		}
 	}
 

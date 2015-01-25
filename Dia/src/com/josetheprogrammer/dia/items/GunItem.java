@@ -1,6 +1,5 @@
 package com.josetheprogrammer.dia.items;
 
-
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
@@ -9,7 +8,6 @@ import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.projectiles.Bullet;
 import com.josetheprogrammer.dia.view.Resources;
-
 
 /**
  * Gun item used for range combat against mobs
@@ -88,10 +86,7 @@ public class GunItem implements Item {
 	 */
 	@Override
 	public int getEquippedX() {
-		if (player.getAction() == Direction.FACE_RIGHT)
-			return player.getX() + 9;
-		else
-			return player.getX() - 1;
+		return player.getX() + this.getEquippedXOffset();
 	}
 
 	/**
@@ -99,7 +94,7 @@ public class GunItem implements Item {
 	 */
 	@Override
 	public int getEquippedY() {
-		return player.getY() + 8;
+		return player.getY() + this.getEquippedYOffset();
 	}
 
 	/**
@@ -132,6 +127,19 @@ public class GunItem implements Item {
 	@Override
 	public void altUseItem() {
 
+	}
+
+	@Override
+	public int getEquippedXOffset() {
+		if (player.getAction() == Direction.FACE_RIGHT)
+			return 9;
+		else
+			return -1;
+	}
+
+	@Override
+	public int getEquippedYOffset() {
+		return 8;
 	}
 
 }

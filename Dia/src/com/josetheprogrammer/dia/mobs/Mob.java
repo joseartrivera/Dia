@@ -1,12 +1,10 @@
 package com.josetheprogrammer.dia.mobs;
 
-
 import java.awt.Image;
 import java.awt.Point;
 
 import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.gameObjects.Stage;
-
 
 /**
  * A mob is an enemy in the game, the player will usually work to defeat these
@@ -138,6 +136,7 @@ public abstract class Mob {
 
 	/**
 	 * Causes the mob to take the given damage, checks for death
+	 * 
 	 * @param damage
 	 * @return
 	 */
@@ -184,6 +183,7 @@ public abstract class Mob {
 
 	/**
 	 * Whether the mob is on the ground
+	 * 
 	 * @return
 	 */
 	public boolean isOnGround() {
