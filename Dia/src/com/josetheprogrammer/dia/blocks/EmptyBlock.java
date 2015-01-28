@@ -3,6 +3,7 @@ package com.josetheprogrammer.dia.blocks;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 import com.josetheprogrammer.dia.gameObjects.Stage;
 
@@ -21,8 +22,8 @@ public class EmptyBlock extends Block {
 	 * @param stage
 	 * @param point
 	 */
-	public EmptyBlock(Stage stage, Point point) {
-		super(stage, point);
+	public EmptyBlock(Stage stage) {
+		super(stage);
 		property = BlockProperty.EMPTY;
 		type = BlockType.EMPTY;
 	}
@@ -41,6 +42,15 @@ public class EmptyBlock extends Block {
 	@Override
 	public Image getSprite() {
 		return null;
+	}
+
+	@Override
+	public BufferedImage getSpriteSheet() {
+		return null;
+	}
+
+	@Override
+	public void setSprite(BufferedImage sprite) {
 	}
 
 }

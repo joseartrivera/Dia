@@ -3,6 +3,8 @@ package com.josetheprogrammer.dia.blocks;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.gameObjects.Stage;
@@ -25,8 +27,8 @@ public class MetalBlock extends Block{
 	 * @param stage
 	 * @param point
 	 */
-	public MetalBlock(Stage stage, Point point) {
-		super(stage, point);
+	public MetalBlock(Stage stage) {
+		super(stage);
 		property = BlockProperty.GROUND;
 		type = BlockType.METAL;
 	}
@@ -45,6 +47,15 @@ public class MetalBlock extends Block{
 	@Override
 	public Image getSprite() {
 		return spriteSheet.getImage();
+	}
+
+	@Override
+	public BufferedImage getSpriteSheet() {
+		return null;
+	}
+
+	@Override
+	public void setSprite(BufferedImage sprite) {
 	}
 
 }

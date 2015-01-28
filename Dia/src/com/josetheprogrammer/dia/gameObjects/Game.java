@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.view.Resources;
 
 
@@ -29,13 +30,13 @@ public class Game extends Observable {
 		stage = new Stage();
 		player = new Player(stage, new Point(stage.getStartPoint().x,
 				stage.getStartPoint().y), 100, 4);
-		stage.setPlayer(player);
 	}
 	
 	/**
 	 * Starts the game
 	 */
 	public void startGame(){
+		stage.setPlayer(player);
 		startTimers();
 	}
 
@@ -56,6 +57,19 @@ public class Game extends Observable {
 	public Stage getStage() {
 		return stage;
 	}
+	
+	public void setBlock(Block block, int x, int y){
+		stage.setBlock(block, x / stage.BLOCK_SIZE, y / stage.BLOCK_SIZE);
+		
+		Block[][] blocks = getStage().getBlocks();
+		for (int i = 0; i < blocks.length; i++) {
+			for (int j = 0; j < blocks[i].length; j++) {
+					blocks[i][j].resolveTile();
+			}
+		}
+		setChanged();
+		notifyObservers();
+	}
 
 	/**
 	 * Start the step timer, controls gravity and other aspects of the game
@@ -65,7 +79,14 @@ public class Game extends Observable {
 		stepTimer.schedule(new GameTasks(), 0, 20);
 		setChanged();
 		notifyObservers();
-		//stepTimer.schedule(new DrawTasks(), 0, 1000);
+	}
+
+	/**
+	 * Start the editing this stage
+	 */
+	public void startEditMode(){
+		stepTimer = new Timer();
+		stepTimer.schedule(new EditTasks(), 0, 20);
 	}
 
 	/**
@@ -83,6 +104,15 @@ public class Game extends Observable {
 			stage.updateMobs();
 			player.move();
 			player.applyGravity();
+		}
+	}
+	
+	private class EditTasks extends TimerTask {
+
+		@Override
+		public void run() {
+			setChanged();
+			notifyObservers();
 		}
 	}
 

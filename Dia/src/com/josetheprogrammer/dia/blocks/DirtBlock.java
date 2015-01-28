@@ -26,13 +26,11 @@ public class DirtBlock extends Block {
 	 * Creates a new dirt block on the given stage at the given point
 	 * 
 	 * @param stage
-	 * @param point
 	 */
-	public DirtBlock(Stage stage, Point point) {
-		super(stage, point);
+	public DirtBlock(Stage stage) {
+		super(stage);
 		property = BlockProperty.GROUND;
 		type = BlockType.DIRT;
-
 		// Set this to false, need to wait for all adjacent dirt blocks to be
 		// set before we determine which sprite to assign to this block
 		set = false;
@@ -44,6 +42,11 @@ public class DirtBlock extends Block {
 	@Override
 	public void setSpriteSheet() {
 		spriteSheet = Resources.getSpriteSheet("dirt_tileset.png");
+	}
+	
+	@Override
+	public BufferedImage getSpriteSheet() {
+		return spriteSheet;
 	}
 
 	/**
@@ -62,56 +65,10 @@ public class DirtBlock extends Block {
 		}
 
 	}
-
-	/**
-	 * Determine which sprite to assign to this dirt block depending on adjacent
-	 * blocks
-	 */
-	private void resolveTile() {
-		// Get surrounding block types
-		BlockType up = stage.getBlockAt(point.x + 16, point.y - 16)
-				.getBlockType();
-		BlockType down = stage.getBlockAt(point.x + 16, point.y + 48)
-				.getBlockType();
-		BlockType left = stage.getBlockAt(point.x - 16, point.y + 16)
-				.getBlockType();
-		BlockType right = stage.getBlockAt(point.x + 48, point.y + 16)
-				.getBlockType();
-
-		// Left is dirt, right is dirt, up is empty
-		if (left == type && right == type && up != type)
-			image = spriteSheet.getSubimage(0, 0, 32, 32);
-		else if (left != type && right != type && up != type & down == type)
-			image = spriteSheet.getSubimage(0, 0, 32, 32);
-		else if (left != type && right != type && up != type && down != type)
-			image = spriteSheet.getSubimage(0, 0, 32, 32);
-		// Left is dirt, right is empty, up is empty, down is dirt
-		else if (left == type && right != type && up != type && down == type)
-			image = spriteSheet.getSubimage(33, 0, 32, 32);
-		// Left empty, Right dirt, up empty, down dirt
-		else if (left != type && right == type && up != type && down == type)
-			image = spriteSheet.getSubimage(66, 0, 32, 32);
-		// all empty except right
-		else if (left != type && right == type && down != type && up != type)
-			image = spriteSheet.getSubimage(99, 0, 32, 32);
-		// all empty except left
-		else if (left == type && right != type && down != type && up != type)
-			image = spriteSheet.getSubimage(132, 0, 32, 32);
-		// all types surrounding
-		else if (left == type && right == type && down == type && up == type)
-			image = spriteSheet.getSubimage(0, 33, 32, 32);
-		// all surrounding except bottom
-		else if (left == type && right == type && down != type && up == type)
-			image = spriteSheet.getSubimage(33, 33, 32, 32);
-		// left and top are dirt
-		else if (left == type && right != type && down != type && up == type)
-			image = spriteSheet.getSubimage(66, 33, 32, 32);
-		// right and top are dirt
-		else if (left != type && right == type && down != type && up == type)
-			image = spriteSheet.getSubimage(99, 33, 32, 32);
-		else
-			image = spriteSheet.getSubimage(0, 33, 32, 32);
-
+	
+	@Override
+	public void setSprite(BufferedImage sprite) {
+		this.image = sprite;
 	}
 
 }

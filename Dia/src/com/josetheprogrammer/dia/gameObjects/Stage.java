@@ -60,6 +60,7 @@ public class Stage {
 	 * Stage is 640 x 640 pixels, divide pixels by 32 to get the array index
 	 */
 	public Stage() {
+		Block newBlock;
 
 		blocks = new Block[STAGE_WIDTH][STAGE_HEIGHT];
 		items = new Item[STAGE_WIDTH][STAGE_HEIGHT];
@@ -67,13 +68,14 @@ public class Stage {
 		// Initialize our blocks and items
 		for (int i = 0; i < STAGE_WIDTH; i++) {
 			for (int j = 0; j < STAGE_HEIGHT; j++) {
-				blocks[i][j] = new EmptyBlock(this, new Point(i * BLOCK_SIZE, j
-						* BLOCK_SIZE));
+				newBlock = new EmptyBlock(this);
+				newBlock.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
+				blocks[i][j] = newBlock;
 				items[i][j] = null;
 			}
 		}
 
-		outOfBoundaryBlock = new MetalBlock(this, null);
+		outOfBoundaryBlock = new MetalBlock(this);
 
 		projectiles = new Vector<Projectile>();
 		mobs = new Vector<Mob>();
@@ -128,8 +130,10 @@ public class Stage {
 	 * @param j
 	 */
 	public void setBlock(Block block, int i, int j) {
-		block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
-		blocks[i][j] = block;
+		if (i < STAGE_WIDTH && i >= 0 && j < STAGE_HEIGHT && j >= 0){
+			block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
+			blocks[i][j] = block;
+		}
 	}
 
 	/**

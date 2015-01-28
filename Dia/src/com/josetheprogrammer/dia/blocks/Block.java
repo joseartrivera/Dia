@@ -3,6 +3,7 @@ package com.josetheprogrammer.dia.blocks;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 import com.josetheprogrammer.dia.gameObjects.Stage;
 
@@ -22,8 +23,9 @@ public abstract class Block{
 	 * @param stage 
 	 * @param point
 	 */
-	public Block(Stage stage, Point point){
-		this.point = point;
+	
+	public Block(Stage stage){
+		this.point = new Point();
 		setSpriteSheet();
 		property = BlockProperty.GROUND;
 		this.stage = stage;
@@ -35,10 +37,21 @@ public abstract class Block{
 	public abstract void setSpriteSheet();
 	
 	/**
+	 * Gets the sprite sheet of this block.
+	 */
+	public abstract BufferedImage getSpriteSheet();
+	
+	/**
 	 * Gets the sprite for this block, may change depending on adjacent blocks and sprite sheet.
 	 * @return
 	 */
 	public abstract Image getSprite();
+	
+	/**
+	 * Sets the sprite for this block.
+	 * @return
+	 */
+	public abstract void setSprite(BufferedImage sprite);
 
 	/**
 	 * Returns the type for this block
@@ -78,6 +91,58 @@ public abstract class Block{
 	 */
 	public BlockProperty getBlockProperty() {
 		return property;
+	}
+	
+	/**
+	 * Determine which sprite to assign to this dirt block depending on adjacent
+	 * blocks
+	 */
+	public void resolveTile() {
+		if (getSpriteSheet() != null){
+			// Get surrounding block types
+			BlockType up = stage.getBlockAt(point.x + 16, point.y - 16)
+					.getBlockType();
+			BlockType down = stage.getBlockAt(point.x + 16, point.y + 48)
+					.getBlockType();
+			BlockType left = stage.getBlockAt(point.x - 16, point.y + 16)
+					.getBlockType();
+			BlockType right = stage.getBlockAt(point.x + 48, point.y + 16)
+					.getBlockType();
+	
+			// Left is dirt, right is dirt, up is empty
+			if (left == type && right == type && up != type)
+				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
+			else if (left != type && right != type && up != type & down == type)
+				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
+			else if (left != type && right != type && up != type && down != type)
+				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
+			// Left is dirt, right is empty, up is empty, down is dirt
+			else if (left == type && right != type && up != type && down == type)
+				setSprite(getSpriteSheet().getSubimage(33, 0, 32, 32));
+			// Left empty, Right dirt, up empty, down dirt
+			else if (left != type && right == type && up != type && down == type)
+				setSprite(getSpriteSheet().getSubimage(66, 0, 32, 32));
+			// all empty except right
+			else if (left != type && right == type && down != type && up != type)
+				setSprite(getSpriteSheet().getSubimage(99, 0, 32, 32));
+			// all empty except left
+			else if (left == type && right != type && down != type && up != type)
+				setSprite(getSpriteSheet().getSubimage(132, 0, 32, 32));
+			// all types surrounding
+			else if (left == type && right == type && down == type && up == type)
+				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
+			// all surrounding except bottom
+			else if (left == type && right == type && down != type && up == type)
+				setSprite(getSpriteSheet().getSubimage(33, 33, 32, 32));
+			// left and top are dirt
+			else if (left == type && right != type && down != type && up == type)
+				setSprite(getSpriteSheet().getSubimage(66, 33, 32, 32));
+			// right and top are dirt
+			else if (left != type && right == type && down != type && up == type)
+				setSprite(getSpriteSheet().getSubimage(99, 33, 32, 32));
+			else
+				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
+		}
 	}
 
 }
