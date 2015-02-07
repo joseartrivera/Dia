@@ -14,7 +14,7 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author Jose Rivera
  * 
  */
-public class DirtBlock extends Block {
+public class SolidBlock extends Block {
 
 	// Whether this block's sprite is set
 	private boolean set;
@@ -27,7 +27,7 @@ public class DirtBlock extends Block {
 	 * 
 	 * @param stage
 	 */
-	public DirtBlock(Stage stage) {
+	public SolidBlock(Stage stage) {
 		super(stage);
 		property = BlockProperty.GROUND;
 		type = BlockType.DIRT;

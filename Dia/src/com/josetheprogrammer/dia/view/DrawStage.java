@@ -151,8 +151,9 @@ public class DrawStage extends JPanel implements Observer {
 		Block[][] blocks = game.getStage().getBlocks();
 		for (int i = 0; i < blocks.length; i++) {
 			for (int j = 0; j < blocks[i].length; j++) {
-				drawImageInView(g2, blocks[i][j].getSprite(),
-						blocks[i][j].getX(), blocks[i][j].getY());
+				if (blocks[i][j] != null)
+					drawImageInView(g2, blocks[i][j].getSprite(),
+							blocks[i][j].getX(), blocks[i][j].getY());
 			}
 		}
 	}
@@ -183,8 +184,9 @@ public class DrawStage extends JPanel implements Observer {
 		Item equipped = p.getEquippedItem();
 		g2.drawImage(p.getSprite().getImage(), cameraWidth, cameraHeight, this);
 		if (equipped != null)
-			g2.drawImage(equipped.getEquippedSprite().getImage(),
-					cameraWidth + equipped.getEquippedXOffset(), cameraHeight + equipped.getEquippedYOffset(),this);
+			g2.drawImage(equipped.getEquippedSprite().getImage(), cameraWidth
+					+ equipped.getEquippedXOffset(),
+					cameraHeight + equipped.getEquippedYOffset(), this);
 	}
 
 	private void drawImageInView(Graphics2D g2, Image image, int x, int y) {

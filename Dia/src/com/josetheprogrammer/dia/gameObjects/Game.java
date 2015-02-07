@@ -8,7 +8,6 @@ import java.util.TimerTask;
 import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.view.Resources;
 
-
 /**
  * Dia is a 2D side-scrolling action/puzzle platformer game meant to be very
  * customizable. This class represents the game itself.
@@ -31,11 +30,11 @@ public class Game extends Observable {
 		player = new Player(stage, new Point(stage.getStartPoint().x,
 				stage.getStartPoint().y), 100, 4);
 	}
-	
+
 	/**
 	 * Starts the game
 	 */
-	public void startGame(){
+	public void startGame() {
 		stage.setPlayer(player);
 		startTimers();
 	}
@@ -57,13 +56,14 @@ public class Game extends Observable {
 	public Stage getStage() {
 		return stage;
 	}
-	
-	public void setBlock(Block block, int x, int y){
+
+	public void setBlock(Block block, int x, int y) {
 		stage.setBlock(block, x / stage.BLOCK_SIZE, y / stage.BLOCK_SIZE);
-		
+
 		Block[][] blocks = getStage().getBlocks();
 		for (int i = 0; i < blocks.length; i++) {
 			for (int j = 0; j < blocks[i].length; j++) {
+				if (blocks[i][j] != null)
 					blocks[i][j].resolveTile();
 			}
 		}
@@ -84,7 +84,7 @@ public class Game extends Observable {
 	/**
 	 * Start the editing this stage
 	 */
-	public void startEditMode(){
+	public void startEditMode() {
 		stepTimer = new Timer();
 		stepTimer.schedule(new EditTasks(), 0, 20);
 	}
@@ -106,7 +106,7 @@ public class Game extends Observable {
 			player.applyGravity();
 		}
 	}
-	
+
 	private class EditTasks extends TimerTask {
 
 		@Override

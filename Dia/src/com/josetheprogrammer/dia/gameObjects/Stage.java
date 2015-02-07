@@ -28,8 +28,8 @@ import com.josetheprogrammer.dia.view.Resources;
  */
 
 public class Stage {
-	public final int STAGE_WIDTH = 20;
-	public final int STAGE_HEIGHT = 15;
+	private int stageWidth = 20;
+	private int stageHeight = 15;
 	public final int BLOCK_SIZE = 32;
 
 	// Blocks on the stage
@@ -52,6 +52,7 @@ public class Stage {
 
 	// Block determines what blocks are on the outer edge of the stage
 	private Block outOfBoundaryBlock;
+	private Block emptyBlock;
 
 	// Background
 	private ImageIcon background;
@@ -60,22 +61,12 @@ public class Stage {
 	 * Stage is 640 x 640 pixels, divide pixels by 32 to get the array index
 	 */
 	public Stage() {
-		Block newBlock;
 
-		blocks = new Block[STAGE_WIDTH][STAGE_HEIGHT];
-		items = new Item[STAGE_WIDTH][STAGE_HEIGHT];
-
-		// Initialize our blocks and items
-		for (int i = 0; i < STAGE_WIDTH; i++) {
-			for (int j = 0; j < STAGE_HEIGHT; j++) {
-				newBlock = new EmptyBlock(this);
-				newBlock.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
-				blocks[i][j] = newBlock;
-				items[i][j] = null;
-			}
-		}
+		blocks = new Block[getStageWidth()][getStageHeight()];
+		items = new Item[getStageWidth()][getStageHeight()];
 
 		outOfBoundaryBlock = new MetalBlock(this);
+		emptyBlock = new EmptyBlock(this);
 
 		projectiles = new Vector<Projectile>();
 		mobs = new Vector<Mob>();
@@ -97,6 +88,7 @@ public class Stage {
 	 * 
 	 */
 	public Block getBlockAt(int x, int y) {
+		Block block;
 		int i = x / BLOCK_SIZE;
 		int j = y / BLOCK_SIZE;
 
@@ -105,10 +97,13 @@ public class Stage {
 			i = -1;
 		}
 
-		if (i < STAGE_WIDTH && i >= 0 && j < STAGE_HEIGHT && j >= 0)
-			return blocks[i][j];
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0){
+			block = blocks[i][j];
+			if (block == null) block = emptyBlock;
+		}
 		else
-			return outOfBoundaryBlock;
+			block =  outOfBoundaryBlock;
+		return block;
 	}
 
 	/**
@@ -130,7 +125,7 @@ public class Stage {
 	 * @param j
 	 */
 	public void setBlock(Block block, int i, int j) {
-		if (i < STAGE_WIDTH && i >= 0 && j < STAGE_HEIGHT && j >= 0){
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0){
 			block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
 			blocks[i][j] = block;
 		}
@@ -282,6 +277,41 @@ public class Stage {
 
 	public Image getBackground() {
 		return background.getImage();
+	}
+
+	public int getStageHeight() {
+		return stageHeight;
+	}
+
+	public int getStageWidth() {
+		return stageWidth;
+	}
+
+	public void changeStageDimensions(int width, int height) {
+		Block[][] newBlocks = new Block[width][height];
+		Item[][] newItems = new Item[width][height];
+	
+		int copyWidth;
+		int copyHeight;
+		
+		if (width < getStageWidth()) copyWidth = width;
+		else copyWidth = getStageWidth();
+		
+		if (height < getStageHeight()) copyHeight = height;
+		else copyHeight = getStageHeight();
+		
+		// Copy over blocks/items
+		for (int i = 0; i < copyWidth; i++) {
+			for (int j = 0; j < copyHeight; j++) {
+				newBlocks[i][j] = blocks[i][j];
+				newItems[i][j] = items[i][j];
+			}
+		}
+		
+		stageWidth = width;
+		stageHeight = height;
+		blocks = newBlocks;
+		items = newItems;
 	}
 
 }

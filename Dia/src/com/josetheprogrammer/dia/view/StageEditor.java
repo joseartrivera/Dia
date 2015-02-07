@@ -9,16 +9,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.Block;
-import com.josetheprogrammer.dia.blocks.DirtBlock;
+import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.blocks.EmptyBlock;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
@@ -26,12 +26,13 @@ import com.josetheprogrammer.dia.projectiles.Projectile;
 
 @SuppressWarnings("serial")
 public class StageEditor extends JPanel implements Observer, KeyListener,
-		MouseListener {
+		MouseListener, MouseMotionListener {
 	public static DrawStage draw;
 	private Game game;
 	private int cameraWidth, cameraHeight;
 	private int x1, x2, y1, y2, centerX, centerY; // Camera view
-	private int xSpeed, ySpeed, speed, offsetX, offsetY;
+	private int xSpeed, ySpeed, speed;
+	private Block selectedBlock;
 
 	/**
 	 * Constructor for our DrawGame panel, used to draw the game
@@ -40,8 +41,11 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		this.game = game;
 		this.addKeyListener(this);
 		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
 		setup();
 		setVisible(true);
+
+		game.getStage().changeStageDimensions(300, 300);
 	}
 
 	/**
@@ -56,7 +60,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		centerY = 240;
 		speed = 8;
 		setLocation(0, 0);
-		updateCamera(centerX, centerY);
+		updateCamera();
 	}
 
 	/**
@@ -76,36 +80,24 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		drawStage(g2);
-		drawPlayer(g2);
 		drawMobs(g2);
 		drawBlocks(g2);
 		drawItems(g2);
 		drawInventory(g2);
 		drawProjectiles(g2);
 		drawMouse(g2);
-		centerX += xSpeed;
-		centerY += ySpeed;
-		
-		offsetX = x1 % 32;
-		offsetY = y1 % 32;
 
-		if (xSpeed < 0)
-			offsetX = -offsetX;
-		if (ySpeed < 0)
-			offsetY = -offsetY;
-
-		updateCamera(centerX, centerY);
+		updateCamera();
 	}
 
 	private void drawMouse(Graphics2D g2) {
 		Point mousePos = getMousePosition();
 		if (mousePos != null) {
 
-			int x = ((mousePos.x / 32) * 32) + offsetX;
-			int y = ((mousePos.y / 32) * 32) + offsetY;
-
+			int x = ((mousePos.x + x1) / 32) * 32;
+			int y = ((mousePos.y + y1) / 32) * 32;
 			g2.setColor(Color.ORANGE);
-			g2.draw3DRect(x, y, 32, 32, true);
+			g2.draw3DRect(x - x1, y - y1, 32, 32, true);
 
 		}
 	}
@@ -190,8 +182,9 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		Block[][] blocks = game.getStage().getBlocks();
 		for (int i = 0; i < blocks.length; i++) {
 			for (int j = 0; j < blocks[i].length; j++) {
-				drawImageInView(g2, blocks[i][j].getSprite(),
-						blocks[i][j].getX(), blocks[i][j].getY());
+				if (blocks[i][j] != null)
+					drawImageInView(g2, blocks[i][j].getSprite(),
+							blocks[i][j].getX(), blocks[i][j].getY());
 			}
 		}
 	}
@@ -212,16 +205,6 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		}
 	}
 
-	/**
-	 * Draws the player object
-	 * 
-	 * @param g2
-	 */
-	private void drawPlayer(Graphics2D g2) {
-		Player p = game.getPlayer();
-		g2.drawImage(p.getSprite().getImage(), centerX, centerY, this);
-	}
-
 	private void drawImageInView(Graphics2D g2, Image image, int x, int y) {
 		if (inView(x, y)) {
 			g2.drawImage(image, x - x1, y - y1, this);
@@ -232,17 +215,27 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		return x1 - 32 < x && x2 + 32 > x && y1 - 32 < y && y2 + 32 > y;
 	}
 
-	private void updateCamera(int x, int y) {
-		x1 = x - cameraWidth;
-		x2 = x + cameraWidth;
-		y1 = y - cameraHeight;
-		y2 = y + cameraHeight;
+	private void updateCamera() {
+		int x = centerX + xSpeed;
+		int y = centerY + ySpeed;
+		if ((x - cameraWidth) >= 0
+				&& (x + cameraWidth) <= game.getStage().getStageWidth() * 32) {
+			x1 = x - cameraWidth;
+			x2 = x + cameraWidth;
+			centerX += xSpeed;
+		}
+		if ((y - cameraHeight) >= 0
+				&& (y + cameraHeight) <= game.getStage().getStageHeight() * 32) {
+			y1 = y - cameraHeight;
+			y2 = y + cameraHeight;
+			centerY += ySpeed;
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
 		if (mouse.getButton() == MouseEvent.BUTTON1) {
-			game.setBlock(new DirtBlock(game.getStage()), mouse.getX() + x1,
+			game.setBlock(new SolidBlock(game.getStage()), mouse.getX() + x1,
 					mouse.getY() + y1);
 		} else if (mouse.getButton() == MouseEvent.BUTTON3) {
 			game.setBlock(new EmptyBlock(game.getStage()), mouse.getX() + x1,
@@ -251,15 +244,15 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent me) {
+	public void mouseEntered(MouseEvent mouse) {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent me) {
+	public void mouseExited(MouseEvent mouse) {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent me) {
+	public void mousePressed(MouseEvent mouse) {
 	}
 
 	@Override
@@ -270,16 +263,16 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 	public void keyPressed(KeyEvent key) {
 		switch (key.getKeyChar()) {
 		case 'w':
-			ySpeed -= speed;
+			ySpeed = -speed;
 			break;
 		case 'a':
-			xSpeed -= speed;
+			xSpeed = -speed;
 			break;
 		case 'd':
-			xSpeed += speed;
+			xSpeed = speed;
 			break;
 		case 's':
-			ySpeed += speed;
+			ySpeed = speed;
 			break;
 		default:
 			break;
@@ -290,12 +283,20 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 	public void keyReleased(KeyEvent key) {
 		switch (key.getKeyChar()) {
 		case 'w':
+			if (ySpeed < 0)
+				ySpeed = 0;
+			break;
 		case 's':
-			ySpeed = 0;
+			if (ySpeed > 0)
+				ySpeed = 0;
 			break;
 		case 'a':
+			if (xSpeed < 0)
+				xSpeed = 0;
+			break;
 		case 'd':
-			xSpeed = 0;
+			if (xSpeed > 0)
+				xSpeed = 0;
 			break;
 		default:
 			break;
@@ -304,5 +305,20 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 
 	@Override
 	public void keyTyped(KeyEvent key) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent mouse) {
+		if (mouse.getButton() == MouseEvent.BUTTON1) {
+			game.setBlock(new SolidBlock(game.getStage()), mouse.getX() + x1,
+					mouse.getY() + y1);
+		} else if (mouse.getButton() == MouseEvent.BUTTON3) {
+			game.setBlock(new EmptyBlock(game.getStage()), mouse.getX() + x1,
+					mouse.getY() + y1);
+		}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
 	}
 }
