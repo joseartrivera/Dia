@@ -13,33 +13,47 @@ import com.josetheprogrammer.dia.gameObjects.Player;
  * @author Jose Rivera
  * 
  */
-public interface Item {
-	public ItemType getItemType();
-
-	public Point getPoint();
-
-	public ImageIcon getSprite();
-
-	public ImageIcon getEquippedSprite();
+public abstract class Item {
+	private String itemName;
 	
-	public int getEquippedX();
+	public Item(){
+		itemName = "";
+	}
+	
+	public abstract ItemType getItemType();
 
-	public int getEquippedY();
+	public abstract Point getPoint();
 
-	public int getEquippedXOffset();
+	public abstract ImageIcon getSprite();
 
-	public int getEquippedYOffset();
+	public abstract ImageIcon getEquippedSprite();
+	
+	public abstract int getEquippedX();
 
-	public ImageIcon getInventorySprite();
+	public abstract int getEquippedY();
 
-	public int getX();
+	public abstract int getEquippedXOffset();
 
-	public int getY();
+	public abstract int getEquippedYOffset();
 
-	public void setPlayer(Player player);
+	public abstract ImageIcon getInventorySprite();
 
-	public void useItem();
+	public abstract int getX();
 
-	public void altUseItem();
+	public abstract int getY();
+
+	public abstract void setPlayer(Player player);
+
+	public abstract void useItem();
+
+	public abstract void altUseItem();
+	
+	public String getItemName(){
+		return itemName;
+	}
+	
+	public void setItemName(String itemName){
+		this.itemName = itemName;
+	}
 
 }

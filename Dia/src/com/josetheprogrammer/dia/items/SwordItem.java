@@ -15,7 +15,7 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author peperivera
  * 
  */
-public class SwordItem implements Item {
+public class SwordItem extends Item {
 	private ImageIcon swordRight;
 	private ImageIcon swordLeft;
 	private ImageIcon jabRight;
@@ -30,20 +30,18 @@ public class SwordItem implements Item {
 	private Point point;
 	private Player player;
 
-	public SwordItem(Player player, Point point) {
+	public SwordItem(Player player) {
+		super();
 		this.player = player;
 		type = ItemType.SWORD;
-		this.point = point;
+		this.point = new Point();
 		action = ItemAction.NONE;
 		attackPower = 2;
 
 		actionCount = 0;
 		maxActionCount = 25;
-
-		swordRight = Resources.getImage("sword_right.gif");
-		swordLeft = Resources.getImage("sword_left.gif");
-		jabRight = Resources.getImage("sword_swing_right.gif");
-		jabLeft = Resources.getImage("sword_swing_left.gif");
+		
+		this.setItemName("sword");
 
 	}
 
@@ -178,6 +176,15 @@ public class SwordItem implements Item {
 	@Override
 	public int getEquippedYOffset() {
 		return 0;
+	}
+	
+	@Override
+	public void setItemName(String itemName){
+		this.setItemName(itemName);
+		swordRight = Resources.getImage(itemName + "_right.gif");
+		swordLeft = Resources.getImage(itemName + "_left.gif");
+		jabRight = Resources.getImage(itemName + "_swing_right.gif");
+		jabLeft = Resources.getImage(itemName + "_swing_left.gif");
 	}
 
 }

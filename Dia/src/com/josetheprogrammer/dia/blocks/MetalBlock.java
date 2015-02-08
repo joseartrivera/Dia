@@ -2,7 +2,6 @@ package com.josetheprogrammer.dia.blocks;
 
 
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;

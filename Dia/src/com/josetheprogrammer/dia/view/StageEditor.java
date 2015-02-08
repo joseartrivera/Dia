@@ -20,6 +20,7 @@ import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.blocks.EmptyBlock;
 import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.projectiles.Projectile;
@@ -45,7 +46,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		setup();
 		setVisible(true);
 
-		game.getStage().changeStageDimensions(300, 300);
+		game.getStage().changeStageDimensions(40, 40);
 	}
 
 	/**
@@ -274,6 +275,13 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		case 's':
 			ySpeed = speed;
 			break;
+		case 'p':
+			Resources.SaveStage(game.getStage(), "new stage");
+			break;
+		case 'l':
+			Stage stage = new Stage();
+			Resources.LoadStage("new stage.stage", stage);
+			game.setStage(stage);
 		default:
 			break;
 		}

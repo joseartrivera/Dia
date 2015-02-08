@@ -16,7 +16,7 @@ import com.josetheprogrammer.dia.view.Resources;
  * 
  */
 
-public class GunItem implements Item {
+public class GunItem extends Item {
 	private ImageIcon gunRight;
 	private ImageIcon gunLeft;
 	private ItemType type;
@@ -24,6 +24,7 @@ public class GunItem implements Item {
 	private Player player;
 
 	public GunItem(Player player, Point point) {
+		super();
 		this.player = player;
 		type = ItemType.GUN;
 		this.point = point;

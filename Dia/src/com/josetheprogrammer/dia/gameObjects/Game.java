@@ -56,6 +56,10 @@ public class Game extends Observable {
 	public Stage getStage() {
 		return stage;
 	}
+	
+	public void setStage(Stage stage){
+		this.stage = stage;
+	}
 
 	public void setBlock(Block block, int x, int y) {
 		stage.setBlock(block, x / stage.BLOCK_SIZE, y / stage.BLOCK_SIZE);

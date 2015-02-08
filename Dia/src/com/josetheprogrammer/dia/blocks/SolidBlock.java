@@ -1,7 +1,6 @@
 package com.josetheprogrammer.dia.blocks;
 
 
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import com.josetheprogrammer.dia.gameObjects.Stage;
@@ -30,7 +29,18 @@ public class SolidBlock extends Block {
 	public SolidBlock(Stage stage) {
 		super(stage);
 		property = BlockProperty.GROUND;
-		type = BlockType.DIRT;
+		type = BlockType.SOLID;
+		this.setBlockName("dirt");
+		// Set this to false, need to wait for all adjacent dirt blocks to be
+		// set before we determine which sprite to assign to this block
+		set = false;
+	}
+
+	public SolidBlock() {
+		super();
+		property = BlockProperty.GROUND;
+		type = BlockType.SOLID;
+		this.setBlockName("dirt");
 		// Set this to false, need to wait for all adjacent dirt blocks to be
 		// set before we determine which sprite to assign to this block
 		set = false;
@@ -41,7 +51,7 @@ public class SolidBlock extends Block {
 	 */
 	@Override
 	public void setSpriteSheet() {
-		spriteSheet = Resources.getSpriteSheet("dirt_tileset.png");
+		spriteSheet = Resources.getSpriteSheet(this.getBlockName() + "_tileset.png");
 	}
 	
 	@Override

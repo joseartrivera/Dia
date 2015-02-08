@@ -1,6 +1,5 @@
 package com.josetheprogrammer.dia.gameObjects;
 
-
 import java.awt.Image;
 import java.awt.Point;
 import java.util.Iterator;
@@ -16,9 +15,6 @@ import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.view.Resources;
 
-
-
-
 /**
  * 
  * Stage represents a level in the game, It holds a 2D array of blocks that
@@ -31,6 +27,7 @@ public class Stage {
 	private int stageWidth = 20;
 	private int stageHeight = 15;
 	public final int BLOCK_SIZE = 32;
+	private String stageName;
 
 	// Blocks on the stage
 	private Block[][] blocks;
@@ -72,13 +69,13 @@ public class Stage {
 		mobs = new Vector<Mob>();
 
 		// Where the player will spawn
-		setStartPoint(new Point(128, 128));
+		startPoint = new Point(128,128);
 
 		// Gravity for this stage
 		setGravity(3);
 
 		background = Resources.getImage("sky.png");
-
+		stageName = "default";
 	}
 
 	/**
@@ -97,12 +94,12 @@ public class Stage {
 			i = -1;
 		}
 
-		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0){
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
 			block = blocks[i][j];
-			if (block == null) block = emptyBlock;
-		}
-		else
-			block =  outOfBoundaryBlock;
+			if (block == null)
+				block = emptyBlock;
+		} else
+			block = outOfBoundaryBlock;
 		return block;
 	}
 
@@ -125,7 +122,8 @@ public class Stage {
 	 * @param j
 	 */
 	public void setBlock(Block block, int i, int j) {
-		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0){
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
+			block.setStage(this);
 			block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
 			blocks[i][j] = block;
 		}
@@ -245,6 +243,7 @@ public class Stage {
 
 	/**
 	 * Gets the start point where the player will spawn
+	 * 
 	 * @return
 	 */
 	public Point getStartPoint() {
@@ -253,10 +252,10 @@ public class Stage {
 
 	/**
 	 * Set where the player will spawn
-	 * @param startPoint
+	 * 
 	 */
-	public void setStartPoint(Point startPoint) {
-		this.startPoint = startPoint;
+	public void setStartPoint(int x, int y) {
+		startPoint.setLocation(x, y);
 	}
 
 	public int getGravity() {
@@ -290,16 +289,20 @@ public class Stage {
 	public void changeStageDimensions(int width, int height) {
 		Block[][] newBlocks = new Block[width][height];
 		Item[][] newItems = new Item[width][height];
-	
+
 		int copyWidth;
 		int copyHeight;
-		
-		if (width < getStageWidth()) copyWidth = width;
-		else copyWidth = getStageWidth();
-		
-		if (height < getStageHeight()) copyHeight = height;
-		else copyHeight = getStageHeight();
-		
+
+		if (width < getStageWidth())
+			copyWidth = width;
+		else
+			copyWidth = getStageWidth();
+
+		if (height < getStageHeight())
+			copyHeight = height;
+		else
+			copyHeight = getStageHeight();
+
 		// Copy over blocks/items
 		for (int i = 0; i < copyWidth; i++) {
 			for (int j = 0; j < copyHeight; j++) {
@@ -307,11 +310,58 @@ public class Stage {
 				newItems[i][j] = items[i][j];
 			}
 		}
-		
+
 		stageWidth = width;
 		stageHeight = height;
 		blocks = newBlocks;
 		items = newItems;
+	}
+
+	public String Serialize() {
+		String stage = "";
+		stage = stage + getStageName() + "\n" + stage + getStageWidth() + "\n" + getStageHeight() + "\n";
+		stage = stage + startPoint.x + "\n" + startPoint.y + "\n";
+		stage = stage + serializeBlocks();
+		stage = stage + serializeMobs();
+
+		return stage;
+	}
+	
+	private String serializeBlocks(){
+		String stageBlocks = "";
+		// Copy over blocks/items
+		for (int i = 0; i < getStageWidth(); i++) {
+			for (int j = 0; j < getStageHeight(); j++) {
+				if (blocks[i][j]!= null)
+					stageBlocks = stageBlocks + blocks[i][j].getBlockType() + ";" + blocks[i][j].getBlockName();
+				stageBlocks = stageBlocks + "\n";
+				if (items[i][j]!= null)
+					stageBlocks = stageBlocks + items[i][j].getItemType() + ";" + items[i][j].getItemName();
+				stageBlocks = stageBlocks + "\n";
+			}
+		}
+		return stageBlocks;
+	}
+	
+	private String serializeMobs(){
+		String stageMobs = "";
+		Mob mob = null;
+		Iterator<Mob> iter = mobs.iterator();
+		while (iter.hasNext()) {
+			mob = iter.next();
+			stageMobs = stageMobs + mob.getType() + ";" + mob.getMobName();
+		}
+		stageMobs = stageMobs + "\n";
+		
+		return stageMobs;
+	}
+
+	public String getStageName() {
+		return stageName;
+	}
+
+	public void setStageName(String stageName) {
+		this.stageName = stageName;
 	}
 
 }

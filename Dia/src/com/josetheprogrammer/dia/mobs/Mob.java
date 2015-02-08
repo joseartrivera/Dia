@@ -17,6 +17,8 @@ public abstract class Mob {
 
 	private Point point;
 	private Stage stage;
+	private MobType type;
+	private String mobName;
 	private int health;
 	private int speed;
 	private int attackPower;
@@ -249,6 +251,22 @@ public abstract class Mob {
 
 	public void setTakingDamage(boolean takingDamage) {
 		this.takingDamage = takingDamage;
+	}
+
+	public MobType getType() {
+		return type;
+	}
+
+	public void setType(MobType type) {
+		this.type = type;
+	}
+
+	public String getMobName() {
+		return mobName;
+	}
+
+	public void setMobName(String mobName) {
+		this.mobName = mobName;
 	}
 
 }

@@ -17,6 +17,7 @@ public abstract class Block{
 	protected Point point;
 	protected Stage stage;
 	protected BlockType type;
+	protected String blockName;
 	
 	/**
 	 * Block represents a solid wall, floor or roof that a player will interact with.
@@ -26,9 +27,16 @@ public abstract class Block{
 	
 	public Block(Stage stage){
 		this.point = new Point();
-		setSpriteSheet();
 		property = BlockProperty.GROUND;
 		this.stage = stage;
+		this.blockName = "";
+	}
+	
+	public Block(){
+		this.point = new Point();
+		property = BlockProperty.GROUND;
+		this.stage = null;
+		this.blockName = "";
 	}
 	
 	/**
@@ -143,6 +151,23 @@ public abstract class Block{
 			else
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
 		}
+	}
+	
+	public String getBlockName(){
+		return blockName;
+	}
+	
+	public void setStage(Stage stage){
+		this.stage = stage;
+	}
+	
+	public Stage getStage(){
+		return stage;
+	}
+	
+	public void setBlockName(String blockName){
+		this.blockName = blockName;
+		setSpriteSheet();
 	}
 
 }

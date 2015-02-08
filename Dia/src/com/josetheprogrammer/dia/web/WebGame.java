@@ -73,7 +73,7 @@ public class WebGame extends JApplet {
 		game.getStage().setBlock(new SolidBlock(game.getStage()), 10, 9);
 		
 		game.getStage().setBlock(new SolidBlock(game.getStage()), 13, 8);
-		game.getStage().setItemByIndex(new SwordItem(null, new Point()), 14, 6);
+		game.getStage().setItemByIndex(new SwordItem(null), 14, 6);
 		game.getStage().setBlock(new SolidBlock(game.getStage()), 14, 7);
 		
 		game.getStage().setItemByIndex(new GunItem(null, new Point()), 10, 8);
