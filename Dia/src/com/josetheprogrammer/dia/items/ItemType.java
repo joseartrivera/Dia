@@ -7,5 +7,5 @@ package com.josetheprogrammer.dia.items;
  * 
  */
 public enum ItemType {
-	SWORD, GUN
+	SWORD, LAUNCHER
 }

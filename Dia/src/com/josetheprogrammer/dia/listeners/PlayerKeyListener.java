@@ -1,7 +1,5 @@
 package com.josetheprogrammer.dia.listeners;
 
-
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,21 +11,22 @@ import com.josetheprogrammer.dia.items.Item;
 
 /**
  * Used to listen for user input to control the player
+ * 
  * @author Jose Rivera
- *
+ * 
  */
-public class PlayerKeyListener implements KeyListener, MouseListener{
-	
+public class PlayerKeyListener implements KeyListener, MouseListener {
+
 	private Player player;
-	
-	public PlayerKeyListener(Player player){
+
+	public PlayerKeyListener(Player player) {
 		this.player = player;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent key) {
-		
-		switch (key.getKeyChar()){
+
+		switch (key.getKeyChar()) {
 		case 'w':
 			player.setJumping(true);
 			break;
@@ -40,10 +39,12 @@ public class PlayerKeyListener implements KeyListener, MouseListener{
 			player.setAction(Direction.FACE_RIGHT);
 			break;
 		case 'e':
-			Item get = player.getStage().getItemAt(player.getX() + 8, player.getY() + 8);
-			if (get != null){
+			Item get = player.getStage().getItemAt(player.getX() + 8,
+					player.getY() + 8);
+			if (get != null) {
 				get.setPlayer(player);
-				player.getStage().setItem(null, player.getX() + 8, player.getY() + 8);
+				player.getStage().setItem(null, player.getX() + 8,
+						player.getY() + 8);
 				player.addItemToInventory(get);
 			}
 			break;
@@ -77,8 +78,8 @@ public class PlayerKeyListener implements KeyListener, MouseListener{
 		default:
 			break;
 		}
-		
-		switch (key.getKeyCode()){
+
+		switch (key.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			player.setRunning(true);
 			player.setAction(Direction.FACE_LEFT);
@@ -93,75 +94,85 @@ public class PlayerKeyListener implements KeyListener, MouseListener{
 		default:
 			break;
 		}
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent key) {
-		switch (key.getKeyChar()){
-			case 'a':
-				if(player.getAction() != Direction.FACE_RIGHT)
-					player.setRunning(false);
-				break;
-			case 'd':
-				if(player.getAction() != Direction.FACE_LEFT)
-					player.setRunning(false);
-				break;
-			default:
-				break;
+		switch (key.getKeyChar()) {
+		case 'a':
+			if (player.getAction() != Direction.FACE_RIGHT)
+				player.setRunning(false);
+			break;
+		case 'd':
+			if (player.getAction() != Direction.FACE_LEFT)
+				player.setRunning(false);
+			break;
+		default:
+			break;
 		}
-		
-		switch (key.getKeyCode()){
-			case KeyEvent.VK_LEFT:
-				if(player.getAction() != Direction.FACE_RIGHT)
-					player.setRunning(false);
-				break;
-			case KeyEvent.VK_RIGHT:
-				if(player.getAction() != Direction.FACE_LEFT)
-					player.setRunning(false);
-				break;
-			default:
-				break;
+
+		switch (key.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			if (player.getAction() != Direction.FACE_RIGHT)
+				player.setRunning(false);
+			break;
+		case KeyEvent.VK_RIGHT:
+			if (player.getAction() != Direction.FACE_LEFT)
+				player.setRunning(false);
+			break;
+		default:
+			break;
 		}
-		
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent key) {
-		
+		switch (key.getKeyChar()) {
+		case 'j':
+			if (player.getEquippedItem() != null)
+				player.getEquippedItem().useItem();
+			break;
+		case 'k':
+			if (player.getEquippedItem() != null)
+				player.getEquippedItem().altUseItem();
+			break;
+		default:
+			break;
+		}
 	}
-	
 
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
-		if (mouse.getButton() == MouseEvent.BUTTON1 && player.getEquippedItem() != null){
+		if (mouse.getButton() == MouseEvent.BUTTON1
+				&& player.getEquippedItem() != null) {
 			player.getEquippedItem().useItem();
-		}
-		else if (mouse.getButton() == MouseEvent.BUTTON3 && player.getEquippedItem() != null){
+		} else if (mouse.getButton() == MouseEvent.BUTTON3
+				&& player.getEquippedItem() != null) {
 			player.getEquippedItem().altUseItem();
 		}
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent mouse) {
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent mouse) {
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent mouse) {
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent mouse) {
-		
+
 	}
 
 }

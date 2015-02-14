@@ -1,7 +1,6 @@
 package com.josetheprogrammer.dia.projectiles;
 
 import java.awt.Image;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
@@ -10,29 +9,33 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.view.Resources;
 
 /**
- * Bullet projectile, used for fighting mobs
+ * Fireball projectile, used for fighting mobs
  * 
  * @author Jose Rivera
  * 
  */
-public class Bullet extends Projectile {
-	private ImageIcon bullet;
-	private ImageIcon bulletHit;
+public class FireBall extends Projectile {
+	private ImageIcon fireball;
+	private ImageIcon fireballHit;
+	private int initialYSpeed;
+	private int bounces;
 	private boolean hit;
 
-	public Bullet(Stage stage, int x, int y, int xSpeed, int ySpeed) {
-		super(stage, x, y, xSpeed, ySpeed);
+	public FireBall(Stage stage, int x, int y, int xSpeed, int ySpeed) {
+		super(stage,x, y, xSpeed, ySpeed);
 		hit = false;
-		bullet = Resources.getImage("bullet.png");
-		bulletHit = Resources.getImage("bullet_hit.png");
+		fireball = Resources.getImage("fireball.gif");
+		fireballHit = Resources.getImage("small_explosion.gif");
+		initialYSpeed = ySpeed;
+		setBounces(3);
 	}
 
 	public Image getSprite() {
 		if (!hit)
-			return bullet.getImage();
+			return fireball.getImage();
 		else {
 			setDead(true);
-			return bulletHit.getImage();
+			return fireballHit.getImage();
 		}
 	}
 
@@ -60,12 +63,26 @@ public class Bullet extends Projectile {
 		else if (stage.getBlockAt(getX() + 12 + getxSpeed(),
 				getY() + 12 + getySpeed()).getBlockProperty() == BlockProperty.EMPTY) {
 			getPoint().translate(getxSpeed(), getySpeed());
+			setySpeed(getySpeed() + 1);
 		}
-		// We hit a wall, we have hit
-		else {
+		// We hit a wall, bounce
+		else if (bounces > 0) {
+			if (getySpeed() > 0)
+				this.setySpeed(initialYSpeed);
+			else
+				this.setySpeed(-initialYSpeed);
+			bounces -= 1;
+		} else {
 			hit = true;
 		}
+	}
 
+	public int getBounces() {
+		return bounces;
+	}
+
+	public void setBounces(int bounces) {
+		this.bounces = bounces;
 	}
 
 }

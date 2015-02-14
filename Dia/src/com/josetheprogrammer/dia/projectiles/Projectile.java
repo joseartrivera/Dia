@@ -17,13 +17,14 @@ import com.josetheprogrammer.dia.mobs.Mob;
 public abstract class Projectile {
 	private Stage stage;
 	private Point point;
+	private boolean altUse;
 	private int xSpeed;
 	private int ySpeed;
 	private int attackPower;
 	private boolean dead;
 
-	public Projectile(Point point, Stage stage, int xSpeed, int ySpeed) {
-		this.point = point;
+	public Projectile(Stage stage, int x, int y, int xSpeed, int ySpeed) {
+		this.point = new Point(x,y);
 		this.setxSpeed(xSpeed);
 		this.setySpeed(ySpeed);
 		this.stage = stage;
@@ -94,6 +95,14 @@ public abstract class Projectile {
 
 	public void setAttackPower(int attackPower) {
 		this.attackPower = attackPower;
+	}
+
+	public boolean isAltUse() {
+		return altUse;
+	}
+
+	public void setAltUse(boolean altUse) {
+		this.altUse = altUse;
 	}
 
 }

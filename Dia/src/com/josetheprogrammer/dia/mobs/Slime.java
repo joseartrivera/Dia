@@ -117,7 +117,11 @@ public class Slime extends Mob {
 					getPoint().translate(-speed, 0);
 				else
 					setJumping(true);
-			} else {
+			} 
+			else if (targetX - getX() < speed){
+				return;
+			}
+			else {
 				action = Direction.FACE_RIGHT;
 				setRunning(true);
 				if (getStage().getBlockAt(getPoint().x + getSpeed() + 32,

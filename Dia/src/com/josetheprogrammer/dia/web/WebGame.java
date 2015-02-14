@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.items.GunItem;
+import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.Slime;
@@ -64,26 +64,7 @@ public class WebGame extends JApplet {
 		gameWindow = new WebGame();
 		gameWindow.setVisible(true);
 		
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 1, 9);
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 5, 9);
-		
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 8, 9);
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 8, 8);
-		
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 10, 9);
-		
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 13, 8);
-		game.getStage().setItemByIndex(new SwordItem(null), 14, 6);
-		game.getStage().setBlock(new SolidBlock(game.getStage()), 14, 7);
-		
-		game.getStage().setItemByIndex(new GunItem(null, new Point()), 10, 8);
-		for (int i = 0; i < 20; i++){
-			game.getStage().setBlock(new SolidBlock(game.getStage()), i, 10);
-			game.getStage().setBlock(new SolidBlock(game.getStage()), i, 11);
-		}
-		
-		game.getStage().addMob(new Slime(game.getStage(), new Point(250, 100)));
-		game.getStage().addMob(new Slime(game.getStage(), new Point(600, 100)));
+
 
 
 		setVisible(true);

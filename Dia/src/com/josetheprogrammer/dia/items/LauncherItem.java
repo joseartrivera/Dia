@@ -1,12 +1,14 @@
 package com.josetheprogrammer.dia.items;
 
-import java.awt.Point;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
-import com.josetheprogrammer.dia.projectiles.Bullet;
+import com.josetheprogrammer.dia.projectiles.Projectile;
+import com.josetheprogrammer.dia.projectiles.ProjectileType;
 import com.josetheprogrammer.dia.view.Resources;
 
 /**
@@ -16,22 +18,21 @@ import com.josetheprogrammer.dia.view.Resources;
  * 
  */
 
-public class GunItem extends Item {
-	private ImageIcon gunRight;
-	private ImageIcon gunLeft;
+public class LauncherItem extends Item {
+	private ImageIcon launcher;
 	private ItemType type;
-	private Point point;
-	private Player player;
+	private int xSpeed;
+	private int ySpeed;
+	private ProjectileType projType;
 
-	public GunItem(Player player, Point point) {
-		super();
-		this.player = player;
-		type = ItemType.GUN;
-		this.point = point;
-
-		gunRight = Resources.getImage("gun_right.png");
-		gunLeft = Resources.getImage("gun_left.png");
-
+	public LauncherItem(Player player, ProjectileType projType, int xSpeed,
+			int ySpeed) {
+		super(player);
+		type = ItemType.LAUNCHER;
+		this.projType = projType;
+		this.setItemName("gun.png");
+		this.xSpeed = xSpeed;
+		this.ySpeed = ySpeed;
 	}
 
 	@Override
@@ -40,46 +41,27 @@ public class GunItem extends Item {
 	}
 
 	@Override
-	public Point getPoint() {
-		return point;
-	}
-
-	@Override
-	public ImageIcon getSprite() {
-		return gunRight;
-	}
-
-	@Override
-	public int getX() {
-		return point.x;
-	}
-
-	@Override
-	public int getY() {
-		return point.y;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
+	public Image getSprite() {
+		return launcher.getImage();
 	}
 
 	/**
 	 * Gets the sprite depending on the state of the player and item
 	 */
 	@Override
-	public ImageIcon getEquippedSprite() {
+	public Image getEquippedSprite() {
 		if (player.getAction() == Direction.FACE_RIGHT)
-			return gunRight;
+			return launcher.getImage();
 		else
-			return gunLeft;
+			return launcher.getImage();
 	}
 
 	/**
 	 * Gets the sprite for when the item is in the inventory
 	 */
 	@Override
-	public ImageIcon getInventorySprite() {
-		return gunRight;
+	public Image getInventorySprite() {
+		return launcher.getImage();
 	}
 
 	/**
@@ -103,23 +85,17 @@ public class GunItem extends Item {
 	 */
 	@Override
 	public void useItem() {
-		int xSpeed;
-		int ySpeed;
-		int x;
-		int y;
 		if (player.getAction() == Direction.FACE_RIGHT) {
-			xSpeed = 6;
-			ySpeed = 0;
-			x = player.getX() + 28;
-			y = player.getY() + 8;
+			player.getStage().addProjectile(
+					Creator.createProjectile(projType, player.getStage(),
+							player.getX() + 28, player.getY() + 8, xSpeed,
+							ySpeed));
 		} else {
-			xSpeed = -6;
-			ySpeed = 0;
-			x = player.getX() - 20;
-			y = player.getY() + 8;
+			player.getStage().addProjectile(
+					Creator.createProjectile(projType, player.getStage(),
+							player.getX() - 20, player.getY() + 8, -xSpeed,
+							ySpeed));
 		}
-		player.getStage().addProjectile(
-				new Bullet(new Point(x, y), player.getStage(), xSpeed, ySpeed));
 	}
 
 	/**
@@ -127,7 +103,7 @@ public class GunItem extends Item {
 	 */
 	@Override
 	public void altUseItem() {
-
+		
 	}
 
 	@Override
@@ -141,6 +117,12 @@ public class GunItem extends Item {
 	@Override
 	public int getEquippedYOffset() {
 		return 8;
+	}
+
+	@Override
+	public void setItemName(String itemName) {
+		super.setItemName(itemName);
+		launcher = Resources.getImage(itemName);
 	}
 
 }

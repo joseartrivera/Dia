@@ -1,6 +1,7 @@
 package com.josetheprogrammer.dia.items;
 
 
+import java.awt.Image;
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
@@ -14,19 +15,25 @@ import com.josetheprogrammer.dia.gameObjects.Player;
  * 
  */
 public abstract class Item {
-	private String itemName;
+	protected String itemName;
+	protected Point point;
+	protected Player player;
 	
-	public Item(){
+	public Item(Player player){
+		this.player = player;
+		this.point = new Point();
 		itemName = "";
 	}
 	
 	public abstract ItemType getItemType();
 
-	public abstract Point getPoint();
+	public Point getPoint() {
+		return point;
+	}
 
-	public abstract ImageIcon getSprite();
+	public abstract Image getSprite();
 
-	public abstract ImageIcon getEquippedSprite();
+	public abstract Image getEquippedSprite();
 	
 	public abstract int getEquippedX();
 
@@ -36,13 +43,19 @@ public abstract class Item {
 
 	public abstract int getEquippedYOffset();
 
-	public abstract ImageIcon getInventorySprite();
+	public abstract Image getInventorySprite();
 
-	public abstract int getX();
+	public int getX() {
+		return point.x;
+	}
 
-	public abstract int getY();
+	public int getY() {
+		return point.y;
+	}
 
-	public abstract void setPlayer(Player player);
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
 	public abstract void useItem();
 

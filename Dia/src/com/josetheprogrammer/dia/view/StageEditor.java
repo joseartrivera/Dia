@@ -54,12 +54,12 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 	 */
 	private void setup() {
 		setLayout(null);
-		setSize(640, 480);
+		setSize(736, 480);
 		cameraWidth = 320;
 		cameraHeight = 240;
 		centerX = 320;
 		centerY = 240;
-		speed = 8;
+		speed = 12;
 		setLocation(0, 0);
 		updateCamera();
 	}
@@ -157,7 +157,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 			}
 			if (inventory.getItemAtIndex(i) != null) {
 				Item item = inventory.getItemAtIndex(i);
-				g2.drawImage(item.getInventorySprite().getImage(), i * 24 + 6,
+				g2.drawImage(item.getInventorySprite(), i * 24 + 6,
 						6, this);
 			}
 
@@ -200,7 +200,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		for (int i = 0; i < items.length; i++) {
 			for (int j = 0; j < items[i].length; j++) {
 				if (items[i][j] != null)
-					drawImageInView(g2, items[i][j].getSprite().getImage(),
+					drawImageInView(g2, items[i][j].getSprite(),
 							items[i][j].getX(), items[i][j].getY());
 			}
 		}
@@ -213,7 +213,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 	}
 
 	private boolean inView(int x, int y) {
-		return x1 - 32 < x && x2 + 32 > x && y1 - 32 < y && y2 + 32 > y;
+		return x1 - 32 < x && x2 > x && y1 - 32 < y && y2 + 32 > y;
 	}
 
 	private void updateCamera() {

@@ -9,10 +9,12 @@ import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.items.GunItem;
+import com.josetheprogrammer.dia.items.LauncherItem;
+import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.Slime;
+import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 @SuppressWarnings("serial")
 public class GameWindow extends JFrame {
@@ -87,7 +89,8 @@ public class GameWindow extends JFrame {
 		game.getStage().setItemByIndex(new SwordItem(null), 14, 6);
 		game.getStage().setBlock(new SolidBlock(game.getStage()), 14, 7);
 
-		game.getStage().setItemByIndex(new GunItem(null, new Point()), 10, 8);
+		game.getStage().setItemByIndex(new LauncherItem(game.getPlayer(), ProjectileType.Bullet, 6, 0), 10, 8);
+		game.getStage().setItemByIndex(new LauncherItem(null, ProjectileType.FireBall, 4, -8), 9, 8);
 		for (int i = 0; i < 20; i++) {
 			game.getStage().setBlock(new SolidBlock(game.getStage()), i, 10);
 			game.getStage().setBlock(new SolidBlock(game.getStage()), i, 11);
@@ -100,6 +103,7 @@ public class GameWindow extends JFrame {
 	}
 
 	public void startEditor() {
+		setSize(736, 480);
 		cp.remove(menu);
 		stageEditor = new StageEditor(game);
 		game.addObserver((Observer) stageEditor);

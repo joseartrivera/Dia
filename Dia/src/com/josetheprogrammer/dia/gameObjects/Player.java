@@ -1,6 +1,5 @@
 package com.josetheprogrammer.dia.gameObjects;
 
-
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
@@ -8,8 +7,6 @@ import javax.swing.ImageIcon;
 import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.view.Resources;
-
-
 
 /**
  * 

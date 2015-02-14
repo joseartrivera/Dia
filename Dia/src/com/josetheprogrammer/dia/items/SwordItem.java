@@ -1,5 +1,6 @@
 package com.josetheprogrammer.dia.items;
 
+import java.awt.Image;
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
@@ -27,14 +28,10 @@ public class SwordItem extends Item {
 
 	private ItemAction action;
 	private ItemType type;
-	private Point point;
-	private Player player;
 
 	public SwordItem(Player player) {
-		super();
-		this.player = player;
+		super(player);
 		type = ItemType.SWORD;
-		this.point = new Point();
 		action = ItemAction.NONE;
 		attackPower = 2;
 
@@ -56,8 +53,8 @@ public class SwordItem extends Item {
 	}
 
 	@Override
-	public ImageIcon getSprite() {
-		return swordRight;
+	public Image getSprite() {
+		return swordRight.getImage();
 	}
 
 	@Override
@@ -78,7 +75,7 @@ public class SwordItem extends Item {
 	 * Gets the sprite depending on the state of the player and item
 	 */
 	@Override
-	public ImageIcon getEquippedSprite() {
+	public Image getEquippedSprite() {
 		if (action == ItemAction.USE
 				&& player.getAction() == Direction.FACE_RIGHT) {
 			actionCount++;
@@ -86,7 +83,7 @@ public class SwordItem extends Item {
 				actionCount = 0;
 				action = ItemAction.NONE;
 			}
-			return jabRight;
+			return jabRight.getImage();
 		} else if (action == ItemAction.USE
 				&& player.getAction() == Direction.FACE_LEFT) {
 			actionCount++;
@@ -94,11 +91,11 @@ public class SwordItem extends Item {
 				actionCount = 0;
 				action = ItemAction.NONE;
 			}
-			return jabLeft;
+			return jabRight.getImage();
 		} else if (player.getAction() == Direction.FACE_RIGHT) {
-			return swordRight;
+			return swordRight.getImage();
 		} else {
-			return swordLeft;
+			return swordRight.getImage();
 		}
 	}
 
@@ -106,8 +103,8 @@ public class SwordItem extends Item {
 	 * Gets the sprite for when the item is in the inventory
 	 */
 	@Override
-	public ImageIcon getInventorySprite() {
-		return swordRight;
+	public Image getInventorySprite() {
+		return swordRight.getImage();
 	}
 
 	/**
@@ -180,7 +177,7 @@ public class SwordItem extends Item {
 	
 	@Override
 	public void setItemName(String itemName){
-		this.setItemName(itemName);
+		super.setItemName(itemName);
 		swordRight = Resources.getImage(itemName + "_right.gif");
 		swordLeft = Resources.getImage(itemName + "_left.gif");
 		jabRight = Resources.getImage(itemName + "_swing_right.gif");

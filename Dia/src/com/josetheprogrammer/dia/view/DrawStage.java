@@ -10,6 +10,7 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.Block;
+import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
@@ -125,8 +126,7 @@ public class DrawStage extends JPanel implements Observer {
 			}
 			if (inventory.getItemAtIndex(i) != null) {
 				Item item = inventory.getItemAtIndex(i);
-				g2.drawImage(item.getInventorySprite().getImage(), i * 24 + 6,
-						6, this);
+				g2.drawImage(item.getInventorySprite(), i * 24 + 6, 6, this);
 			}
 
 			int health = game.getPlayer().getHealth();
@@ -168,7 +168,7 @@ public class DrawStage extends JPanel implements Observer {
 		for (int i = 0; i < items.length; i++) {
 			for (int j = 0; j < items[i].length; j++) {
 				if (items[i][j] != null)
-					drawImageInView(g2, items[i][j].getSprite().getImage(),
+					drawImageInView(g2, items[i][j].getSprite(),
 							items[i][j].getX(), items[i][j].getY());
 			}
 		}
@@ -183,10 +183,18 @@ public class DrawStage extends JPanel implements Observer {
 		Player p = game.getPlayer();
 		Item equipped = p.getEquippedItem();
 		g2.drawImage(p.getSprite().getImage(), cameraWidth, cameraHeight, this);
-		if (equipped != null)
-			g2.drawImage(equipped.getEquippedSprite().getImage(), cameraWidth
-					+ equipped.getEquippedXOffset(),
-					cameraHeight + equipped.getEquippedYOffset(), this);
+		if (equipped != null) {
+			Image equipImg = equipped.getEquippedSprite();
+			int x = cameraWidth + equipped.getEquippedXOffset();
+			int y = cameraHeight + equipped.getEquippedYOffset();
+			if (p.getAction() == Direction.FACE_RIGHT) {
+				g2.drawImage(equipImg, x, y, this);
+			} else {
+				g2.drawImage(equipImg, x+ equipImg.getWidth(this), y, x, y+equipImg.getHeight(this),
+			             0, 0, equipImg.getWidth(this), equipImg.getHeight(this),
+			             this);
+			}
+		}
 	}
 
 	private void drawImageInView(Graphics2D g2, Image image, int x, int y) {
