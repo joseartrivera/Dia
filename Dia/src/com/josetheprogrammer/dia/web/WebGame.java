@@ -3,19 +3,14 @@ package com.josetheprogrammer.dia.web;
 
 
 import java.awt.Container;
-import java.awt.Point;
 import java.net.URL;
 import java.util.Observer;
 
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 
-import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.items.LauncherItem;
-import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
-import com.josetheprogrammer.dia.mobs.Slime;
 import com.josetheprogrammer.dia.view.DrawStage;
 import com.josetheprogrammer.dia.view.Resources;
 

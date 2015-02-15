@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
-import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 import com.josetheprogrammer.dia.view.Resources;
 
@@ -33,6 +32,7 @@ public class LauncherItem extends Item {
 		this.setItemName("gun.png");
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
+		cooldown = Creator.getBaseProjectileCooldown(projType) * 10;
 	}
 
 	@Override
@@ -85,6 +85,7 @@ public class LauncherItem extends Item {
 	 */
 	@Override
 	public void useItem() {
+		if (onCooldown()) return;
 		if (player.getAction() == Direction.FACE_RIGHT) {
 			player.getStage().addProjectile(
 					Creator.createProjectile(projType, player.getStage(),
@@ -96,6 +97,8 @@ public class LauncherItem extends Item {
 							player.getX() - 20, player.getY() + 8, -xSpeed,
 							ySpeed));
 		}
+		
+		super.useItem();
 	}
 
 	/**
@@ -103,7 +106,7 @@ public class LauncherItem extends Item {
 	 */
 	@Override
 	public void altUseItem() {
-		
+		super.altUseItem();
 	}
 
 	@Override

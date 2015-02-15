@@ -1,11 +1,14 @@
 package com.josetheprogrammer.dia.gameObjects;
 
+import java.awt.Color;
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
+import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.particles.ParticleType;
 import com.josetheprogrammer.dia.view.Resources;
 
 /**
@@ -25,6 +28,9 @@ public class Player {
 	private int gravity;
 	private int jumpCount;
 	private int maxJumpHeight;
+	private int boostDuration;
+	private int xBoost;
+	private int yBoost;
 	private PlayerInventory inventory;
 	private Item equipped;
 
@@ -92,9 +98,9 @@ public class Player {
 			return standLeft;
 		} else if (action == Direction.FACE_RIGHT && !running) {
 			return standRight;
-		} else if (action == Direction.FACE_LEFT && running) {
+		} else if (action == Direction.FACE_LEFT && (running || xBoost > 0)) {
 			return runLeft;
-		} else if (action == Direction.FACE_RIGHT && running) {
+		} else if (action == Direction.FACE_RIGHT && (running || xBoost > 0)) {
 			return runRight;
 		} else {
 			return standRight;
@@ -105,6 +111,10 @@ public class Player {
 	 * Handles movement of the player
 	 */
 	public void move() {
+		if (boostDuration > 0) {
+			boostXMove();
+			return;
+		}
 		// Move left if we are running and we are facing left
 		if ((action == Direction.FACE_LEFT) && running) {
 			if (stage.getBlockAt(point.x - speed + 6, point.y + 16)
@@ -126,6 +136,52 @@ public class Player {
 				point.translate(speed, 0);
 		}
 
+	}
+
+	private void boostXMove() {
+		// Move left if we are running and we are facing left
+		if ((action == Direction.FACE_LEFT)) {
+			if (stage.getBlockAt(point.x - xBoost + 6, point.y + 16)
+					.getBlockProperty() == BlockProperty.EMPTY
+					&& stage.getBlockAt(point.x - xBoost + 6, point.y + 26)
+							.getBlockProperty() == BlockProperty.EMPTY
+					&& stage.getBlockAt(point.x - xBoost + 6, point.y + 8)
+							.getBlockProperty() == BlockProperty.EMPTY){
+				point.translate(-xBoost, 0);
+			stage.addParticles(12, ParticleType.DUST, Color.ORANGE, getX()+64,
+					getY() + 16, 5, 1, 2,
+					4, 4, 2, boostDuration * 2,
+					6);
+			stage.addParticles(4, ParticleType.DUST, Color.RED, getX()+64,
+					getY() + 16, 5, 1, 2,
+					4, 4, 2, boostDuration * 2,
+					6);
+			}
+		}
+		// Otherwise check to see if we need to move right
+		else if ((action == Direction.FACE_RIGHT)) {
+			if (stage.getBlockAt(point.x + xBoost + 24, point.y + 16)
+					.getBlockProperty() == BlockProperty.EMPTY
+					&& stage.getBlockAt(point.x + xBoost + 24, point.y + 26)
+							.getBlockProperty() == BlockProperty.EMPTY
+					&& stage.getBlockAt(point.x + xBoost + 24, point.y + 8)
+							.getBlockProperty() == BlockProperty.EMPTY){
+				point.translate(xBoost, 0);
+				stage.addParticles(12, ParticleType.DUST, Color.ORANGE, getX()-32,
+						getY() + 16, -5, 1, 2,
+						4, 4, 2, boostDuration * 2,
+						6);
+				stage.addParticles(4, ParticleType.DUST, Color.RED, getX()-32,
+						getY() + 16, -5, 1, 2,
+						4, 4, 2, boostDuration * 2,
+						6);
+			}
+		}
+		boostDuration--;
+		if (boostDuration < 1) {
+			xBoost = 0;
+			yBoost = 0;
+		}
 	}
 
 	/**
@@ -237,6 +293,8 @@ public class Player {
 	 */
 	public void takeDamage(int damage) {
 		health -= damage;
+		stage.addParticles(6, ParticleType.DUST, Color.RED, getX() + 16,
+				getY() + 16, 1, 1, 6, 6, 2, 2, 10, 3);
 		if (health <= 0)
 			setDead(true);
 	}
@@ -312,6 +370,48 @@ public class Player {
 
 	public void setDead(boolean dead) {
 		this.dead = dead;
+	}
+
+	public int getBoostDuration() {
+		return boostDuration;
+	}
+
+	public void setBoostDuration(int boostDuration) {
+		this.boostDuration = boostDuration;
+	}
+
+	public int getxBoost() {
+		return xBoost;
+	}
+
+	public void setxBoost(int xBoost) {
+		this.xBoost = xBoost;
+	}
+
+	public int getyBoost() {
+		return yBoost;
+	}
+
+	public void setyBoost(int yBoost) {
+		this.yBoost = yBoost;
+	}
+
+	public void update() {
+		this.move();
+		this.applyGravity();
+		inventory.update();
+	}
+
+	public void placeBlock(Block block, int x, int y) {
+		stage.setBlock(block, x / stage.BLOCK_SIZE, y / stage.BLOCK_SIZE);
+
+		Block[][] blocks = getStage().getBlocks();
+		for (int i = 0; i < blocks.length; i++) {
+			for (int j = 0; j < blocks[i].length; j++) {
+				if (blocks[i][j] != null)
+					blocks[i][j].resolveTile();
+			}
+		}
 	}
 
 }

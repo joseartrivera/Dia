@@ -1,12 +1,10 @@
 package com.josetheprogrammer.dia.gameObjects;
 
-
 import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.view.Resources;
-
 
 /**
  * This class represents the player's inventory. Carries Items and currently
@@ -93,7 +91,7 @@ public class PlayerInventory {
 	 */
 	public Item getItem(ItemType type) {
 		for (Item item : inventory) {
-			if (item.getItemType() == type) {
+			if (item != null && item.getItemType() == type) {
 				return item;
 			}
 		}
@@ -185,5 +183,12 @@ public class PlayerInventory {
 	public void setSelectedIndex(int selectedIndex) {
 		if (selectedIndex < size)
 			this.selectedIndex = selectedIndex;
+	}
+
+	public void update() {
+		for (Item item : inventory) {
+			if (item != null)
+				item.updateCooldowns();
+		}
 	}
 }

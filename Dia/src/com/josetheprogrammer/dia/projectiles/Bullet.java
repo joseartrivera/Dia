@@ -1,12 +1,13 @@
 package com.josetheprogrammer.dia.projectiles;
 
+import java.awt.Color;
 import java.awt.Image;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.particles.ParticleType;
 import com.josetheprogrammer.dia.view.Resources;
 
 /**
@@ -55,15 +56,21 @@ public class Bullet extends Projectile {
 		// Check to see if we have hit an enemy
 		if (hitEnemy(getX() + 12, getY() + 12)) {
 			hit = true;
+			stage.addParticles(1, ParticleType.DUST, Color.YELLOW, getX() + 12,
+					getY() + 12, 0, 0, 0, 0, 3, 3, 10, 0);
 		}
 		// Check if we can move
 		else if (stage.getBlockAt(getX() + 12 + getxSpeed(),
 				getY() + 12 + getySpeed()).getBlockProperty() == BlockProperty.EMPTY) {
 			getPoint().translate(getxSpeed(), getySpeed());
+			stage.addParticles(1, ParticleType.DUST, Color.YELLOW, getX() + 12,
+					getY() + 12, 0, 0, 0, 0, 0, 0, 10, 0);
 		}
 		// We hit a wall, we have hit
 		else {
 			hit = true;
+			stage.addParticles(1, ParticleType.DUST, Color.YELLOW, getX() + 12,
+					getY() + 12, 0, 0, 0, 0, 3, 3, 10, 0);
 		}
 
 	}

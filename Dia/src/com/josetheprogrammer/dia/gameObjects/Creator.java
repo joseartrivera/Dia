@@ -7,6 +7,7 @@ import com.josetheprogrammer.dia.blocks.BlockType;
 import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
+import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.mobs.MobType;
@@ -16,7 +17,7 @@ import com.josetheprogrammer.dia.projectiles.FireBall;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
-public class Creator {
+public class Creator{
 	public static Block createBlock(BlockType blockType, String name,
 			Stage stage) {
 		Block block = null;
@@ -32,11 +33,15 @@ public class Creator {
 	}
 
 	public static Item createItem(ItemType itemType, String itemName,
-			Stage stage) {
+			Stage stage, Enum<?> type, int attr1, int attr2) {
 		Item item = null;
 		switch (itemType) {
 		case SWORD:
 			item = new SwordItem(stage.getPlayer());
+			item.setItemName(itemName);
+			break;
+		case LAUNCHER:
+			item = new LauncherItem(stage.getPlayer(),(ProjectileType) type, attr1, attr2);
 			item.setItemName(itemName);
 			break;
 		default:
@@ -74,5 +79,16 @@ public class Creator {
 			break;
 		}
 		return proj;
+	}
+	
+	public static int getBaseProjectileCooldown(ProjectileType projType){
+		switch (projType) {
+		case Bullet:
+			return 0;
+		case FireBall:
+			return 2;
+		default:
+			return 0;
+		}
 	}
 }

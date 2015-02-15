@@ -46,11 +46,11 @@ public class Resources {
 		spriteSheet = new HashMap<String, BufferedImage>();
 		onWeb = false;
 
-		try {
-			loadResources();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			loadResources();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
@@ -86,8 +86,20 @@ public class Resources {
 	}
 
 	public static ImageIcon getImage(String str) {
-		if (!onWeb)
-			return images.get(str);
+		if (!onWeb){
+			ImageIcon image = null;
+			if (images.containsKey(str)){
+				image = images.get(str);
+			}
+			else{
+				File imageFile = new File("images/" + str);
+				if (imageFile.exists()){
+					image = new ImageIcon(imageFile.getPath());
+					images.put(str, image);
+				}
+			}
+			return image;
+		}
 
 		URL imageURL = null;
 		try {
@@ -99,8 +111,23 @@ public class Resources {
 	}
 
 	public static BufferedImage getSpriteSheet(String str) {
-		if (!onWeb)
-			return spriteSheet.get(str);
+		if (!onWeb){
+			BufferedImage image = null;
+			if (spriteSheet.containsKey(str)){
+				image = spriteSheet.get(str);
+			}
+			else{
+				File imageFile = new File("tilesets/" + str);
+				if (imageFile.exists()){
+					try {
+						image = ImageIO.read(imageFile);
+					} catch (IOException e) {
+					}
+					spriteSheet.put(str, image);
+				}
+			}
+			return image;
+		}
 
 		URL imageURL = null;
 		try {
@@ -195,9 +222,9 @@ public class Resources {
 							itemName = scanSection.next();
 
 						if (itemType != null && itemName != "") {
-							item = Creator
-									.createItem(itemType, itemName, stage);
-							stage.setItemByIndex(item, i, j);
+//							item = Creator
+//									.createItem(itemType, itemName, stage);
+//							stage.setItemByIndex(item, i, j);
 						}
 					}
 				}

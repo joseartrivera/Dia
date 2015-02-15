@@ -106,8 +106,8 @@ public class Game extends Observable {
 		public void run() {
 			stage.updateProjectiles();
 			stage.updateMobs();
-			player.move();
-			player.applyGravity();
+			stage.updateParticles();
+			player.update();
 		}
 	}
 

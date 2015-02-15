@@ -18,6 +18,8 @@ public abstract class Block{
 	protected Stage stage;
 	protected BlockType type;
 	protected String blockName;
+	protected Boolean breakable;
+	protected int blockHealth;
 	
 	/**
 	 * Block represents a solid wall, floor or roof that a player will interact with.
@@ -30,6 +32,7 @@ public abstract class Block{
 		property = BlockProperty.GROUND;
 		this.stage = stage;
 		this.blockName = "";
+		this.breakable = false;
 	}
 	
 	public Block(){
@@ -37,6 +40,7 @@ public abstract class Block{
 		property = BlockProperty.GROUND;
 		this.stage = null;
 		this.blockName = "";
+		this.breakable = false;
 	}
 	
 	/**
@@ -168,6 +172,26 @@ public abstract class Block{
 	public void setBlockName(String blockName){
 		this.blockName = blockName;
 		setSpriteSheet();
+	}
+	
+	public boolean isBreakable(){
+		return breakable;
+	}
+	
+	public void setBreakable(Boolean breakable){
+		this.breakable = breakable;
+	}
+	
+	public int getBlockHealth() {
+		return blockHealth;
+	}
+	
+	public void damageBlock(){
+		blockHealth--;
+	}
+
+	public void setBlockHealth(int blockHealth) {
+		this.blockHealth = blockHealth;
 	}
 
 }

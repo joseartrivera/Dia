@@ -1,13 +1,16 @@
 package com.josetheprogrammer.dia.items;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
+import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.mobs.Mob;
+import com.josetheprogrammer.dia.particles.ParticleType;
 import com.josetheprogrammer.dia.view.Resources;
 
 /**
@@ -17,10 +20,8 @@ import com.josetheprogrammer.dia.view.Resources;
  * 
  */
 public class SwordItem extends Item {
-	private ImageIcon swordRight;
-	private ImageIcon swordLeft;
-	private ImageIcon jabRight;
-	private ImageIcon jabLeft;
+	private ImageIcon sword;
+	private ImageIcon jab;
 
 	private int actionCount;
 	private int maxActionCount;
@@ -37,8 +38,8 @@ public class SwordItem extends Item {
 
 		actionCount = 0;
 		maxActionCount = 25;
-		
-		this.setItemName("sword");
+		altCooldown = 80;
+		this.setItemName("sword.gif");
 
 	}
 
@@ -54,7 +55,7 @@ public class SwordItem extends Item {
 
 	@Override
 	public Image getSprite() {
-		return swordRight.getImage();
+		return sword.getImage();
 	}
 
 	@Override
@@ -76,26 +77,15 @@ public class SwordItem extends Item {
 	 */
 	@Override
 	public Image getEquippedSprite() {
-		if (action == ItemAction.USE
-				&& player.getAction() == Direction.FACE_RIGHT) {
+		if (action == ItemAction.USE) {
 			actionCount++;
 			if (actionCount > maxActionCount) {
 				actionCount = 0;
 				action = ItemAction.NONE;
 			}
-			return jabRight.getImage();
-		} else if (action == ItemAction.USE
-				&& player.getAction() == Direction.FACE_LEFT) {
-			actionCount++;
-			if (actionCount > maxActionCount) {
-				actionCount = 0;
-				action = ItemAction.NONE;
-			}
-			return jabRight.getImage();
-		} else if (player.getAction() == Direction.FACE_RIGHT) {
-			return swordRight.getImage();
+			return jab.getImage();
 		} else {
-			return swordRight.getImage();
+			return sword.getImage();
 		}
 	}
 
@@ -104,7 +94,7 @@ public class SwordItem extends Item {
 	 */
 	@Override
 	public Image getInventorySprite() {
-		return swordRight.getImage();
+		return sword.getImage();
 	}
 
 	/**
@@ -128,11 +118,17 @@ public class SwordItem extends Item {
 	 */
 	@Override
 	public void useItem() {
+		if (onCooldown())
+			return;
 		action = ItemAction.USE;
-		if (player.getAction() == Direction.FACE_LEFT)
+		if (player.getAction() == Direction.FACE_LEFT) {
 			hitEnemy(getEquippedX(), getEquippedY() + 8);
-		else
+			hitBlock(getEquippedX(), getEquippedY() + 8);
+		} else {
 			hitEnemy(getEquippedX() + 24, getEquippedY() + 8);
+			hitBlock(getEquippedX() + 24, getEquippedY() + 8);
+		}
+		super.useItem();
 	}
 
 	/**
@@ -154,12 +150,33 @@ public class SwordItem extends Item {
 		return damaged;
 	}
 
+	protected boolean hitBlock(int x, int y) {
+		boolean damaged = false;
+		Block block = player.getStage().getBlockAt(x, y);
+		if (block != null && block.isBreakable()) {
+			damaged = true;
+			block.damageBlock();
+			player.getStage().addParticles(12, ParticleType.DUST, Color.BLACK,
+					block.getX() + 16, block.getY() + 16, 0, 0, 12, 12, 1, 1, 10,
+					4);
+			if (block.getBlockHealth() < 1) {
+				player.placeBlock(null, x, y);
+			}
+		}
+		return damaged;
+	}
+
 	/**
 	 * This item has no alternate use
 	 */
 	@Override
 	public void altUseItem() {
-
+		if (onAltCooldown())
+			return;
+		player.setBoostDuration(6);
+		player.setxBoost(16);
+		player.setyBoost(-2);
+		super.altUseItem();
 	}
 
 	@Override
@@ -174,14 +191,12 @@ public class SwordItem extends Item {
 	public int getEquippedYOffset() {
 		return 0;
 	}
-	
+
 	@Override
-	public void setItemName(String itemName){
+	public void setItemName(String itemName) {
 		super.setItemName(itemName);
-		swordRight = Resources.getImage(itemName + "_right.gif");
-		swordLeft = Resources.getImage(itemName + "_left.gif");
-		jabRight = Resources.getImage(itemName + "_swing_right.gif");
-		jabLeft = Resources.getImage(itemName + "_swing_left.gif");
+		sword = Resources.getImage(itemName);
+		jab = Resources.getImage("use_" + itemName);
 	}
 
 }

@@ -16,8 +16,8 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.Block;
-import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.blocks.EmptyBlock;
+import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
 import com.josetheprogrammer.dia.gameObjects.Stage;

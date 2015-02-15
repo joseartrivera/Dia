@@ -1,6 +1,7 @@
 package com.josetheprogrammer.dia.mobs;
 
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
 
@@ -9,6 +10,7 @@ import javax.swing.ImageIcon;
 import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.particles.ParticleType;
 import com.josetheprogrammer.dia.view.Resources;
 
 
@@ -102,6 +104,8 @@ public class Slime extends Mob {
 			// If we are taking damage, reverse our direction
 			if (isTakingDamage()) {
 				speed = -speed * 4;
+				getStage().addParticles(6, ParticleType.DUST, Color.RED, getX() + 16,
+						getY() + 16, 1, 1, 6, 6, 2, 2, 10, 3);
 			}
 
 			// Determine if we need to move left or right

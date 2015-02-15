@@ -16,6 +16,7 @@ import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
+import com.josetheprogrammer.dia.particles.Particle;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 
 @SuppressWarnings("serial")
@@ -69,7 +70,19 @@ public class DrawStage extends JPanel implements Observer {
 		drawItems(g2);
 		drawInventory(g2);
 		drawProjectiles(g2);
+		drawParticles(g2);
 		updateCamera(game.getPlayer().getX(), game.getPlayer().getY());
+	}
+
+	private void drawParticles(Graphics2D g2) {
+		synchronized (game.getStage().getParticles()) {
+			for (Particle part : game.getStage().getParticles()) {
+				if (inView(part.getX(), part.getY())) {
+					g2.setColor(part.getColor());
+					g2.drawRect(part.getX() - x1, part.getY() - y1, 1, 1);
+				}
+			}
+		}
 	}
 
 	/**
@@ -127,9 +140,31 @@ public class DrawStage extends JPanel implements Observer {
 			if (inventory.getItemAtIndex(i) != null) {
 				Item item = inventory.getItemAtIndex(i);
 				g2.drawImage(item.getInventorySprite(), i * 24 + 6, 6, this);
+				if (item.onCooldown()) {
+					g2.setColor(Color.BLUE);
+					g2.fill3DRect(
+							i * 24 + 6,
+							30,
+							(item.getCurrentCooldown() * 23)
+									/ item.getCooldown(), 3, false);
+					
+					g2.setColor(Color.BLACK);
+					g2.draw3DRect(i * 24 + 6, 30, 23, 3, true);
+				}
+				if (item.onAltCooldown()) {
+					g2.setColor(Color.CYAN);
+					g2.fill3DRect(
+							i * 24 + 6,
+							33,
+							(item.getAltCurrentCooldown() * 23)
+									/ item.getAltCooldown(), 3, false);
+					g2.setColor(Color.BLACK);
+					g2.draw3DRect(i * 24 + 6, 33, 23, 3, true);
+				}
 			}
 
 			int health = game.getPlayer().getHealth();
+			
 			if (health > 65)
 				g2.setColor(Color.GREEN);
 			else if (health > 30)
@@ -137,7 +172,7 @@ public class DrawStage extends JPanel implements Observer {
 			else
 				g2.setColor(Color.RED);
 
-			g2.fill3DRect(6, 32, health, 6, true);
+			g2.fill3DRect(6, 38, health, 6, true);
 		}
 
 	}
@@ -190,9 +225,9 @@ public class DrawStage extends JPanel implements Observer {
 			if (p.getAction() == Direction.FACE_RIGHT) {
 				g2.drawImage(equipImg, x, y, this);
 			} else {
-				g2.drawImage(equipImg, x+ equipImg.getWidth(this), y, x, y+equipImg.getHeight(this),
-			             0, 0, equipImg.getWidth(this), equipImg.getHeight(this),
-			             this);
+				g2.drawImage(equipImg, x + equipImg.getWidth(this), y, x, y
+						+ equipImg.getHeight(this), 0, 0,
+						equipImg.getWidth(this), equipImg.getHeight(this), this);
 			}
 		}
 	}

@@ -1,17 +1,21 @@
 package com.josetheprogrammer.dia.gameObjects;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.blocks.EmptyBlock;
-import com.josetheprogrammer.dia.blocks.MetalBlock;
+import com.josetheprogrammer.dia.blocks.SolidBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
+import com.josetheprogrammer.dia.particles.Particle;
+import com.josetheprogrammer.dia.particles.ParticleType;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.view.Resources;
 
@@ -41,6 +45,9 @@ public class Stage {
 	// Mobs on the stage
 	Vector<Mob> mobs;
 
+	// Particles on stage
+	Vector<Particle> particles;
+
 	private Point startPoint;
 
 	private int gravity;
@@ -62,14 +69,16 @@ public class Stage {
 		blocks = new Block[getStageWidth()][getStageHeight()];
 		items = new Item[getStageWidth()][getStageHeight()];
 
-		outOfBoundaryBlock = new MetalBlock(this);
+		outOfBoundaryBlock = new SolidBlock(this);
+		outOfBoundaryBlock.setBlockName("");
 		emptyBlock = new EmptyBlock(this);
 
 		projectiles = new Vector<Projectile>();
 		mobs = new Vector<Mob>();
+		particles = new Vector<Particle>();
 
 		// Where the player will spawn
-		startPoint = new Point(128,128);
+		startPoint = new Point(128, 128);
 
 		// Gravity for this stage
 		setGravity(3);
@@ -123,8 +132,10 @@ public class Stage {
 	 */
 	public void setBlock(Block block, int i, int j) {
 		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
-			block.setStage(this);
-			block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
+			if (block != null){
+				block.setStage(this);
+				block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
+			}
 			blocks[i][j] = block;
 		}
 	}
@@ -241,6 +252,19 @@ public class Stage {
 		}
 	}
 
+	public void updateParticles() {
+		synchronized (particles) {
+			Iterator<Particle> iter = particles.iterator();
+			while (iter.hasNext()) {
+				Particle particle = iter.next();
+				if (particle.isActive())
+					particle.move();
+				else
+					iter.remove();
+			}
+		}
+	}
+
 	/**
 	 * Gets the start point where the player will spawn
 	 * 
@@ -319,31 +343,34 @@ public class Stage {
 
 	public String Serialize() {
 		String stage = "";
-		stage = stage + getStageName() + "\n" + stage + getStageWidth() + "\n" + getStageHeight() + "\n";
+		stage = stage + getStageName() + "\n" + stage + getStageWidth() + "\n"
+				+ getStageHeight() + "\n";
 		stage = stage + startPoint.x + "\n" + startPoint.y + "\n";
 		stage = stage + serializeBlocks();
 		stage = stage + serializeMobs();
 
 		return stage;
 	}
-	
-	private String serializeBlocks(){
+
+	private String serializeBlocks() {
 		String stageBlocks = "";
 		// Copy over blocks/items
 		for (int i = 0; i < getStageWidth(); i++) {
 			for (int j = 0; j < getStageHeight(); j++) {
-				if (blocks[i][j]!= null)
-					stageBlocks = stageBlocks + blocks[i][j].getBlockType() + ";" + blocks[i][j].getBlockName();
+				if (blocks[i][j] != null)
+					stageBlocks = stageBlocks + blocks[i][j].getBlockType()
+							+ ";" + blocks[i][j].getBlockName();
 				stageBlocks = stageBlocks + "\n";
-				if (items[i][j]!= null)
-					stageBlocks = stageBlocks + items[i][j].getItemType() + ";" + items[i][j].getItemName();
+				if (items[i][j] != null)
+					stageBlocks = stageBlocks + items[i][j].getItemType() + ";"
+							+ items[i][j].getItemName();
 				stageBlocks = stageBlocks + "\n";
 			}
 		}
 		return stageBlocks;
 	}
-	
-	private String serializeMobs(){
+
+	private String serializeMobs() {
 		String stageMobs = "";
 		Mob mob = null;
 		Iterator<Mob> iter = mobs.iterator();
@@ -352,7 +379,7 @@ public class Stage {
 			stageMobs = stageMobs + mob.getType() + ";" + mob.getMobName();
 		}
 		stageMobs = stageMobs + "\n";
-		
+
 		return stageMobs;
 	}
 
@@ -364,4 +391,39 @@ public class Stage {
 		this.stageName = stageName;
 	}
 
+	public Vector<Particle> getParticles() {
+		return particles;
+	}
+
+	public void addParticles(int amount, ParticleType type, Color color, int x,
+			int y, int dx, int dy, int xSpread, int ySpread, int dxSpread,
+			int dySpread, int duration, int durationSpread) {
+		int partXSpread = 0;
+		int partYSpread = 0;
+		int partdxSpread = 0;
+		int partdySpread = 0;
+		int partDurationSpread = 0;
+		Random rando = new Random();
+
+		synchronized (particles) {
+			Particle particle;
+			for (int i = 0; i <= amount; i++) {
+				if (xSpread > 0)
+					partXSpread = (rando.nextInt(xSpread * 2) - xSpread);
+				if (ySpread > 0)
+					partYSpread = (rando.nextInt(ySpread * 2) - ySpread);
+				if (dxSpread > 0)
+					partdxSpread = (rando.nextInt(dxSpread * 2) - dxSpread);
+				if (dySpread > 0)
+					partdySpread = (rando.nextInt(dySpread * 2) - dySpread);
+				if (durationSpread > 0)
+					partDurationSpread = (rando.nextInt(durationSpread * 2) - durationSpread);
+				particle = new Particle(type, x + partXSpread, y + partYSpread,
+						dx + partdxSpread, dy + partdySpread, duration
+								+ partDurationSpread, color);
+				particles.add(particle);
+			}
+		}
+
+	}
 }

@@ -1,10 +1,7 @@
 package com.josetheprogrammer.dia.items;
 
-
 import java.awt.Image;
 import java.awt.Point;
-
-import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.gameObjects.Player;
 
@@ -18,13 +15,21 @@ public abstract class Item {
 	protected String itemName;
 	protected Point point;
 	protected Player player;
-	
-	public Item(Player player){
+	protected int cooldown;
+	protected int altCooldown;
+	protected int currentCooldown;
+	protected int currentAltCooldown;
+	protected int ammo;
+
+	public Item(Player player) {
 		this.player = player;
 		this.point = new Point();
 		itemName = "";
+		cooldown = 0;
+		altCooldown = 0;
+		ammo = 0;
 	}
-	
+
 	public abstract ItemType getItemType();
 
 	public Point getPoint() {
@@ -34,7 +39,7 @@ public abstract class Item {
 	public abstract Image getSprite();
 
 	public abstract Image getEquippedSprite();
-	
+
 	public abstract int getEquippedX();
 
 	public abstract int getEquippedY();
@@ -57,16 +62,69 @@ public abstract class Item {
 		this.player = player;
 	}
 
-	public abstract void useItem();
+	public void useItem() {
+		if (!onCooldown())
+			currentCooldown = cooldown;
+	}
 
-	public abstract void altUseItem();
-	
-	public String getItemName(){
+	public void altUseItem() {
+		if (!onAltCooldown())
+			currentAltCooldown = altCooldown;
+	}
+
+	public String getItemName() {
 		return itemName;
 	}
-	
-	public void setItemName(String itemName){
+
+	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+
+	public int getCooldown() {
+		return cooldown;
+	}
+
+	public int getAltCooldown() {
+		return altCooldown;
+	}
+
+	public void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
+	}
+
+	public void setaltCooldown(int altCooldown) {
+		this.altCooldown = altCooldown;
+	}
+
+	public boolean onCooldown() {
+		return currentCooldown > 0;
+	}
+
+	public int getCurrentCooldown() {
+		return currentCooldown;
+	}
+
+	public int getAltCurrentCooldown() {
+		return currentAltCooldown;
+	}
+
+	public boolean onAltCooldown() {
+		return currentAltCooldown > 0;
+	}
+
+	public void updateCooldowns() {
+		if (onCooldown())
+			currentCooldown--;
+		if (onAltCooldown())
+			currentAltCooldown--;
+	}
+
+	public int getAmmo() {
+		return ammo;
+	}
+
+	public void setAmmo(int ammo) {
+		this.ammo = ammo;
 	}
 
 }

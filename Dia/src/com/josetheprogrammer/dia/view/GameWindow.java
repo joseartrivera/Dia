@@ -8,9 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.SolidBlock;
+import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.ItemType;
+import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.Slime;
@@ -90,7 +91,8 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new SolidBlock(game.getStage()), 14, 7);
 
 		game.getStage().setItemByIndex(new LauncherItem(game.getPlayer(), ProjectileType.Bullet, 6, 0), 10, 8);
-		game.getStage().setItemByIndex(new LauncherItem(null, ProjectileType.FireBall, 4, -8), 9, 8);
+		//game.getStage().setItemByIndex(new LauncherItem(null, ProjectileType.FireBall, 4, -8), 9, 8);
+		game.getStage().setItemByIndex(Creator.createItem(ItemType.LAUNCHER, "fireball.gif", game.getStage(), ProjectileType.FireBall, 4, -6),9,8);
 		for (int i = 0; i < 20; i++) {
 			game.getStage().setBlock(new SolidBlock(game.getStage()), i, 10);
 			game.getStage().setBlock(new SolidBlock(game.getStage()), i, 11);
