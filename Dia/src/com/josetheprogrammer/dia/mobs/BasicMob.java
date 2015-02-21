@@ -31,7 +31,7 @@ public class BasicMob extends Mob {
 
 	public BasicMob(Stage stage, Point point) {
 		super(stage, point);
-		this.setMobName("slime");
+		this.setMobName("spider");
 
 		attackDuration = 25;
 		attackCount = 0;
