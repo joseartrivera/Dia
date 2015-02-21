@@ -143,42 +143,46 @@ public class DrawStage extends JPanel implements Observer {
 	 * @param g2
 	 */
 	private void drawInventory(Graphics2D g2) {
+		int x = 6;
+		int width = 0;
 		PlayerInventory inventory = game.getPlayer().getInventory();
+
+		g2.drawImage(inventory.getInventoryLeftImage().getImage(), x, 6, this);
+		x+= inventory.getInventoryLeftImage().getIconWidth();
 		for (int i = 0; i < inventory.getSize(); i++) {
 
 			if (inventory.getSelectedIndex() != i) {
-				g2.drawImage(inventory.getSprite().getImage(), i * 24 + 6, 6,
-						this);
+				g2.drawImage(inventory.getSprite(i).getImage(), x, 6, this);
+				width = inventory.getSprite(i).getIconWidth();
 			} else {
-				g2.drawImage(inventory.getSelectedSprite().getImage(),
-						i * 24 + 6, 6, this);
+				g2.drawImage(inventory.getSelectedSprite(i).getImage(), x, 6,
+						this);
+				width = inventory.getSprite(i).getIconWidth();
 			}
 			if (inventory.getItemAtIndex(i) != null) {
 				Item item = inventory.getItemAtIndex(i);
-				g2.drawImage(item.getInventorySprite(), i * 24 + 6, 6, this);
+				g2.drawImage(item.getInventorySprite(), x, 6, this);
 				if (item.onCooldown()) {
 					g2.setColor(Color.BLUE);
-					g2.fill3DRect(
-							i * 24 + 6,
-							30,
-							(item.getCurrentCooldown() * 23)
-									/ item.getCooldown(), 3, false);
+					g2.fill3DRect(x, 30, (item.getCurrentCooldown() * 23)
+							/ item.getCooldown(), 3, false);
 
 					g2.setColor(Color.BLACK);
-					g2.draw3DRect(i * 24 + 6, 30, 23, 3, true);
+					g2.draw3DRect(x, 30, 23, 3, true);
 				}
 				if (item.onAltCooldown()) {
 					g2.setColor(Color.CYAN);
-					g2.fill3DRect(
-							i * 24 + 6,
-							33,
-							(item.getAltCurrentCooldown() * 23)
-									/ item.getAltCooldown(), 3, false);
+					g2.fill3DRect(x, 33, (item.getAltCurrentCooldown() * 23)
+							/ item.getAltCooldown(), 3, false);
 					g2.setColor(Color.BLACK);
-					g2.draw3DRect(i * 24 + 6, 33, 23, 3, true);
+					g2.draw3DRect(x, 33, 23, 3, true);
 				}
 			}
-
+			x+= width;
+		}
+		
+		g2.drawImage(inventory.getInventoryRightImage().getImage(), x, 5, this);
+		
 			int health = game.getPlayer().getHealth();
 
 			if (health > 65)
@@ -187,9 +191,11 @@ public class DrawStage extends JPanel implements Observer {
 				g2.setColor(Color.ORANGE);
 			else
 				g2.setColor(Color.RED);
+			g2.drawImage(game.getPlayer().getHealthbarSprite().getImage(), 6,
+					40, this);
+			g2.fill3DRect(10, 43, (82 * game.getPlayer().getHealth())
+					/ game.getPlayer().getMaxHealth(), 5, true);
 
-			g2.fill3DRect(6, 38, health, 6, true);
-		}
 
 	}
 

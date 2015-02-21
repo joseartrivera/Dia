@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.blocks.BlockProperty;
-import com.josetheprogrammer.dia.blocks.BlockType;
 import com.josetheprogrammer.dia.blocks.NormalBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
@@ -73,6 +72,7 @@ public class Stage {
 		outOfBoundaryBlock = new NormalBlock(this);
 		outOfBoundaryBlock.setBlockName("");
 		emptyBlock = new NormalBlock(this);
+		emptyBlock.setBlockType(null);
 		emptyBlock.setBlockProperty(BlockProperty.EMPTY);
 
 		projectiles = new Vector<Projectile>();
@@ -302,6 +302,10 @@ public class Stage {
 
 	public Image getBackground() {
 		return background.getImage();
+	}
+	
+	public void setBackground(String backgroundName){
+		background = Resources.getImage(backgroundName);
 	}
 
 	public int getStageHeight() {

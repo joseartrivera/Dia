@@ -28,6 +28,8 @@ public class PlayerInventory {
 	// Array of items represents the inventory
 	Item[] inventory;
 
+	private ImageIcon inventoryLeft;
+	private ImageIcon inventoryRight;
 	private ImageIcon inventorySlot;
 	private ImageIcon selectedSlot;
 
@@ -44,6 +46,8 @@ public class PlayerInventory {
 
 		inventorySlot = Resources.getImage("inventory_slot.png");
 		selectedSlot = Resources.getImage("inventory_selected.png");
+		inventoryRight = Resources.getImage("inventory_right.png");
+		inventoryLeft = Resources.getImage("inventory_left.png");
 	}
 
 	/**
@@ -62,11 +66,11 @@ public class PlayerInventory {
 		}
 	}
 
-	public ImageIcon getSprite() {
+	public ImageIcon getSprite(int index) {
 		return inventorySlot;
 	}
 
-	public ImageIcon getSelectedSprite() {
+	public ImageIcon getSelectedSprite(int index) {
 		return selectedSlot;
 	}
 
@@ -199,5 +203,13 @@ public class PlayerInventory {
 			if (item != null)
 				item.updateCooldowns();
 		}
+	}
+
+	public ImageIcon getInventoryRightImage() {
+		return inventoryRight;
+	}
+
+	public ImageIcon getInventoryLeftImage() {
+		return inventoryLeft;
 	}
 }

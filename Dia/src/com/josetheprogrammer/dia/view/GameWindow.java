@@ -26,6 +26,9 @@ import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.BasicMob;
+import com.josetheprogrammer.dia.mobs.CrawlMob;
+import com.josetheprogrammer.dia.mobs.FlyingMob;
+import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 @SuppressWarnings("serial")
@@ -107,6 +110,15 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 13, 8);
 		game.getStage().setItemByIndex(new SwordItem(null), 14, 6);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 14, 7);
+		
+
+		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 0);
+		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 1);
+		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 2);
+		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 3);
+		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 4);
+		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 5);
+		
 
 		game.getStage().setItemByIndex(new LauncherItem(game.getPlayer(), ProjectileType.Bullet, 6, 0), 10, 8);
 		//game.getStage().setItemByIndex(new LauncherItem(null, ProjectileType.FireBall, 4, -8), 9, 8);
@@ -115,10 +127,16 @@ public class GameWindow extends JFrame {
 			game.getStage().setBlock(new NormalBlock(game.getStage()), i, 10);
 			game.getStage().setBlock(new NormalBlock(game.getStage()), i, 11);
 		}
-
-		game.getStage().addMob(new BasicMob(game.getStage(), new Point(250, 100)));
+		
+		Mob mob = new FlyingMob(game.getStage(), new Point(250, 164));
+		mob.setMobName("hollow");
+		mob.setSpeed(1);
+		mob.setJumpPower(3);
+		mob.setRange(200);
+		game.getStage().addMob(mob);
 		game.getStage().addMob(new BasicMob(game.getStage(), new Point(600, 100)));
-
+		mob = new CrawlMob(game.getStage(), new Point(350, 100));
+		game.getStage().addMob(mob);
 		game.startGame();
 	}
 

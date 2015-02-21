@@ -22,6 +22,7 @@ public class Player {
 
 	// Attributes
 	private int health;
+	private int maxHealth;
 	private int jumpPower;
 	private int realJumpPower;
 	private int speed;
@@ -45,6 +46,7 @@ public class Player {
 	private ImageIcon runLeft;
 	private ImageIcon jumpLeft;
 	private ImageIcon jumpRight;
+	private ImageIcon healthbar;
 
 	// States
 	private boolean running;
@@ -63,6 +65,7 @@ public class Player {
 	public Player(Stage stage, Point startPoint, int health, int speed) {
 		this.stage = stage;
 		this.setHealth(health);
+		this.setMaxHealth(health);
 		this.setJumpPower(10);
 		this.realJumpPower = jumpPower;
 		this.setSpeed(speed);
@@ -82,6 +85,7 @@ public class Player {
 		runRight = Resources.getImage("robo_runright.gif");
 		jumpLeft = Resources.getImage("robo_jumpleft.gif");
 		jumpRight = Resources.getImage("robo_jumpright.gif");
+		healthbar = Resources.getImage("healthbar.png");
 	}
 
 	/**
@@ -412,6 +416,27 @@ public class Player {
 					blocks[i][j].resolveTile();
 			}
 		}
+	}
+
+	public ImageIcon getHealthbarSprite() {
+		return healthbar;
+	}
+
+	public void setHealthbarSprite(ImageIcon healthbar) {
+		this.healthbar = healthbar;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+	
+	public boolean contained(int x, int y) {
+		return x > point.x && x < point.x + 32 && y > point.y
+				&& y < point.y + 32;
 	}
 
 }

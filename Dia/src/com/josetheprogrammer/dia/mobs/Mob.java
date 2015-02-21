@@ -279,5 +279,32 @@ public abstract class Mob {
 	public void setDirection(Direction direction){
 		this.direction = direction;
 	}
+	
+	protected boolean canMove() {
+		if (getDirection() == Direction.FACE_LEFT) {
+			return getStage().getBlockAt(getPoint().x - getSpeed(),
+					getPoint().y + 16).getBlockProperty() == BlockProperty.EMPTY
+					&& getStage().getBlockAt(getPoint().x - getSpeed(),
+							getPoint().y + 26).getBlockProperty() == BlockProperty.EMPTY
+					&& getStage().getBlockAt(getPoint().x - getSpeed(),
+							getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY;
+		} else {
+			return getStage().getBlockAt(getPoint().x + getSpeed() + 32,
+					getPoint().y + 16).getBlockProperty() == BlockProperty.EMPTY
+					&& getStage().getBlockAt(getPoint().x + getSpeed() + 32,
+							getPoint().y + 26).getBlockProperty() == BlockProperty.EMPTY
+					&& getStage().getBlockAt(getPoint().x + getSpeed() + 32,
+							getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY;
+		}
+	}
+	
+	protected boolean inAttackRange(int targetX, int targetY){
+		return getPoint().distance(targetX, targetY) < getAttackRange()
+		&& !isTakingDamage();
+	}
+	
+	protected boolean inFollowRange(int targetX, int targetY){
+		return getPoint().distance(targetX, targetY) < getRange();
+	}
 
 }

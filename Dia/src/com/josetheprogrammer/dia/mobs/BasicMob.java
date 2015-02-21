@@ -6,7 +6,6 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.particles.ParticleType;
@@ -74,16 +73,14 @@ public class BasicMob extends Mob {
 		int targetY = getStage().getPlayer().getY();
 
 		// Check to see if we are in attack range and are not taking damage
-		if (getPoint().distance(targetX, targetY) < getAttackRange()
-				&& !isTakingDamage()) {
+		if (inAttackRange(targetX, targetY)) {
 
 			setAttacking(true);
 			attack();
 
 		}
 		// Check to see if player is in range to follow
-		else if (getPoint().distance(targetX, targetY) < getRange()
-				|| isTakingDamage()) {
+		else if (inFollowRange(targetX, targetY) || isTakingDamage()) {
 
 			setAttacking(false);
 
@@ -100,12 +97,7 @@ public class BasicMob extends Mob {
 			if (targetX < getX()) {
 				direction = Direction.FACE_LEFT;
 				setRunning(true);
-				if (getStage().getBlockAt(getPoint().x - getSpeed(),
-						getPoint().y + 16).getBlockProperty() == BlockProperty.EMPTY
-						&& getStage().getBlockAt(getPoint().x - getSpeed(),
-								getPoint().y + 26).getBlockProperty() == BlockProperty.EMPTY
-						&& getStage().getBlockAt(getPoint().x - getSpeed(),
-								getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY) {
+				if (canMove()) {
 					getPoint().translate(-speed, 0);
 				} else {
 					setJumping(true);
@@ -116,14 +108,7 @@ public class BasicMob extends Mob {
 			} else {
 				direction = Direction.FACE_RIGHT;
 				setRunning(true);
-				if (getStage().getBlockAt(getPoint().x + getSpeed() + 32,
-						getPoint().y + 16).getBlockProperty() == BlockProperty.EMPTY
-						&& getStage().getBlockAt(
-								getPoint().x + getSpeed() + 32,
-								getPoint().y + 26).getBlockProperty() == BlockProperty.EMPTY
-						&& getStage().getBlockAt(
-								getPoint().x + getSpeed() + 32,
-								getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY) {
+				if (canMove()) {
 					getPoint().translate(speed, 0);
 				} else {
 					setJumping(true);

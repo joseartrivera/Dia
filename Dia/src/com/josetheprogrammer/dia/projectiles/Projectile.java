@@ -1,12 +1,14 @@
 package com.josetheprogrammer.dia.projectiles;
 
-
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.mobs.Mob;
-
+import com.josetheprogrammer.dia.view.Resources;
 
 /**
  * Represents a projectile in our game
@@ -22,9 +24,16 @@ public abstract class Projectile {
 	private int ySpeed;
 	private int attackPower;
 	private boolean dead;
+	private String projectileName;
+	private ImageIcon projectileImage;
+	private Color color;
+	protected boolean hit;
+	
+	//Fired from enemy?
+	private boolean enemyProjectile;
 
 	public Projectile(Stage stage, int x, int y, int xSpeed, int ySpeed) {
-		this.point = new Point(x,y);
+		this.point = new Point(x, y);
 		this.setxSpeed(xSpeed);
 		this.setySpeed(ySpeed);
 		this.stage = stage;
@@ -33,6 +42,7 @@ public abstract class Projectile {
 
 	/**
 	 * Returns whether the projectile has hit an enemy or not
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
@@ -49,7 +59,21 @@ public abstract class Projectile {
 		return damaged;
 	}
 
-	public abstract Image getSprite();
+	protected boolean hitPlayer(int x, int y) {
+		boolean damaged = false;
+		if (stage.getPlayer().contained(x, y)) {
+			damaged = true;
+			stage.getPlayer().takeDamage(attackPower);
+		}
+		return damaged;
+	}
+	
+	protected boolean hit(int x, int y){
+		if (isEnemyProjectile())
+			return hitPlayer(x,y);
+		else
+			return hitEnemy(x,y);
+	}
 
 	public Point getPoint() {
 		return point;
@@ -103,6 +127,37 @@ public abstract class Projectile {
 
 	public void setAltUse(boolean altUse) {
 		this.altUse = altUse;
+	}
+
+	public boolean isEnemyProjectile() {
+		return enemyProjectile;
+	}
+
+	public void setEnemyProjectile(boolean enemyProjetile) {
+		this.enemyProjectile = enemyProjetile;
+	}
+	
+	public Image getSprite() {
+		if (hit)
+			setDead(true);
+		return projectileImage.getImage();
+	}
+	
+	public void setProjectileName(String projectileName){
+		this.projectileName = projectileName;
+		projectileImage = Resources.getImage(projectileName);
+	}
+	
+	public String getProjectileName(){
+		return projectileName;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 }
