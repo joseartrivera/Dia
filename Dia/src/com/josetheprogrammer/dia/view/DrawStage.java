@@ -65,8 +65,8 @@ public class DrawStage extends JPanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 		drawStage(g2);
 		drawPlayer(g2);
-		drawMobs(g2);
 		drawBlocks(g2);
+		drawMobs(g2);
 		drawItems(g2);
 		drawInventory(g2);
 		drawProjectiles(g2);

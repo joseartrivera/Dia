@@ -16,29 +16,29 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
 
 public abstract class Mob {
 
-	private Point point;
-	private Stage stage;
-	private MobType type;
-	private String mobName;
-	private int health;
-	private int speed;
-	private int attackPower;
-	private int jumpPower;
-	private int jumpCount;
-	private int maxJumpHeight;
+	protected Point point;
+	protected Stage stage;
+	protected MobType type;
+	protected String mobName;
+	protected int health;
+	protected int speed;
+	protected int attackPower;
+	protected int jumpPower;
+	protected int jumpCount;
+	protected int maxJumpHeight;
 
 	// The range the mob can "see" the player
-	private int range;
+	protected int range;
 
 	// The range when a mob will attack a player
-	private int attackRange;
+	protected int attackRange;
 
-	private boolean jumping;
-	private boolean running;
-	private boolean attacking;
-	private boolean takingDamage;
+	protected boolean jumping;
+	protected boolean running;
+	protected boolean attacking;
+	protected boolean takingDamage;
 
-	private boolean dead;
+	protected boolean dead;
 	
 	protected Direction direction;
 
