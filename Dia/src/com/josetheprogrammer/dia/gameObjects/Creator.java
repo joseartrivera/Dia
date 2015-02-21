@@ -4,14 +4,14 @@ import java.awt.Point;
 
 import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.blocks.BlockType;
-import com.josetheprogrammer.dia.blocks.SolidBlock;
+import com.josetheprogrammer.dia.blocks.NormalBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.SwordItem;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.mobs.MobType;
-import com.josetheprogrammer.dia.mobs.Slime;
+import com.josetheprogrammer.dia.mobs.BasicMob;
 import com.josetheprogrammer.dia.projectiles.Bullet;
 import com.josetheprogrammer.dia.projectiles.FireBall;
 import com.josetheprogrammer.dia.projectiles.Projectile;
@@ -23,7 +23,7 @@ public class Creator{
 		Block block = null;
 		switch (blockType) {
 		case SOLID:
-			block = new SolidBlock(stage);
+			block = new NormalBlock(stage);
 			block.setBlockName(name);
 			break;
 		default:
@@ -55,7 +55,7 @@ public class Creator{
 		Mob mob = null;
 		switch (mobType) {
 		case Slime:
-			mob = new Slime(stage, new Point(x, y));
+			mob = new BasicMob(stage, new Point(x, y));
 			mob.setType(mobType);
 			mob.setMobName(mobName);
 			break;

@@ -124,9 +124,17 @@ public class SwordItem extends Item {
 		if (player.getAction() == Direction.FACE_LEFT) {
 			hitEnemy(getEquippedX(), getEquippedY() + 8);
 			hitBlock(getEquippedX(), getEquippedY() + 8);
+
+			player.getStage().addParticles(8, ParticleType.DUST, Color.gray,
+					getEquippedX() + 16, getEquippedY() + 16, -4, 0, 3, 3, 2,
+					2, 7, 4);
 		} else {
 			hitEnemy(getEquippedX() + 24, getEquippedY() + 8);
 			hitBlock(getEquippedX() + 24, getEquippedY() + 8);
+			
+			player.getStage().addParticles(8, ParticleType.DUST, Color.gray,
+					getEquippedX() + 12, getEquippedY() + 16, 4, 0, 3, 3, 2,
+					2, 7, 4);
 		}
 		super.useItem();
 	}
@@ -157,8 +165,8 @@ public class SwordItem extends Item {
 			damaged = true;
 			block.damageBlock();
 			player.getStage().addParticles(12, ParticleType.DUST, Color.BLACK,
-					block.getX() + 16, block.getY() + 16, 0, 0, 12, 12, 1, 1, 10,
-					4);
+					block.getX() + 16, block.getY() + 16, 0, 0, 12, 12, 1, 1,
+					10, 4);
 			if (block.getBlockHealth() < 1) {
 				player.placeBlock(null, x, y);
 			}

@@ -140,6 +140,15 @@ public class PlayerInventory {
 		size++;
 		inventory = newInventory;
 	}
+	
+	public void setSize(int newSize){
+		Item[] newInventory = new Item[newSize];
+		for (int i = 0; i < newSize && i < size; i++) {
+			newInventory[i] = inventory[i];
+		}
+		size = newSize;
+		inventory = newInventory;
+	}
 
 	/**
 	 * Swap two items in the inventory

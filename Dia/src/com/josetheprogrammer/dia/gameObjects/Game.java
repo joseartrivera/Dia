@@ -89,6 +89,7 @@ public class Game extends Observable {
 	 * Start the editing this stage
 	 */
 	public void startEditMode() {
+		player.getInventory().setSize(10);
 		stepTimer = new Timer();
 		stepTimer.schedule(new EditTasks(), 0, 20);
 	}

@@ -75,6 +75,8 @@ public class PlayerKeyListener implements KeyListener, MouseListener {
 		case '9':
 			player.setSelectedItem(8);
 			break;
+		case '0':
+			player.setSelectedItem(9);
 		default:
 			break;
 		}

@@ -6,5 +6,5 @@ package com.josetheprogrammer.dia.blocks;
  *
  */
 public enum BlockType {
-	EMPTY, METAL, SOLID
+	DECORATION, SOLID
 }

@@ -103,7 +103,23 @@ public class DrawStage extends JPanel implements Observer {
 	private void drawMobs(Graphics2D g2) {
 		synchronized (game.getStage().getMobs()) {
 			for (Mob mob : game.getStage().getMobs()) {
-				drawImageInView(g2, mob.getSprite(), mob.getX(), mob.getY());
+				int x = mob.getX();
+				int y = mob.getY();
+				if (inView(x, y)) {
+					Image mobImage = mob.getSprite();
+					if (mobImage != null) {
+						x = x - x1;
+						y = y - y1;
+						if (mob.getDirection() == Direction.FACE_RIGHT) {
+							g2.drawImage(mobImage, x, y, this);
+						} else {
+							g2.drawImage(mobImage, x + mobImage.getWidth(this),
+									y, x, y + mobImage.getHeight(this), 0, 0,
+									mobImage.getWidth(this),
+									mobImage.getHeight(this), this);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -147,7 +163,7 @@ public class DrawStage extends JPanel implements Observer {
 							30,
 							(item.getCurrentCooldown() * 23)
 									/ item.getCooldown(), 3, false);
-					
+
 					g2.setColor(Color.BLACK);
 					g2.draw3DRect(i * 24 + 6, 30, 23, 3, true);
 				}
@@ -164,7 +180,7 @@ public class DrawStage extends JPanel implements Observer {
 			}
 
 			int health = game.getPlayer().getHealth();
-			
+
 			if (health > 65)
 				g2.setColor(Color.GREEN);
 			else if (health > 30)

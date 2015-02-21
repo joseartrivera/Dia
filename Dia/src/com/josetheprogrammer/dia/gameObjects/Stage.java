@@ -10,8 +10,9 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.blocks.Block;
-import com.josetheprogrammer.dia.blocks.EmptyBlock;
-import com.josetheprogrammer.dia.blocks.SolidBlock;
+import com.josetheprogrammer.dia.blocks.BlockProperty;
+import com.josetheprogrammer.dia.blocks.BlockType;
+import com.josetheprogrammer.dia.blocks.NormalBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.particles.Particle;
@@ -69,9 +70,10 @@ public class Stage {
 		blocks = new Block[getStageWidth()][getStageHeight()];
 		items = new Item[getStageWidth()][getStageHeight()];
 
-		outOfBoundaryBlock = new SolidBlock(this);
+		outOfBoundaryBlock = new NormalBlock(this);
 		outOfBoundaryBlock.setBlockName("");
-		emptyBlock = new EmptyBlock(this);
+		emptyBlock = new NormalBlock(this);
+		emptyBlock.setBlockProperty(BlockProperty.EMPTY);
 
 		projectiles = new Vector<Projectile>();
 		mobs = new Vector<Mob>();
@@ -83,7 +85,7 @@ public class Stage {
 		// Gravity for this stage
 		setGravity(3);
 
-		background = Resources.getImage("sky.png");
+		background = Resources.getImage("dungeon.png");
 		stageName = "default";
 	}
 

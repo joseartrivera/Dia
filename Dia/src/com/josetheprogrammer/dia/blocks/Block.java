@@ -73,6 +73,10 @@ public abstract class Block{
 		return type;
 	}
 	
+	public void setBlockType(BlockType type){
+		this.type = type;
+	}
+	
 	/**
 	 * Returns the X coordinate for this block on the game screen
 	 * @return
@@ -103,6 +107,10 @@ public abstract class Block{
 	 */
 	public BlockProperty getBlockProperty() {
 		return property;
+	}
+	
+	public void setBlockProperty(BlockProperty property){
+		this.property = property;
 	}
 	
 	/**
@@ -171,7 +179,6 @@ public abstract class Block{
 	
 	public void setBlockName(String blockName){
 		this.blockName = blockName;
-		setSpriteSheet();
 	}
 	
 	public boolean isBreakable(){
@@ -193,5 +200,7 @@ public abstract class Block{
 	public void setBlockHealth(int blockHealth) {
 		this.blockHealth = blockHealth;
 	}
+	
+	public abstract void setSprite();
 
 }

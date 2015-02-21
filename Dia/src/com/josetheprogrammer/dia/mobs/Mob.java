@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Point;
 
 import com.josetheprogrammer.dia.blocks.BlockProperty;
+import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Stage;
 
 /**
@@ -38,6 +39,8 @@ public abstract class Mob {
 	private boolean takingDamage;
 
 	private boolean dead;
+	
+	protected Direction direction;
 
 	public Mob(Stage stage, Point point) {
 		this.point = point;
@@ -51,7 +54,7 @@ public abstract class Mob {
 		this.range = 140;
 		this.attackRange = 30;
 		dead = false;
-
+		this.direction = Direction.FACE_LEFT;
 	}
 
 	public abstract Image getSprite();
@@ -267,6 +270,14 @@ public abstract class Mob {
 
 	public void setMobName(String mobName) {
 		this.mobName = mobName;
+	}
+	
+	public Direction getDirection(){
+		return direction;
+	}
+	
+	public void setDirection(Direction direction){
+		this.direction = direction;
 	}
 
 }

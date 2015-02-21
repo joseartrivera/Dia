@@ -4,11 +4,8 @@ default
 40
 128
 128
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -36,25 +33,16 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -64,9 +52,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -76,32 +62,29 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
 
+SOLID;dungeon_tileset.png
 
+SOLID;dungeon_tileset.png
 
+SOLID;dungeon_tileset.png
 
 
 
+SOLID;dungeon_tileset.png
 
 
 
@@ -122,7 +105,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -144,17 +126,12 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -162,35 +139,32 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
+SOLID;dungeon_tileset.png
 
+SOLID;dungeon_tileset.png
 
+SOLID;dungeon_tileset.png
 
 
 
+SOLID;dungeon_tileset.png
 
 
 
@@ -224,13 +198,10 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -242,9 +213,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -254,26 +223,24 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
+SOLID;dungeon_tileset.png
 
+SOLID;dungeon_tileset.png
 
+SOLID;dungeon_tileset.png
 
 
 
@@ -302,13 +269,11 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -322,9 +287,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -336,23 +299,18 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -362,9 +320,8 @@ SOLID;dirt
 
 
 
-SOLID;dirt
+SOLID;dungeon_tileset.png
 
-SOLID;dirt
 
 
 
@@ -390,7 +347,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -402,9 +358,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -416,23 +370,18 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -444,15 +393,14 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
 
+SOLID;dungeon_tileset.png
 
 
 
@@ -470,7 +418,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -484,7 +431,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -496,9 +442,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -506,13 +450,10 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -526,7 +467,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -552,7 +492,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -564,7 +503,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -576,9 +514,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -588,11 +524,9 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -600,15 +534,10 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -620,7 +549,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -634,7 +562,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -656,13 +583,11 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -670,7 +595,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -680,9 +604,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -692,7 +614,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -734,15 +655,12 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -750,7 +668,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -760,13 +677,9 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -774,7 +687,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -792,7 +704,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -814,9 +725,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -824,13 +733,11 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -844,7 +751,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -854,7 +760,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -872,9 +777,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -894,7 +797,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -906,13 +808,11 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -924,7 +824,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -934,7 +833,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -964,7 +862,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -976,11 +873,8 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -1004,7 +898,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1018,7 +911,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1044,7 +936,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1058,13 +949,11 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
 
 
@@ -1084,7 +973,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1094,9 +982,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -1124,7 +1010,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1140,13 +1025,10 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1164,9 +1046,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -1204,7 +1084,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1222,11 +1101,9 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1246,7 +1123,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1284,7 +1160,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1302,11 +1177,9 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1326,7 +1199,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1364,7 +1236,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1382,11 +1253,9 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1408,7 +1277,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1444,7 +1312,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1490,7 +1357,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1524,7 +1390,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1570,9 +1435,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -1604,7 +1467,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1654,7 +1516,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1684,7 +1545,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1736,7 +1596,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1816,9 +1675,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -1898,7 +1755,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -1980,7 +1836,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -2484,7 +2339,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -2566,9 +2420,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -2646,7 +2498,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -2726,7 +2577,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -2800,9 +2650,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -2880,11 +2728,8 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -2908,9 +2753,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -2956,15 +2799,11 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -2992,9 +2831,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -3034,19 +2871,14 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -3054,7 +2886,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -3074,9 +2905,7 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -3110,7 +2939,6 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
 
 
@@ -3120,21 +2948,13 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -3158,13 +2978,9 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
 
 
@@ -3192,16 +3008,200 @@ SOLID;dirt
 
 
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
 
-SOLID;dirt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
