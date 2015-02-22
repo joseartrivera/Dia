@@ -46,11 +46,11 @@ public class Resources {
 		spriteSheet = new HashMap<String, BufferedImage>();
 		onWeb = false;
 
-//		try {
-//			loadResources();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// loadResources();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -85,15 +85,14 @@ public class Resources {
 		}
 	}
 
-	public static ImageIcon getImage(String str) {
-		if (!onWeb){
+	public static ImageIcon getImage(String folder, String str) {
+		if (!onWeb) {
 			ImageIcon image = null;
-			if (images.containsKey(str)){
+			if (images.containsKey(str)) {
 				image = images.get(str);
-			}
-			else{
-				File imageFile = new File("images/" + str);
-				if (imageFile.exists()){
+			} else {
+				File imageFile = new File("resources/" + folder + "/" + str);
+				if (imageFile.exists()) {
 					image = new ImageIcon(imageFile.getPath());
 					images.put(str, image);
 				}
@@ -103,22 +102,21 @@ public class Resources {
 
 		URL imageURL = null;
 		try {
-			imageURL = new URL(url, "images/" + str);
+			imageURL = new URL(url, "resources/" + folder + "/" + str);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return new ImageIcon(imageURL);
 	}
 
-	public static BufferedImage getSpriteSheet(String str) {
-		if (!onWeb){
+	public static BufferedImage getSpriteSheet(String folder, String str) {
+		if (!onWeb) {
 			BufferedImage image = null;
-			if (spriteSheet.containsKey(str)){
+			if (spriteSheet.containsKey(str)) {
 				image = spriteSheet.get(str);
-			}
-			else{
-				File imageFile = new File("tilesets/" + str);
-				if (imageFile.exists()){
+			} else {
+				File imageFile = new File("resources/" + folder + "/" + str);
+				if (imageFile.exists()) {
 					try {
 						image = ImageIO.read(imageFile);
 					} catch (IOException e) {
@@ -131,7 +129,7 @@ public class Resources {
 
 		URL imageURL = null;
 		try {
-			imageURL = new URL(url, "tilesets/" + str);
+			imageURL = new URL(url, "resources/" + folder + "/" + str);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -222,9 +220,9 @@ public class Resources {
 							itemName = scanSection.next();
 
 						if (itemType != null && itemName != "") {
-//							item = Creator
-//									.createItem(itemType, itemName, stage);
-//							stage.setItemByIndex(item, i, j);
+							// item = Creator
+							// .createItem(itemType, itemName, stage);
+							// stage.setItemByIndex(item, i, j);
 						}
 					}
 				}

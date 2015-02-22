@@ -32,7 +32,7 @@ public class FlyingMob extends BasicMob {
 	@Override
 	public void setMobName(String mobName) {
 		super.setMobName(mobName);
-		ghost = Resources.getImage(mobName + "_ghost.png");
+		ghost = Resources.getImage(FOLDER, mobName + "_ghost.png");
 	}
 
 	@Override

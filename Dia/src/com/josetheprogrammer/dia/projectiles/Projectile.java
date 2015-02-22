@@ -28,8 +28,8 @@ public abstract class Projectile {
 	private ImageIcon projectileImage;
 	private Color color;
 	protected boolean hit;
-	
-	//Fired from enemy?
+
+	// Fired from enemy?
 	private boolean enemyProjectile;
 
 	public Projectile(Stage stage, int x, int y, int xSpeed, int ySpeed) {
@@ -67,12 +67,12 @@ public abstract class Projectile {
 		}
 		return damaged;
 	}
-	
-	protected boolean hit(int x, int y){
+
+	protected boolean hit(int x, int y) {
 		if (isEnemyProjectile())
-			return hitPlayer(x,y);
+			return hitPlayer(x, y);
 		else
-			return hitEnemy(x,y);
+			return hitEnemy(x, y);
 	}
 
 	public Point getPoint() {
@@ -136,19 +136,19 @@ public abstract class Projectile {
 	public void setEnemyProjectile(boolean enemyProjetile) {
 		this.enemyProjectile = enemyProjetile;
 	}
-	
+
 	public Image getSprite() {
 		if (hit)
 			setDead(true);
 		return projectileImage.getImage();
 	}
-	
-	public void setProjectileName(String projectileName){
+
+	public void setProjectileName(String projectileName) {
 		this.projectileName = projectileName;
-		projectileImage = Resources.getImage(projectileName);
+		projectileImage = Resources.getImage("projectiles", projectileName);
 	}
-	
-	public String getProjectileName(){
+
+	public String getProjectileName() {
 		return projectileName;
 	}
 

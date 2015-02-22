@@ -45,7 +45,7 @@ public class MainMenu extends JPanel {
 	        }
 	      };
 	      
-	    ImageIcon myPicture = Resources.getImage("dia_title.png");
+	    ImageIcon myPicture = Resources.getImage("images","dia_title.png");
 	    title = new JLabel(myPicture);
 	    title.setAlignmentX(CENTER_ALIGNMENT);
 

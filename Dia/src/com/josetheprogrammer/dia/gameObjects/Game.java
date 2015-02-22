@@ -109,6 +109,8 @@ public class Game extends Observable {
 			stage.updateMobs();
 			stage.updateParticles();
 			player.update();
+			setChanged();
+			notifyObservers();
 		}
 	}
 

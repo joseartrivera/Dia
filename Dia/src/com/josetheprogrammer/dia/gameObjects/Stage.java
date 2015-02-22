@@ -85,7 +85,7 @@ public class Stage {
 		// Gravity for this stage
 		setGravity(3);
 
-		background = Resources.getImage("dungeon.png");
+		background = Resources.getImage("backgrounds", "dungeon.png");
 		stageName = "default";
 	}
 
@@ -134,7 +134,7 @@ public class Stage {
 	 */
 	public void setBlock(Block block, int i, int j) {
 		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
-			if (block != null){
+			if (block != null) {
 				block.setStage(this);
 				block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
 			}
@@ -303,9 +303,9 @@ public class Stage {
 	public Image getBackground() {
 		return background.getImage();
 	}
-	
-	public void setBackground(String backgroundName){
-		background = Resources.getImage(backgroundName);
+
+	public void setBackground(String backgroundName) {
+		background = Resources.getImage("backgrounds", backgroundName);
 	}
 
 	public int getStageHeight() {

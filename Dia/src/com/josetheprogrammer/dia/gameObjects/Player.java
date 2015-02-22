@@ -48,6 +48,8 @@ public class Player {
 	private ImageIcon jumpRight;
 	private ImageIcon healthbar;
 
+	private final String FOLDER = "player";
+
 	// States
 	private boolean running;
 	private boolean jumping;
@@ -79,13 +81,13 @@ public class Player {
 		maxJumpHeight = 14;
 
 		// Load images
-		standRight = Resources.getImage("robo_right.gif");
-		standLeft = Resources.getImage("robo_left.gif");
-		runLeft = Resources.getImage("robo_runleft.gif");
-		runRight = Resources.getImage("robo_runright.gif");
-		jumpLeft = Resources.getImage("robo_jumpleft.gif");
-		jumpRight = Resources.getImage("robo_jumpright.gif");
-		healthbar = Resources.getImage("healthbar.png");
+		standRight = Resources.getImage(FOLDER, "robo_right.gif");
+		standLeft = Resources.getImage(FOLDER, "robo_left.gif");
+		runLeft = Resources.getImage(FOLDER, "robo_runleft.gif");
+		runRight = Resources.getImage(FOLDER, "robo_runright.gif");
+		jumpLeft = Resources.getImage(FOLDER, "robo_jumpleft.gif");
+		jumpRight = Resources.getImage(FOLDER, "robo_jumpright.gif");
+		healthbar = Resources.getImage("images", "healthbar.png");
 	}
 
 	/**
@@ -150,16 +152,14 @@ public class Player {
 					&& stage.getBlockAt(point.x - xBoost + 6, point.y + 26)
 							.getBlockProperty() == BlockProperty.EMPTY
 					&& stage.getBlockAt(point.x - xBoost + 6, point.y + 8)
-							.getBlockProperty() == BlockProperty.EMPTY){
+							.getBlockProperty() == BlockProperty.EMPTY) {
 				point.translate(-xBoost, 0);
-			stage.addParticles(12, ParticleType.DUST, Color.ORANGE, getX()+64,
-					getY() + 16, 5, 1, 2,
-					4, 4, 2, boostDuration * 2,
-					6);
-			stage.addParticles(4, ParticleType.DUST, Color.RED, getX()+64,
-					getY() + 16, 5, 1, 2,
-					4, 4, 2, boostDuration * 2,
-					6);
+				stage.addParticles(12, ParticleType.DUST, Color.ORANGE,
+						getX() + 64, getY() + 16, 5, 1, 2, 4, 4, 2,
+						boostDuration * 2, 6);
+				stage.addParticles(4, ParticleType.DUST, Color.RED,
+						getX() + 64, getY() + 16, 5, 1, 2, 4, 4, 2,
+						boostDuration * 2, 6);
 			}
 		}
 		// Otherwise check to see if we need to move right
@@ -169,16 +169,14 @@ public class Player {
 					&& stage.getBlockAt(point.x + xBoost + 24, point.y + 26)
 							.getBlockProperty() == BlockProperty.EMPTY
 					&& stage.getBlockAt(point.x + xBoost + 24, point.y + 8)
-							.getBlockProperty() == BlockProperty.EMPTY){
+							.getBlockProperty() == BlockProperty.EMPTY) {
 				point.translate(xBoost, 0);
-				stage.addParticles(12, ParticleType.DUST, Color.ORANGE, getX()-32,
-						getY() + 16, -5, 1, 2,
-						4, 4, 2, boostDuration * 2,
-						6);
-				stage.addParticles(4, ParticleType.DUST, Color.RED, getX()-32,
-						getY() + 16, -5, 1, 2,
-						4, 4, 2, boostDuration * 2,
-						6);
+				stage.addParticles(12, ParticleType.DUST, Color.ORANGE,
+						getX() - 32, getY() + 16, -5, 1, 2, 4, 4, 2,
+						boostDuration * 2, 6);
+				stage.addParticles(4, ParticleType.DUST, Color.RED,
+						getX() - 32, getY() + 16, -5, 1, 2, 4, 4, 2,
+						boostDuration * 2, 6);
 			}
 		}
 		boostDuration--;
@@ -433,7 +431,7 @@ public class Player {
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
-	
+
 	public boolean contained(int x, int y) {
 		return x > point.x && x < point.x + 32 && y > point.y
 				&& y < point.y + 32;

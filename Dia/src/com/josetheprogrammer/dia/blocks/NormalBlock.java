@@ -1,12 +1,10 @@
 package com.josetheprogrammer.dia.blocks;
 
-
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.view.Resources;
-
 
 /**
  * Represents a dirt block
@@ -49,8 +47,8 @@ public class NormalBlock extends Block {
 		// set before we determine which sprite to assign to this block
 		set = false;
 	}
-	
-	public NormalBlock(BlockProperty property, BlockType type, String blockName){
+
+	public NormalBlock(BlockProperty property, BlockType type, String blockName) {
 		super();
 		this.property = property;
 		this.type = type;
@@ -62,9 +60,9 @@ public class NormalBlock extends Block {
 	 */
 	@Override
 	public void setSpriteSheet() {
-		spriteSheet = Resources.getSpriteSheet(this.getBlockName());
+		spriteSheet = Resources.getSpriteSheet("tilesets", this.getBlockName());
 	}
-	
+
 	@Override
 	public BufferedImage getSpriteSheet() {
 		return spriteSheet;
@@ -75,7 +73,7 @@ public class NormalBlock extends Block {
 	 */
 	@Override
 	public Image getSprite() {
-		if (singleBlockImage != null )
+		if (singleBlockImage != null)
 			return singleBlockImage;
 		// If the tile has been set return image
 		else if (set)
@@ -88,14 +86,14 @@ public class NormalBlock extends Block {
 		}
 
 	}
-	
+
 	@Override
 	public void setSprite() {
-		singleBlockImage = Resources.getImage(blockName).getImage();
+		singleBlockImage = Resources.getImage("blocks", blockName).getImage();
 	}
-	
+
 	@Override
-	public void setBlockName(String blockName){
+	public void setBlockName(String blockName) {
 		super.setBlockName(blockName);
 		if (isTileSet)
 			setSpriteSheet();

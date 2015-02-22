@@ -33,6 +33,7 @@ public class LauncherItem extends Item {
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 		cooldown = Creator.getBaseProjectileCooldown(projType) * 10;
+		//altCooldown = Creator.getBaseProjectileCooldown(projType) * 10;
 	}
 
 	@Override
@@ -89,12 +90,12 @@ public class LauncherItem extends Item {
 		if (player.getAction() == Direction.FACE_RIGHT) {
 			player.getStage().addProjectile(
 					Creator.createProjectile(projType, player.getStage(),
-							player.getX() + 28, player.getY() + 8, xSpeed,
+							player.getX() + 20, player.getY() + 8, xSpeed,
 							ySpeed));
 		} else {
 			player.getStage().addProjectile(
 					Creator.createProjectile(projType, player.getStage(),
-							player.getX() - 20, player.getY() + 8, -xSpeed,
+							player.getX() - 12, player.getY() + 8, -xSpeed,
 							ySpeed));
 		}
 		
@@ -125,7 +126,7 @@ public class LauncherItem extends Item {
 	@Override
 	public void setItemName(String itemName) {
 		super.setItemName(itemName);
-		launcher = Resources.getImage(itemName);
+		launcher = Resources.getImage(FOLDER,itemName);
 	}
 
 }

@@ -20,6 +20,7 @@ public abstract class Item {
 	protected int currentCooldown;
 	protected int currentAltCooldown;
 	protected int ammo;
+	protected final String FOLDER = "items";
 
 	public Item(Player player) {
 		this.player = player;

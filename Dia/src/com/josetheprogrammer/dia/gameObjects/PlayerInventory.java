@@ -44,10 +44,10 @@ public class PlayerInventory {
 		inventory = new Item[size];
 		setSelectedIndex(0);
 
-		inventorySlot = Resources.getImage("inventory_slot.png");
-		selectedSlot = Resources.getImage("inventory_selected.png");
-		inventoryRight = Resources.getImage("inventory_right.png");
-		inventoryLeft = Resources.getImage("inventory_left.png");
+		inventorySlot = Resources.getImage("images", "inventory_slot.png");
+		selectedSlot = Resources.getImage("images", "inventory_selected.png");
+		inventoryRight = Resources.getImage("images", "inventory_right.png");
+		inventoryLeft = Resources.getImage("images", "inventory_left.png");
 	}
 
 	/**
@@ -144,8 +144,8 @@ public class PlayerInventory {
 		size++;
 		inventory = newInventory;
 	}
-	
-	public void setSize(int newSize){
+
+	public void setSize(int newSize) {
 		Item[] newInventory = new Item[newSize];
 		for (int i = 0; i < newSize && i < size; i++) {
 			newInventory[i] = inventory[i];

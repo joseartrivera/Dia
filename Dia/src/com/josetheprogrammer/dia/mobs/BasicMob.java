@@ -19,6 +19,8 @@ import com.josetheprogrammer.dia.view.Resources;
  */
 public class BasicMob extends Mob {
 
+	protected final String FOLDER = "mobs";
+
 	private ImageIcon stand;
 	private ImageIcon move;
 	private ImageIcon attack;
@@ -39,11 +41,11 @@ public class BasicMob extends Mob {
 	@Override
 	public void setMobName(String mobName) {
 		super.setMobName(mobName);
-		stand = Resources.getImage(mobName + "_stand.gif");
-		move = Resources.getImage(mobName + "_move.gif");
-		attack = Resources.getImage(mobName + "_attack.gif");
-		mobDead = Resources.getImage(mobName + "_dead.png");
-		mobDamaged = Resources.getImage(mobName + "_damaged.gif");
+		stand = Resources.getImage(FOLDER, mobName + "_stand.gif");
+		move = Resources.getImage(FOLDER, mobName + "_move.gif");
+		attack = Resources.getImage(FOLDER, mobName + "_attack.gif");
+		mobDead = Resources.getImage(FOLDER, mobName + "_dead.png");
+		mobDamaged = Resources.getImage(FOLDER, mobName + "_damaged.gif");
 	}
 
 	public Image getSprite() {

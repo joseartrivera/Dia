@@ -203,8 +203,8 @@ public class SwordItem extends Item {
 	@Override
 	public void setItemName(String itemName) {
 		super.setItemName(itemName);
-		sword = Resources.getImage(itemName);
-		jab = Resources.getImage("use_" + itemName);
+		sword = Resources.getImage(FOLDER,itemName);
+		jab = Resources.getImage(FOLDER,"use_" + itemName);
 	}
 
 }
