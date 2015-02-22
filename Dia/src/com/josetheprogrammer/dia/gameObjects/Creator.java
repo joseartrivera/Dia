@@ -33,15 +33,15 @@ public class Creator{
 	}
 
 	public static Item createItem(ItemType itemType, String itemName,
-			Stage stage, Enum<?> type, int attr1, int attr2) {
+			Stage stage, Enum<?> type, int xSpeed, int ySpeed) {
 		Item item = null;
 		switch (itemType) {
 		case SWORD:
-			item = new SwordItem(stage.getPlayer());
+			item = new SwordItem(stage);
 			item.setItemName(itemName);
 			break;
 		case LAUNCHER:
-			item = new LauncherItem(stage.getPlayer(),(ProjectileType) type, attr1, attr2);
+			item = new LauncherItem(stage,(ProjectileType) type, xSpeed, ySpeed);
 			item.setItemName(itemName);
 			break;
 		default:

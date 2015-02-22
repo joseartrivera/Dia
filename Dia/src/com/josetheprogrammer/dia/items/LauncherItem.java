@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 import com.josetheprogrammer.dia.view.Resources;
 
@@ -24,16 +25,16 @@ public class LauncherItem extends Item {
 	private int ySpeed;
 	private ProjectileType projType;
 
-	public LauncherItem(Player player, ProjectileType projType, int xSpeed,
+	public LauncherItem(Stage stage, ProjectileType projType, int xSpeed,
 			int ySpeed) {
-		super(player);
+		super(stage);
 		type = ItemType.LAUNCHER;
 		this.projType = projType;
 		this.setItemName("gun.png");
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 		cooldown = Creator.getBaseProjectileCooldown(projType) * 10;
-		//altCooldown = Creator.getBaseProjectileCooldown(projType) * 10;
+		// altCooldown = Creator.getBaseProjectileCooldown(projType) * 10;
 	}
 
 	@Override
@@ -86,7 +87,8 @@ public class LauncherItem extends Item {
 	 */
 	@Override
 	public void useItem() {
-		if (onCooldown()) return;
+		if (onCooldown())
+			return;
 		if (player.getAction() == Direction.FACE_RIGHT) {
 			player.getStage().addProjectile(
 					Creator.createProjectile(projType, player.getStage(),
@@ -98,7 +100,7 @@ public class LauncherItem extends Item {
 							player.getX() - 12, player.getY() + 8, -xSpeed,
 							ySpeed));
 		}
-		
+
 		super.useItem();
 	}
 
@@ -126,7 +128,7 @@ public class LauncherItem extends Item {
 	@Override
 	public void setItemName(String itemName) {
 		super.setItemName(itemName);
-		launcher = Resources.getImage(FOLDER,itemName);
+		launcher = Resources.getImage(FOLDER, itemName);
 	}
 
 }

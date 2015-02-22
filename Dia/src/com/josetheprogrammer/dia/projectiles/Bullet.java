@@ -20,17 +20,6 @@ public class Bullet extends Projectile {
 		setColor(Color.YELLOW);
 		hit = false;
 	}
-
-	@Override
-	public int getX() {
-		return getPoint().x;
-	}
-
-	@Override
-	public int getY() {
-		return getPoint().y;
-	}
-
 	/**
 	 * Moves bullet 1 step according to set speeds
 	 */

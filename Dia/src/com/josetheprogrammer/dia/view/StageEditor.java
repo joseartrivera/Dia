@@ -16,16 +16,19 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.Block;
-import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.blocks.BlockType;
-import com.josetheprogrammer.dia.blocks.NormalBlock;
+import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
 import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.items.ItemType;
+import com.josetheprogrammer.dia.items.PlaceableItem;
 import com.josetheprogrammer.dia.mobs.Mob;
+import com.josetheprogrammer.dia.mobs.MobType;
 import com.josetheprogrammer.dia.projectiles.Projectile;
+import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 @SuppressWarnings("serial")
 public class StageEditor extends JPanel implements Observer, KeyListener,
@@ -36,8 +39,6 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 	private int x1, x2, y1, y2, centerX, centerY; // Camera view
 	private int xSpeed, ySpeed, speed;
 
-
-
 	/**
 	 * Constructor for our DrawGame panel, used to draw the game
 	 */
@@ -46,9 +47,40 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		game.getStage().changeStageDimensions(20,14);
+		game.getStage().changeStageDimensions(20, 14);
 		setup();
 		setVisible(true);
+
+		PlaceableItem item;
+		
+
+		item = new PlaceableItem(game.getStage(), Creator.createBlock(
+				BlockType.SOLID, "fresh_dirt_tilset.png", game.getStage()));
+		
+		game.getPlayer().addItemToInventory(item);
+
+		item = new PlaceableItem(game.getStage(), Creator.createBlock(
+				BlockType.SOLID, "dungeon_tileset.png", game.getStage()));
+		
+		game.getPlayer().addItemToInventory(item);
+		
+		item = new PlaceableItem(game.getStage(), Creator.createMob(
+				MobType.Slime, "slime", game.getStage(), 0, 0));
+		
+		game.getPlayer().addItemToInventory(item);
+		
+		item = new PlaceableItem(game.getStage(), Creator.createItem(
+				ItemType.LAUNCHER, "fireball.gif", game.getStage(),
+				ProjectileType.FireBall, 3, 3));
+		game.getPlayer().addItemToInventory(item);
+		
+		item = new PlaceableItem(game.getStage(), Creator.createItem(
+				ItemType.LAUNCHER, "gun.png", game.getStage(),
+				ProjectileType.FireBall, 3, 3));
+		game.getPlayer().addItemToInventory(item);
+
+
+
 	}
 
 	/**
@@ -114,14 +146,14 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		g2.drawImage(game.getStage().getBackground(), 0, 0, this);
 
 	}
-	
+
 	private void drawInventory(Graphics2D g2) {
 		int x = 0;
 		int width = 0;
 		PlayerInventory inventory = game.getPlayer().getInventory();
 
 		g2.drawImage(inventory.getInventoryLeftImage().getImage(), x, 6, this);
-		x+= inventory.getInventoryLeftImage().getIconWidth();
+		x += inventory.getInventoryLeftImage().getIconWidth();
 		for (int i = 0; i < inventory.getSize(); i++) {
 
 			if (inventory.getSelectedIndex() != i) {
@@ -134,7 +166,10 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 			}
 			if (inventory.getItemAtIndex(i) != null) {
 				Item item = inventory.getItemAtIndex(i);
-				g2.drawImage(item.getInventorySprite(), x, 6, this);
+				// g2.drawImage(item.getInventorySprite(), x, 6, this);
+				g2.drawImage(item.getInventorySprite(), x + 4, 10, x + 20, 24,
+						0, 0, 32, 32, this);
+
 				if (item.onCooldown()) {
 					g2.setColor(Color.BLUE);
 					g2.fill3DRect(x, 30, (item.getCurrentCooldown() * 23)
@@ -151,9 +186,9 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 					g2.draw3DRect(x, 33, 23, 3, true);
 				}
 			}
-			x+= width;
+			x += width;
 		}
-		
+
 		g2.drawImage(inventory.getInventoryRightImage().getImage(), x, 5, this);
 
 	}
@@ -245,13 +280,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
-		if (mouse.getButton() == MouseEvent.BUTTON1) {
-			game.setBlock(new NormalBlock(game.getStage()), mouse.getX() + x1,
-					mouse.getY() + y1);
-		} else if (mouse.getButton() == MouseEvent.BUTTON3) {
-			game.setBlock(new NormalBlock(BlockProperty.EMPTY, BlockType.DECORATION, ""), mouse.getX() + x1,
-					mouse.getY() + y1);
-		}
+		place(mouse);
 	}
 
 	@Override
@@ -357,17 +386,30 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 
 	@Override
 	public void mouseDragged(MouseEvent mouse) {
-		if (mouse.getButton() == MouseEvent.BUTTON1) {
-			game.setBlock(new NormalBlock(game.getStage()), mouse.getX() + x1,
-					mouse.getY() + y1);
-		} else if (mouse.getButton() == MouseEvent.BUTTON3) {
-			game.setBlock(new NormalBlock(BlockProperty.EMPTY, BlockType.DECORATION, ""), mouse.getX() + x1,
-					mouse.getY() + y1);
-		}
+		place(mouse);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
-	
+
+	public void place(MouseEvent mouse) {
+		Player player = game.getPlayer();
+		PlaceableItem item;
+		if (mouse.getButton() == MouseEvent.BUTTON1
+				&& player.getEquippedItem() != null) {
+			item = (PlaceableItem) player.getEquippedItem();
+			item.generatePlaceable(game.getStage(), mouse.getX() + x1,
+					mouse.getY() + y1);
+
+			item.useItem();
+		} else if (mouse.getButton() == MouseEvent.BUTTON3
+				&& player.getEquippedItem() != null) {
+			item = (PlaceableItem) player.getEquippedItem();
+			item.setRemoveX(mouse.getX() + x1);
+			item.setRemoveY(mouse.getY() + y1);
+			item.altUseItem();
+		}
+	}
+
 }

@@ -108,7 +108,7 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 9);
 
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 13, 8);
-		game.getStage().setItemByIndex(new SwordItem(null), 14, 6);
+		game.getStage().setItemByIndex(new SwordItem(game.getStage()), 14, 6);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 14, 7);
 		
 
@@ -120,7 +120,7 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 5);
 		
 
-		game.getStage().setItemByIndex(new LauncherItem(game.getPlayer(), ProjectileType.Bullet, 6, 0), 10, 8);
+		game.getStage().setItemByIndex(new LauncherItem(game.getStage(), ProjectileType.Bullet, 6, 0), 10, 8);
 		//game.getStage().setItemByIndex(new LauncherItem(null, ProjectileType.FireBall, 4, -8), 9, 8);
 		game.getStage().setItemByIndex(Creator.createItem(ItemType.LAUNCHER, "fireball.gif", game.getStage(), ProjectileType.FireBall, 4, -6),9,8);
 		for (int i = 0; i < 20; i++) {
@@ -144,12 +144,12 @@ public class GameWindow extends JFrame {
 		
 		setSize(640, 480);
 		cp.remove(mainMenu);
-
+		game.startEditMode();
 		stageEditor = new StageEditor(game);
 		game.addObserver((Observer) stageEditor);
 		cp.add(stageEditor);
 		stageEditor.requestFocus();
-		game.startEditMode();
+
 		buildMenu();
 	}
 	

@@ -6,6 +6,7 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
+import com.josetheprogrammer.dia.gameObjects.Placeable;
 import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.view.Resources;
@@ -16,7 +17,7 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author Jose Rivera
  * 
  */
-public abstract class Projectile {
+public abstract class Projectile implements Placeable {
 	private Stage stage;
 	private Point point;
 	private boolean altUse;
@@ -79,9 +80,21 @@ public abstract class Projectile {
 		return point;
 	}
 
-	public abstract int getX();
+	public int getX(){
+		return point.x;
+	}
 
-	public abstract int getY();
+	public int getY(){
+		return point.y;
+	}
+	
+	public void setX(int x) {
+		point.x = x;
+	}
+
+	public void setY(int y) {
+		point.y = y;
+	}
 
 	public abstract void move();
 
@@ -158,6 +171,14 @@ public abstract class Projectile {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public void place(){
+		stage.addProjectile(this);
+	}
+	
+	public void remove(){
+		setDead(true);
 	}
 
 }

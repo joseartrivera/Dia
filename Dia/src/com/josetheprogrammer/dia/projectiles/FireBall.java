@@ -25,16 +25,6 @@ public class FireBall extends Projectile {
 		setBounces(3);
 	}
 
-	@Override
-	public int getX() {
-		return getPoint().x;
-	}
-
-	@Override
-	public int getY() {
-		return getPoint().y;
-	}
-
 	/**
 	 * Moves bullet 1 step according to set speeds
 	 */

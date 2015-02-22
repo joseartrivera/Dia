@@ -38,16 +38,6 @@ public class NormalBlock extends Block {
 		set = false;
 	}
 
-	public NormalBlock() {
-		super();
-		property = BlockProperty.GROUND;
-		type = BlockType.SOLID;
-		this.setBlockName("dirt_tileset.png");
-		// Set this to false, need to wait for all adjacent dirt blocks to be
-		// set before we determine which sprite to assign to this block
-		set = false;
-	}
-
 	public NormalBlock(BlockProperty property, BlockType type, String blockName) {
 		super();
 		this.property = property;

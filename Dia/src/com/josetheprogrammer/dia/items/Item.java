@@ -3,7 +3,9 @@ package com.josetheprogrammer.dia.items;
 import java.awt.Image;
 import java.awt.Point;
 
+import com.josetheprogrammer.dia.gameObjects.Placeable;
 import com.josetheprogrammer.dia.gameObjects.Player;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 
 /**
  * Interface for an item, every item in the game will need these methods
@@ -11,9 +13,10 @@ import com.josetheprogrammer.dia.gameObjects.Player;
  * @author Jose Rivera
  * 
  */
-public abstract class Item {
+public abstract class Item implements Placeable{
 	protected String itemName;
 	protected Point point;
+	protected Stage stage;
 	protected Player player;
 	protected int cooldown;
 	protected int altCooldown;
@@ -22,13 +25,14 @@ public abstract class Item {
 	protected int ammo;
 	protected final String FOLDER = "items";
 
-	public Item(Player player) {
-		this.player = player;
+	public Item(Stage stage) {
+		this.player = stage.getPlayer();
 		this.point = new Point();
 		itemName = "";
 		cooldown = 0;
 		altCooldown = 0;
 		ammo = 0;
+		this.stage = stage;
 	}
 
 	public abstract ItemType getItemType();
@@ -57,6 +61,14 @@ public abstract class Item {
 
 	public int getY() {
 		return point.y;
+	}
+	
+	public void setX(int x) {
+		point.x = x;
+	}
+
+	public void setY(int y) {
+		point.y = y;
 	}
 
 	public void setPlayer(Player player) {
@@ -126,6 +138,18 @@ public abstract class Item {
 
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
+	}
+	
+	public void place(){
+		getStage().setItem(this, getX(), getY());
+	}
+	
+	public void remove(){
+		getStage().setItem(null, getX(), getY());
+	}
+	
+	public Stage getStage() {
+		return stage;
 	}
 
 }

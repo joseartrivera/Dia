@@ -62,15 +62,7 @@ public class Game extends Observable {
 	}
 
 	public void setBlock(Block block, int x, int y) {
-		stage.setBlock(block, x / stage.BLOCK_SIZE, y / stage.BLOCK_SIZE);
-
-		Block[][] blocks = getStage().getBlocks();
-		for (int i = 0; i < blocks.length; i++) {
-			for (int j = 0; j < blocks[i].length; j++) {
-				if (blocks[i][j] != null)
-					blocks[i][j].resolveTile();
-			}
-		}
+		stage.placeBlock(block, x, y);
 		setChanged();
 		notifyObservers();
 	}
@@ -95,7 +87,7 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * This class is a task that the stepTimer will continously execute. Updates
+	 * This class is a task that the stepTimer will continuously execute. Updates
 	 * projectiles, mobs, gravity, and player movements
 	 * 
 	 * @author Jose Rivera
@@ -118,6 +110,9 @@ public class Game extends Observable {
 
 		@Override
 		public void run() {
+			stage.updateEditModeProjectiles();
+			stage.updateEditModeMobs();
+			stage.updateParticles();
 			setChanged();
 			notifyObservers();
 		}

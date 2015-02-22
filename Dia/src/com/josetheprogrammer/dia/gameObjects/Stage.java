@@ -141,6 +141,18 @@ public class Stage {
 			blocks[i][j] = block;
 		}
 	}
+	
+	public void placeBlock(Block block, int x, int y){
+		setBlock(block, x / BLOCK_SIZE, y / BLOCK_SIZE);
+
+		Block[][] blocks = getBlocks();
+		for (int i = 0; i < blocks.length; i++) {
+			for (int j = 0; j < blocks[i].length; j++) {
+				if (blocks[i][j] != null)
+					blocks[i][j].resolveTile();
+			}
+		}
+	}
 
 	/**
 	 * Sets a position on the screen to this item
@@ -216,6 +228,21 @@ public class Stage {
 			}
 		}
 	}
+	
+	/**
+	 * Updates projectiles, removing dead projectiles and moving alive
+	 * projectiles
+	 */
+	public void updateEditModeProjectiles() {
+		synchronized (projectiles) {
+			Iterator<Projectile> iter = projectiles.iterator();
+			while (iter.hasNext()) {
+				Projectile projectile = iter.next();
+				if (projectile.isDead())
+					iter.remove();
+			}
+		}
+	}
 
 	/**
 	 * Returns all mobs on this stage
@@ -266,6 +293,19 @@ public class Stage {
 			}
 		}
 	}
+	
+	public void updateEditModeMobs() {
+		synchronized (mobs) {
+			Iterator<Mob> iter = mobs.iterator();
+			while (iter.hasNext()) {
+				Mob mob = iter.next();
+				if (mob.isDead()) {
+					iter.remove();
+				} 
+			}
+		}
+	}
+
 
 	/**
 	 * Gets the start point where the player will spawn

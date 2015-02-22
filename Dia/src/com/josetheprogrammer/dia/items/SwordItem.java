@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import com.josetheprogrammer.dia.blocks.Block;
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.particles.ParticleType;
 import com.josetheprogrammer.dia.view.Resources;
@@ -30,8 +31,8 @@ public class SwordItem extends Item {
 	private ItemAction action;
 	private ItemType type;
 
-	public SwordItem(Player player) {
-		super(player);
+	public SwordItem(Stage stage) {
+		super(stage);
 		type = ItemType.SWORD;
 		action = ItemAction.NONE;
 		attackPower = 2;
