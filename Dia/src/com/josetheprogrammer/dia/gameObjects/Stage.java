@@ -29,7 +29,7 @@ import com.josetheprogrammer.dia.view.Resources;
 
 public class Stage {
 	private int stageWidth = 20;
-	private int stageHeight = 15;
+	private int stageHeight = 14;
 	public final int BLOCK_SIZE = 32;
 	private String stageName;
 

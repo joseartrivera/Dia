@@ -31,6 +31,10 @@ public class DrawStage extends JPanel implements Observer {
 	 */
 	public DrawStage(Game game) {
 		this.game = game;
+		x1 = 0;
+		x2 = 640;
+		y1 = 0;
+		y2 = 480;
 		setup();
 		setVisible(true);
 	}
@@ -64,7 +68,6 @@ public class DrawStage extends JPanel implements Observer {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		drawStage(g2);
-		drawPlayer(g2);
 		drawBlocks(g2);
 		drawMobs(g2);
 		drawItems(g2);
@@ -72,6 +75,7 @@ public class DrawStage extends JPanel implements Observer {
 		drawProjectiles(g2);
 		drawParticles(g2);
 		updateCamera(game.getPlayer().getX(), game.getPlayer().getY());
+		drawPlayer(g2);
 	}
 
 	private void drawParticles(Graphics2D g2) {
@@ -148,7 +152,7 @@ public class DrawStage extends JPanel implements Observer {
 		PlayerInventory inventory = game.getPlayer().getInventory();
 
 		g2.drawImage(inventory.getInventoryLeftImage().getImage(), x, 6, this);
-		x+= inventory.getInventoryLeftImage().getIconWidth();
+		x += inventory.getInventoryLeftImage().getIconWidth();
 		for (int i = 0; i < inventory.getSize(); i++) {
 
 			if (inventory.getSelectedIndex() != i) {
@@ -178,24 +182,23 @@ public class DrawStage extends JPanel implements Observer {
 					g2.draw3DRect(x, 33, 23, 3, true);
 				}
 			}
-			x+= width;
+			x += width;
 		}
-		
+
 		g2.drawImage(inventory.getInventoryRightImage().getImage(), x, 5, this);
-		
-			int health = game.getPlayer().getHealth();
 
-			if (health > 65)
-				g2.setColor(Color.GREEN);
-			else if (health > 30)
-				g2.setColor(Color.ORANGE);
-			else
-				g2.setColor(Color.RED);
-			g2.drawImage(game.getPlayer().getHealthbarSprite().getImage(), 6,
-					40, this);
-			g2.fill3DRect(10, 43, (82 * game.getPlayer().getHealth())
-					/ game.getPlayer().getMaxHealth(), 5, true);
+		int health = game.getPlayer().getHealth();
 
+		if (health > 65)
+			g2.setColor(Color.GREEN);
+		else if (health > 30)
+			g2.setColor(Color.ORANGE);
+		else
+			g2.setColor(Color.RED);
+		g2.drawImage(game.getPlayer().getHealthbarSprite().getImage(), 6, 40,
+				this);
+		g2.fill3DRect(10, 43, (82 * game.getPlayer().getHealth())
+				/ game.getPlayer().getMaxHealth(), 5, true);
 
 	}
 
@@ -239,11 +242,13 @@ public class DrawStage extends JPanel implements Observer {
 	private void drawPlayer(Graphics2D g2) {
 		Player p = game.getPlayer();
 		Item equipped = p.getEquippedItem();
-		g2.drawImage(p.getSprite().getImage(), cameraWidth, cameraHeight, this);
+		int x = p.getX() - x1;
+		int y = p.getY() - y1;
+		g2.drawImage(p.getSprite().getImage(), x, y, this);
 		if (equipped != null) {
 			Image equipImg = equipped.getEquippedSprite();
-			int x = cameraWidth + equipped.getEquippedXOffset();
-			int y = cameraHeight + equipped.getEquippedYOffset();
+			x = x + equipped.getEquippedXOffset();
+			y = y + equipped.getEquippedYOffset();
 			if (p.getAction() == Direction.FACE_RIGHT) {
 				g2.drawImage(equipImg, x, y, this);
 			} else {
@@ -265,10 +270,16 @@ public class DrawStage extends JPanel implements Observer {
 	}
 
 	private void updateCamera(int x, int y) {
-		x1 = x - cameraWidth;
-		x2 = x + cameraWidth;
-		y1 = y - cameraHeight;
-		y2 = y + cameraHeight;
+		if ((x - cameraWidth) >= 0
+				&& (x + cameraWidth) <= game.getStage().getStageWidth() * 32) {
+			x1 = x - cameraWidth;
+			x2 = x + cameraWidth;
+		}
+		if ((y - cameraHeight) >= 0
+				&& (y + cameraHeight) <= (game.getStage().getStageHeight() * 32) + 32) {
+			y1 = y - cameraHeight;
+			y2 = y + cameraHeight;
+		}
 	}
 
 }

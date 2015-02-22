@@ -46,7 +46,7 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		game.getStage().changeStageDimensions(60,40);
+		game.getStage().changeStageDimensions(20,14);
 		setup();
 		setVisible(true);
 	}
