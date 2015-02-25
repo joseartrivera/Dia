@@ -103,11 +103,11 @@ public class PlayerKeyListener implements KeyListener, MouseListener {
 	public void keyReleased(KeyEvent key) {
 		switch (key.getKeyChar()) {
 		case 'a':
-			if (player.getAction() != Direction.FACE_RIGHT)
+			if (player.getDirection() != Direction.FACE_RIGHT)
 				player.setRunning(false);
 			break;
 		case 'd':
-			if (player.getAction() != Direction.FACE_LEFT)
+			if (player.getDirection() != Direction.FACE_LEFT)
 				player.setRunning(false);
 			break;
 		default:
@@ -116,11 +116,11 @@ public class PlayerKeyListener implements KeyListener, MouseListener {
 
 		switch (key.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			if (player.getAction() != Direction.FACE_RIGHT)
+			if (player.getDirection() != Direction.FACE_RIGHT)
 				player.setRunning(false);
 			break;
 		case KeyEvent.VK_RIGHT:
-			if (player.getAction() != Direction.FACE_LEFT)
+			if (player.getDirection() != Direction.FACE_LEFT)
 				player.setRunning(false);
 			break;
 		default:

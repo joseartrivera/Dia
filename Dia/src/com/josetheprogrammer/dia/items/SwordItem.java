@@ -122,7 +122,7 @@ public class SwordItem extends Item {
 		if (onCooldown())
 			return;
 		action = ItemAction.USE;
-		if (player.getAction() == Direction.FACE_LEFT) {
+		if (player.getDirection() == Direction.FACE_LEFT) {
 			hitEnemy(getEquippedX(), getEquippedY() + 8);
 			hitBlock(getEquippedX(), getEquippedY() + 8);
 
@@ -190,7 +190,7 @@ public class SwordItem extends Item {
 
 	@Override
 	public int getEquippedXOffset() {
-		if (player.getAction() == Direction.FACE_RIGHT)
+		if (player.getDirection() == Direction.FACE_RIGHT)
 			return 18;
 		else
 			return -10;

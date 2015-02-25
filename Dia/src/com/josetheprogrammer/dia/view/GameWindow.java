@@ -7,9 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Observer;
 
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -42,10 +42,9 @@ public class GameWindow extends JFrame {
 	
 	//menu items
 	private JMenuBar menuBar;
-	private JMenu menu, submenu;
+	private JMenu menu;
 	private JMenuItem menuItem;
-	private JRadioButtonMenuItem rbMenuItem;
-	private JCheckBoxMenuItem cbMenuItem;
+	private JFrame stageEditorMenu;
 
 	// Panel that draws the game
 	private JPanel drawGame, mainMenu, stageEditor;
@@ -155,57 +154,85 @@ public class GameWindow extends JFrame {
 	
 	
 	private void buildMenu(){
+		MenuAction action = new MenuAction();
 		menuBar = new JMenuBar();
 		menuBar.setBackground(Color.DARK_GRAY);
 		//Build the stage menu.
 		menu = new JMenu("Stage");
 		menu.setBackground(Color.DARK_GRAY);
 		
-		menu.setMnemonic(KeyEvent.VK_A);
+		menu.setMnemonic(KeyEvent.VK_T);
 		menuBar.add(menu);
 
 		//a group of JMenuItems
-		menuItem = new JMenuItem("Block Editor", KeyEvent.VK_T);
+		menuItem = new JMenuItem("Save Stage", KeyEvent.VK_S);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_1, ActionEvent.ALT_MASK));
+		        KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
 		
 
 		menu.add(menuItem);
-
-		menuItem = new JMenuItem("Fireball",
-		                         new ImageIcon("Images/fireball.gif"));
-		menuItem.setMnemonic(KeyEvent.VK_B);
+		
+		menuItem = new JMenuItem("Load Stage", KeyEvent.VK_L);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
 		menu.add(menuItem);
 
 		//a group of radio button menu items
 		menu.addSeparator();
-		ButtonGroup group = new ButtonGroup();
-		rbMenuItem = new JRadioButtonMenuItem("A radio button menu item",new ImageIcon("Images/fireball.gif"));
-		rbMenuItem.setSelected(true);
-		rbMenuItem.setMnemonic(KeyEvent.VK_R);
-		group.add(rbMenuItem);
-		menu.add(rbMenuItem);
-
-		rbMenuItem = new JRadioButtonMenuItem("Another one");
-		rbMenuItem.setMnemonic(KeyEvent.VK_O);
-		group.add(rbMenuItem);
-		menu.add(rbMenuItem);
+		
+		menuItem = new JMenuItem("Edit Stage Properties", KeyEvent.VK_E);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
+		menu.add(menuItem);
+		
 		
 		//Build the inventory menu.
 		menu = new JMenu("Inventory");
 		menu.setBackground(Color.DARK_GRAY);
 		
-		menu.setMnemonic(KeyEvent.VK_A);
+		menu.setMnemonic(KeyEvent.VK_V);
 		menuBar.add(menu);
 		
 		//a group of JMenuItems
-		menuItem = new JMenuItem("Block Editor", KeyEvent.VK_T);
+		menuItem = new JMenuItem("Block Editor", KeyEvent.VK_B);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_1, ActionEvent.ALT_MASK));
+		        KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
 		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Mob Editor", KeyEvent.VK_M);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Item Editor", KeyEvent.VK_I);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Decoration Editor", KeyEvent.VK_D);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+		menuItem.addActionListener(action);
+		menu.add(menuItem);
+		
 		
 		this.setJMenuBar(menuBar);
 		this.validate();
+	}
+	
+	public class MenuAction extends AbstractAction {
+
+	    public void actionPerformed(ActionEvent ae) {
+	    	 if (ae.getActionCommand().equals("Block Editor")){
+	    		 stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
+	    	 }
+	    }
 	}
 
 }

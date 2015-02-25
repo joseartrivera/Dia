@@ -50,34 +50,11 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		game.getStage().changeStageDimensions(20, 14);
 		setup();
 		setVisible(true);
-
-		PlaceableItem item;
 		
-
-		item = new PlaceableItem(game.getStage(), Creator.createBlock(
-				BlockType.SOLID, "fresh_dirt_tilset.png", game.getStage()));
-		
-		game.getPlayer().addItemToInventory(item);
-
-		item = new PlaceableItem(game.getStage(), Creator.createBlock(
-				BlockType.SOLID, "dungeon_tileset.png", game.getStage()));
-		
-		game.getPlayer().addItemToInventory(item);
-		
-		item = new PlaceableItem(game.getStage(), Creator.createMob(
-				MobType.Slime, "slime", game.getStage(), 0, 0));
-		
-		game.getPlayer().addItemToInventory(item);
-		
-		item = new PlaceableItem(game.getStage(), Creator.createItem(
-				ItemType.LAUNCHER, "fireball.gif", game.getStage(),
-				ProjectileType.FireBall, 3, 3));
-		game.getPlayer().addItemToInventory(item);
-		
-		item = new PlaceableItem(game.getStage(), Creator.createItem(
-				ItemType.LAUNCHER, "gun.png", game.getStage(),
-				ProjectileType.FireBall, 3, 3));
-		game.getPlayer().addItemToInventory(item);
+//		item = new PlaceableItem(game.getStage(), Creator.createItem(
+//				ItemType.LAUNCHER, "gun.png", game.getStage(),
+//				ProjectileType.FireBall, 3, 3));
+//		game.getPlayer().addItemToInventory(item);
 
 
 

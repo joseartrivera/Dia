@@ -108,6 +108,10 @@ public class Resources {
 		}
 		return new ImageIcon(imageURL);
 	}
+	
+	public static String[] getListOfBlocks(){
+		return null;
+	}
 
 	public static BufferedImage getSpriteSheet(String folder, String str) {
 		if (!onWeb) {

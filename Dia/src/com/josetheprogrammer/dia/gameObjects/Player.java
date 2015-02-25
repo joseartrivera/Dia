@@ -40,12 +40,9 @@ public class Player {
 	private Stage stage;
 
 	// Images
-	private ImageIcon standRight;
-	private ImageIcon standLeft;
-	private ImageIcon runRight;
-	private ImageIcon runLeft;
-	private ImageIcon jumpLeft;
-	private ImageIcon jumpRight;
+	private ImageIcon stand;
+	private ImageIcon run;
+	private ImageIcon jump;
 	private ImageIcon healthbar;
 
 	private final String FOLDER = "player";
@@ -54,7 +51,7 @@ public class Player {
 	private boolean running;
 	private boolean jumping;
 	private boolean dead;
-	private Direction action;
+	private Direction direction;
 
 	/**
 	 * Creates a new player with the given attributes
@@ -76,17 +73,14 @@ public class Player {
 		setInventory(new PlayerInventory(3));
 		running = false;
 		jumping = false;
-		action = Direction.FACE_RIGHT;
+		direction = Direction.FACE_RIGHT;
 		jumpCount = 0;
 		maxJumpHeight = 14;
 
 		// Load images
-		standRight = Resources.getImage(FOLDER, "robo_right.gif");
-		standLeft = Resources.getImage(FOLDER, "robo_left.gif");
-		runLeft = Resources.getImage(FOLDER, "robo_runleft.gif");
-		runRight = Resources.getImage(FOLDER, "robo_runright.gif");
-		jumpLeft = Resources.getImage(FOLDER, "robo_jumpleft.gif");
-		jumpRight = Resources.getImage(FOLDER, "robo_jumpright.gif");
+		stand = Resources.getImage(FOLDER, "robo_stand.gif");
+		run = Resources.getImage(FOLDER, "robo_run.gif");
+		jump = Resources.getImage(FOLDER, "robo_jump.gif");
 		healthbar = Resources.getImage("images", "healthbar.png");
 	}
 
@@ -96,20 +90,14 @@ public class Player {
 	 * @return
 	 */
 	public ImageIcon getSprite() {
-		if (action == Direction.FACE_LEFT && !isOnGround()) {
-			return jumpLeft;
-		} else if (action == Direction.FACE_RIGHT && !isOnGround()) {
-			return jumpRight;
-		} else if (action == Direction.FACE_LEFT && !running) {
-			return standLeft;
-		} else if (action == Direction.FACE_RIGHT && !running) {
-			return standRight;
-		} else if (action == Direction.FACE_LEFT && (running || xBoost > 0)) {
-			return runLeft;
-		} else if (action == Direction.FACE_RIGHT && (running || xBoost > 0)) {
-			return runRight;
+		if (!isOnGround()) {
+			return jump;
+		} else if (!running) {
+			return stand;
+		} else if (running || xBoost > 0) {
+			return run;
 		} else {
-			return standRight;
+			return stand;
 		}
 	}
 
@@ -122,7 +110,7 @@ public class Player {
 			return;
 		}
 		// Move left if we are running and we are facing left
-		if ((action == Direction.FACE_LEFT) && running) {
+		if ((direction == Direction.FACE_LEFT) && running) {
 			if (stage.getBlockAt(point.x - speed + 6, point.y + 16)
 					.getBlockProperty() == BlockProperty.EMPTY
 					&& stage.getBlockAt(point.x - speed + 6, point.y + 26)
@@ -132,7 +120,7 @@ public class Player {
 				point.translate(-speed, 0);
 		}
 		// Otherwise check to see if we need to move right
-		else if ((action == Direction.FACE_RIGHT) && running) {
+		else if ((direction == Direction.FACE_RIGHT) && running) {
 			if (stage.getBlockAt(point.x + speed + 24, point.y + 16)
 					.getBlockProperty() == BlockProperty.EMPTY
 					&& stage.getBlockAt(point.x + speed + 24, point.y + 26)
@@ -146,7 +134,7 @@ public class Player {
 
 	private void boostXMove() {
 		// Move left if we are running and we are facing left
-		if ((action == Direction.FACE_LEFT)) {
+		if ((direction == Direction.FACE_LEFT)) {
 			if (stage.getBlockAt(point.x - xBoost + 6, point.y + 16)
 					.getBlockProperty() == BlockProperty.EMPTY
 					&& stage.getBlockAt(point.x - xBoost + 6, point.y + 26)
@@ -163,7 +151,7 @@ public class Player {
 			}
 		}
 		// Otherwise check to see if we need to move right
-		else if ((action == Direction.FACE_RIGHT)) {
+		else if ((direction == Direction.FACE_RIGHT)) {
 			if (stage.getBlockAt(point.x + xBoost + 24, point.y + 16)
 					.getBlockProperty() == BlockProperty.EMPTY
 					&& stage.getBlockAt(point.x + xBoost + 24, point.y + 26)
@@ -200,8 +188,8 @@ public class Player {
 	 * 
 	 * @param action
 	 */
-	public void setAction(Direction action) {
-		this.action = action;
+	public void setAction(Direction direction) {
+		this.direction = direction;
 	}
 
 	/**
@@ -209,8 +197,8 @@ public class Player {
 	 * 
 	 * @return
 	 */
-	public Direction getAction() {
-		return action;
+	public Direction getDirection() {
+		return direction;
 	}
 
 	/**
