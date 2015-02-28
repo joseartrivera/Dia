@@ -201,7 +201,7 @@ public class PlayerInventory {
 	public void update() {
 		for (Item item : inventory) {
 			if (item != null)
-				item.updateCooldowns();
+				item.update();
 		}
 	}
 
@@ -211,5 +211,9 @@ public class PlayerInventory {
 
 	public ImageIcon getInventoryLeftImage() {
 		return inventoryLeft;
+	}
+
+	public boolean isFull() {
+		return items == size;
 	}
 }

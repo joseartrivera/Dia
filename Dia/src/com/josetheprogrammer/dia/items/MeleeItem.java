@@ -20,27 +20,26 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author peperivera
  * 
  */
-public class SwordItem extends Item {
+public class MeleeItem extends Item {
 	private ImageIcon sword;
-	private ImageIcon jab;
 
 	private int actionCount;
 	private int maxActionCount;
 	private int attackPower;
 
-	private ItemAction action;
+	protected ItemAction action;
 	private ItemType type;
 
-	public SwordItem(Stage stage) {
+	public MeleeItem(Stage stage) {
 		super(stage);
 		type = ItemType.SWORD;
 		action = ItemAction.NONE;
 		attackPower = 2;
 
 		actionCount = 0;
-		maxActionCount = 25;
+		maxActionCount = 5;
 		altCooldown = 80;
-		this.setItemName("sword.gif");
+		this.setItemName("Dobble_axe.png");
 
 	}
 
@@ -74,20 +73,11 @@ public class SwordItem extends Item {
 	}
 
 	/**
-	 * Gets the sprite depending on the state of the player and item
+	 * Gets the sprite
 	 */
 	@Override
 	public Image getEquippedSprite() {
-		if (action == ItemAction.USE) {
-			actionCount++;
-			if (actionCount > maxActionCount) {
-				actionCount = 0;
-				action = ItemAction.NONE;
-			}
-			return jab.getImage();
-		} else {
-			return sword.getImage();
-		}
+		return sword.getImage();
 	}
 
 	/**
@@ -132,10 +122,10 @@ public class SwordItem extends Item {
 		} else {
 			hitEnemy(getEquippedX() + 24, getEquippedY() + 8);
 			hitBlock(getEquippedX() + 24, getEquippedY() + 8);
-			
+
 			player.getStage().addParticles(8, ParticleType.DUST, Color.gray,
-					getEquippedX() + 12, getEquippedY() + 16, 4, 0, 3, 3, 2,
-					2, 7, 4);
+					getEquippedX() + 12, getEquippedY() + 16, 4, 0, 3, 3, 2, 2,
+					7, 4);
 		}
 		super.useItem();
 	}
@@ -180,11 +170,6 @@ public class SwordItem extends Item {
 	 */
 	@Override
 	public void altUseItem() {
-		if (onAltCooldown())
-			return;
-		player.setBoostDuration(6);
-		player.setxBoost(16);
-		player.setyBoost(-2);
 		super.altUseItem();
 	}
 
@@ -204,8 +189,25 @@ public class SwordItem extends Item {
 	@Override
 	public void setItemName(String itemName) {
 		super.setItemName(itemName);
-		sword = Resources.getImage(FOLDER,itemName);
-		jab = Resources.getImage(FOLDER,"use_" + itemName);
+		sword = Resources.getImage(FOLDER, itemName);
+		// jab = Resources.getImage(FOLDER,"use_" + itemName);
+	}
+
+	@Override
+	public boolean drawRotated() {
+		return action == ItemAction.USE;
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		if (action == ItemAction.USE) {
+			actionCount++;
+			if (actionCount > maxActionCount) {
+				actionCount = 0;
+				action = ItemAction.NONE;
+			}
+		}
 	}
 
 }

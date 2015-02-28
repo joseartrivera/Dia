@@ -110,47 +110,29 @@ public class Resources {
 		return new ImageIcon(imageURL);
 	}
 	
-	public static ArrayList<String> getListOfTilesets(){
-		ArrayList<String> blocks = new ArrayList<String>();
+	public static ArrayList<String> getList(String folder){
+		ArrayList<String> list = new ArrayList<String>();
 		// Load all the resources in the images folder
-		File dir = new File("resources/tilesets");
+		File dir = new File("resources/" + folder);
 		for (File file : dir.listFiles()) {
 			// Regex to find png and gif files
 			if (file.getName().matches(".*\\.(png|gif)")) {
-				blocks.add(file.getName());
+				list.add(file.getName());
 			}
 		}
 		
-		return blocks;
+		return list;
 	}
 	
-	public static ArrayList<String> getListOfTraps(){
-		ArrayList<String> blocks = new ArrayList<String>();
-		// Load all the resources in the images folder
-		File dir = new File("resources/traps");
-		for (File file : dir.listFiles()) {
-			// Regex to find png and gif files
-			if (file.getName().matches(".*\\.(png|gif)")) {
-				blocks.add(file.getName());
-			}
-		}
-		
-		return blocks;
+	public static ArrayList<String> getMobList(){
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("slime");
+		list.add("spider");
+		list.add("redspider");
+		list.add("hollow");
+		return list;
 	}
 	
-	public static ArrayList<String> getListOfBlocks(){
-		ArrayList<String> blocks = new ArrayList<String>();
-		// Load all the resources in the images folder
-		File dir = new File("resources/blocks");
-		for (File file : dir.listFiles()) {
-			// Regex to find png and gif files
-			if (file.getName().matches(".*\\.(png|gif)")) {
-				blocks.add(file.getName());
-			}
-		}
-		
-		return blocks;
-	}
 
 	public static BufferedImage getSpriteSheet(String folder, String str) {
 		if (!onWeb) {

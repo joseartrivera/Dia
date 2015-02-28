@@ -23,7 +23,9 @@ import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.LauncherItem;
-import com.josetheprogrammer.dia.items.SwordItem;
+import com.josetheprogrammer.dia.items.MeleeDashItem;
+import com.josetheprogrammer.dia.items.MeleeItem;
+import com.josetheprogrammer.dia.items.MeleeTossItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.BasicMob;
 import com.josetheprogrammer.dia.mobs.CrawlMob;
@@ -107,7 +109,8 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 9);
 
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 13, 8);
-		game.getStage().setItemByIndex(new SwordItem(game.getStage()), 14, 6);
+		game.getStage().setItemByIndex(new MeleeTossItem(game.getStage()), 14, 6);
+		game.getStage().setItemByIndex(new MeleeDashItem(game.getStage()), 14, 9);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 14, 7);
 		
 
@@ -231,6 +234,9 @@ public class GameWindow extends JFrame {
 	    public void actionPerformed(ActionEvent ae) {
 	    	 if (ae.getActionCommand().equals("Block Editor")){
 	    		 stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
+	    	 }
+	    	 if (ae.getActionCommand().equals("Mob Editor")){
+	    		 stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
 	    	 }
 	    }
 	}

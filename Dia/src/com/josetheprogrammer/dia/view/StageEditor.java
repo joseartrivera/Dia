@@ -22,9 +22,10 @@ import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
 import com.josetheprogrammer.dia.gameObjects.Stage;
+import com.josetheprogrammer.dia.items.EditibleItem;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
-import com.josetheprogrammer.dia.items.PlaceableItem;
+import com.josetheprogrammer.dia.items.PlaceableBlock;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.mobs.MobType;
 import com.josetheprogrammer.dia.projectiles.Projectile;
@@ -50,14 +51,6 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		game.getStage().changeStageDimensions(20, 14);
 		setup();
 		setVisible(true);
-		
-//		item = new PlaceableItem(game.getStage(), Creator.createItem(
-//				ItemType.LAUNCHER, "gun.png", game.getStage(),
-//				ProjectileType.FireBall, 3, 3));
-//		game.getPlayer().addItemToInventory(item);
-
-
-
 	}
 
 	/**
@@ -372,20 +365,20 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 
 	public void place(MouseEvent mouse) {
 		Player player = game.getPlayer();
-		PlaceableItem item;
+		EditibleItem item;
 		if (mouse.getButton() == MouseEvent.BUTTON1
 				&& player.getEquippedItem() != null) {
-			item = (PlaceableItem) player.getEquippedItem();
+			item = (EditibleItem) player.getEquippedItem();
 			item.generatePlaceable(game.getStage(), mouse.getX() + x1,
 					mouse.getY() + y1);
 
-			item.useItem();
+			((Item) item).useItem();
 		} else if (mouse.getButton() == MouseEvent.BUTTON3
 				&& player.getEquippedItem() != null) {
-			item = (PlaceableItem) player.getEquippedItem();
+			item = (PlaceableBlock) player.getEquippedItem();
 			item.setRemoveX(mouse.getX() + x1);
 			item.setRemoveY(mouse.getY() + y1);
-			item.altUseItem();
+			((Item) item).altUseItem();
 		}
 	}
 

@@ -125,11 +125,15 @@ public abstract class Item implements Placeable{
 		return currentAltCooldown > 0;
 	}
 
-	public void updateCooldowns() {
+	private void updateCooldowns() {
 		if (onCooldown())
 			currentCooldown--;
 		if (onAltCooldown())
 			currentAltCooldown--;
+	}
+	
+	public boolean drawRotated(){
+		return false;
 	}
 
 	public int getAmmo() {
@@ -150,6 +154,11 @@ public abstract class Item implements Placeable{
 	
 	public Stage getStage() {
 		return stage;
+	}
+	
+	public void update(){
+		updateCooldowns();
+		return;
 	}
 
 }

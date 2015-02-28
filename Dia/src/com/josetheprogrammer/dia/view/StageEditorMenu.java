@@ -24,18 +24,23 @@ import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 import com.josetheprogrammer.dia.blocks.BlockType;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.items.PlaceableItem;
+import com.josetheprogrammer.dia.items.EditibleItem;
+import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.items.PlaceableBlock;
+import com.josetheprogrammer.dia.items.PlaceableMob;
+import com.josetheprogrammer.dia.mobs.MobType;
 
 @SuppressWarnings("serial")
 public class StageEditorMenu extends JFrame {
 	private Game game;
-	private PlaceableItem placeableItem;
+	private EditibleItem placeableItem;
 	private JLabel preview;
 	private JList list;
 	private SharedListSelectionHandler handler;
 	private JScrollPane listScroller;
 	private String name;
 	private JButton add;
+	private EditorMode mode;
 	private AddButtonListener addListener;
 	private CheckBoxListener checkboxListener;
 	private ImageIcon previewIcon;
@@ -49,6 +54,7 @@ public class StageEditorMenu extends JFrame {
 		checkboxListener = new CheckBoxListener();
 		setUpWindow();
 		this.game = game;
+		this.mode = mode;
 		setUpMode(mode);
 		setVisible(true);
 	}
@@ -57,7 +63,9 @@ public class StageEditorMenu extends JFrame {
 		switch (mode) {
 		case Block:
 			setupBlockEditor();
-
+			break;
+		case Mob:
+			setupMobEditor();
 			break;
 		default:
 			break;
@@ -67,7 +75,7 @@ public class StageEditorMenu extends JFrame {
 	}
 
 	private void setupBlockEditor() {
-		placeableItem = new PlaceableItem(BlockType.SOLID,
+		placeableItem = new PlaceableBlock(BlockType.SOLID,
 				"dungeon_tileset.png", true, game.getStage());
 		previewIcon = new ImageIcon(placeableItem.getInventorySprite());
 		preview = new JLabel(previewIcon);
@@ -87,41 +95,77 @@ public class StageEditorMenu extends JFrame {
 		// Register a listener for the check boxes.
 		tilesetBox.addActionListener(checkboxListener);
 		decorationBox.addActionListener(checkboxListener);
-		tilesetBox.setLocation(128, 128);
+		tilesetBox.setLocation(16, 128);
 		tilesetBox.setSize(80, 32);
+		decorationBox.setLocation(16, 160);
+		decorationBox.setSize(126, 32);
 		this.getContentPane().add(tilesetBox);
 		this.getContentPane().add(decorationBox);
 		buildBlockList();
 
 	}
 
+	private void setupMobEditor() {
+		placeableItem = new PlaceableMob(MobType.SLIME, "slime",
+				game.getStage());
+		previewIcon = new ImageIcon(placeableItem.getInventorySprite());
+		preview = new JLabel(previewIcon);
+		preview.setLocation(64, 64);
+		preview.setSize(previewIcon.getIconWidth(), previewIcon.getIconWidth());
+		this.getContentPane().add(preview);
+		buildMobList();
+
+	}
+
+	private void buildMobList() {
+		list = new JList(Resources.getMobList().toArray());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+		listScroller = new JScrollPane(list);
+		listScroller.setSize(160, 208);
+		listScroller.setLocation(206, 16);
+		list.addListSelectionListener(handler);
+		this.getContentPane().add(listScroller);
+		this.getContentPane().repaint();
+	}
+
 	private void buildBlockList() {
 		ArrayList<String> stringList;
-		if (tileset) {
-			stringList = Resources.getListOfTilesets();
+		if (tileset && decoration) {
+			stringList = Resources.getList("decoration_tilesets");
+		} else if (tileset) {
+			stringList = Resources.getList("tilesets");
+		} else if (decoration) {
+			stringList = Resources.getList("decoration");
 		} else {
-			stringList = Resources.getListOfBlocks();
+			stringList = Resources.getList("blocks");
 		}
 		list = new JList(stringList.toArray());
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 		listScroller = new JScrollPane(list);
-		listScroller.setSize(150, 200);
-		listScroller.setLocation(300, 64);
+		listScroller.setSize(160, 208);
+		listScroller.setLocation(206, 16);
 		list.addListSelectionListener(handler);
 		this.getContentPane().add(listScroller);
 		this.getContentPane().repaint();
 	}
-	private void rebuildBlockList(){
+
+	private void rebuildBlockList() {
 		ArrayList<String> stringList;
-		if (tileset) {
-			stringList = Resources.getListOfTilesets();
+		if (tileset && decoration) {
+			stringList = Resources.getList("decoration_tilesets");
+		} else if (tileset) {
+			stringList = Resources.getList("tilesets");
+		} else if (decoration) {
+			stringList = Resources.getList("decoration");
 		} else {
-			stringList = Resources.getListOfBlocks();
+			stringList = Resources.getList("blocks");
 		}
 		list.setListData(stringList.toArray());
-		}
+	}
 
 	private void setUpWindow() {
 		setLayout(null);
@@ -131,8 +175,8 @@ public class StageEditorMenu extends JFrame {
 		setTitle("Dia Editor");
 
 		add = new JButton("Add to Inventory");
-		add.setSize(129, 64);
-		add.setLocation(64, 200);
+		add.setSize(142, 32);
+		add.setLocation(16, 192);
 		add.setVisible(true);
 		add.addActionListener(addListener);
 		this.getContentPane().add(add);
@@ -142,15 +186,38 @@ public class StageEditorMenu extends JFrame {
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()) {
 				name = (String) list.getSelectedValue();
-				if (name != null)
-					createPlaceable(name);
+				if (name != null) {
+					switch (mode) {
+					case Block:
+						createPlaceableBlock(name);
+						break;
+					case Mob:
+						createPlaceableMob(name);
+						break;
+					default:
+						break;
+					}
+				}
 			}
 		}
 	}
 
-	private void createPlaceable(String name) {
-		placeableItem = new PlaceableItem(BlockType.SOLID, name, tileset,
-				game.getStage());
+	private void createPlaceableBlock(String name) {
+		BlockType type = BlockType.SOLID;
+		if (decoration) {
+			type = BlockType.DECORATION;
+		}
+		placeableItem = new PlaceableBlock(type, name, tileset, game.getStage());
+		previewIcon.setImage(placeableItem.getInventorySprite());
+		previewIcon.getImage().flush();
+		preview.setIcon(previewIcon);
+		this.getContentPane().repaint();
+
+	}
+
+	private void createPlaceableMob(String name) {
+		MobType type = MobType.valueOf(name.toUpperCase());
+		placeableItem = new PlaceableMob(type, name, game.getStage());
 		previewIcon.setImage(placeableItem.getInventorySprite());
 		previewIcon.getImage().flush();
 		preview.setIcon(previewIcon);
@@ -163,7 +230,7 @@ public class StageEditorMenu extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (placeableItem != null) {
-				game.getPlayer().addItemToInventory(placeableItem);
+				game.getPlayer().addItemToInventory((Item) placeableItem);
 			}
 		}
 	}
@@ -175,7 +242,9 @@ public class StageEditorMenu extends JFrame {
 			if (ae.getActionCommand().equals("Tileset")) {
 				tileset = !tileset;
 				rebuildBlockList();
-				System.out.println("yeah");
+			} else if (ae.getActionCommand().equals("Decoration")) {
+				decoration = !decoration;
+				rebuildBlockList();
 			}
 		}
 

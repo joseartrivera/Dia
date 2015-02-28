@@ -259,9 +259,17 @@ public class DrawStage extends JPanel implements Observer {
 			Image equipImg = equipped.getEquippedSprite();
 			x = x + equipped.getEquippedXOffset();
 			y = y + equipped.getEquippedYOffset();
+			
+			
 			if (p.getDirection() == Direction.FACE_RIGHT) {
-				g2.drawImage(equipImg, x, y, this);
+				if (equipped.drawRotated()){
+					g2.rotate(0.7, x + equipImg.getWidth(this)/2, y + equipImg.getHeight(this) + 4);
+				}
+					g2.drawImage(equipImg, x, y, this);
 			} else {
+				if (equipped.drawRotated()){
+					g2.rotate(-0.7, x + equipImg.getWidth(this)/2, y +equipImg.getHeight(this) + 4);
+				}
 				g2.drawImage(equipImg, x + equipImg.getWidth(this), y, x, y
 						+ equipImg.getHeight(this), 0, 0,
 						equipImg.getWidth(this), equipImg.getHeight(this), this);

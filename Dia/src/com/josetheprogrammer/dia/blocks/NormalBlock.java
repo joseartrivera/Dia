@@ -78,7 +78,11 @@ public class NormalBlock extends Block {
 
 	@Override
 	public void setSprite() {
-		singleBlockImage = Resources.getImage("blocks", blockName).getImage();
+		String folder = "blocks";
+		if (getBlockType() == BlockType.DECORATION) {
+			folder = "decoration";
+		}
+		singleBlockImage = Resources.getImage(folder, blockName).getImage();
 	}
 
 	@Override

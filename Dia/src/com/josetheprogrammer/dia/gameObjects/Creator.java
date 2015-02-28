@@ -8,7 +8,9 @@ import com.josetheprogrammer.dia.blocks.NormalBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.LauncherItem;
-import com.josetheprogrammer.dia.items.SwordItem;
+import com.josetheprogrammer.dia.items.MeleeItem;
+import com.josetheprogrammer.dia.mobs.CrawlMob;
+import com.josetheprogrammer.dia.mobs.FlyingMob;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.mobs.MobType;
 import com.josetheprogrammer.dia.mobs.BasicMob;
@@ -27,6 +29,12 @@ public class Creator{
 			block.setTileSet(tileset);
 			block.setBlockName(name);
 			break;
+		case DECORATION:
+			block = new NormalBlock(stage);
+			block.setBlockType(blockType);
+			block.setTileSet(tileset);
+			block.setBlockName(name);
+			break;
 		default:
 			break;
 		}
@@ -38,7 +46,7 @@ public class Creator{
 		Item item = null;
 		switch (itemType) {
 		case SWORD:
-			item = new SwordItem(stage);
+			item = new MeleeItem(stage);
 			item.setItemName(itemName);
 			break;
 		case LAUNCHER:
@@ -55,9 +63,24 @@ public class Creator{
 			int x, int y) {
 		Mob mob = null;
 		switch (mobType) {
-		case Slime:
+		case SLIME:
 			mob = new BasicMob(stage, new Point(x, y));
 			mob.setType(mobType);
+			mob.setMobName(mobName);
+			break;
+		case HOLLOW:
+			mob = new FlyingMob(stage, new Point(x, y));
+			mob.setType(mobType);
+			mob.setMobName(mobName);
+			break;
+		case SPIDER:
+			mob = new CrawlMob(stage, new Point(x, y));
+			mob.setType(mobType);
+			mob.setMobName(mobName);
+		case REDSPIDER:
+			mob = new CrawlMob(stage, new Point(x, y));
+			mob.setType(mobType);
+			mob.setSpeed(2);
 			mob.setMobName(mobName);
 			break;
 		default:

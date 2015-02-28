@@ -42,10 +42,12 @@ public class PlayerKeyListener implements KeyListener, MouseListener {
 			Item get = player.getStage().getItemAt(player.getX() + 8,
 					player.getY() + 8);
 			if (get != null) {
-				get.setPlayer(player);
-				player.getStage().setItem(null, player.getX() + 8,
-						player.getY() + 8);
-				player.addItemToInventory(get);
+				if (!player.getInventory().isFull()) {
+					get.setPlayer(player);
+					player.getStage().setItem(null, player.getX() + 8,
+							player.getY() + 8);
+					player.addItemToInventory(get);
+				}
 			}
 			break;
 		case '1':
