@@ -12,15 +12,18 @@ public class PlaceableItem extends Item {
 	private Placeable item;
 	private Placeable placeable;
 	private BlockType blockType;
+	private boolean tileset;
 	private String name;
 	private Stage stage;
 
-	public PlaceableItem(BlockType blockType, String blockName, Stage stage) {
+	public PlaceableItem(BlockType blockType, String blockName,
+			boolean tileset, Stage stage) {
 		super(stage);
 		this.blockType = blockType;
 		this.name = blockName;
 		this.stage = stage;
-		this.item = Creator.createBlock(blockType, name, stage);
+		this.tileset = tileset;
+		this.item = Creator.createBlock(blockType, name, tileset, stage);
 	}
 
 	public void generatePlaceable(Stage stage, int x, int y) {
@@ -33,7 +36,7 @@ public class PlaceableItem extends Item {
 			// item = Creator.createProjectile(ProjectileType.Bullet, stage, x,
 			// y, 3, 3);
 		}
-		placeable = Creator.createBlock(blockType, name, stage);
+		placeable = Creator.createBlock(blockType, name, tileset, stage);
 		placeable.setX(x);
 		placeable.setY(y);
 	}

@@ -18,12 +18,13 @@ import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 public class Creator{
-	public static Block createBlock(BlockType blockType, String name,
+	public static Block createBlock(BlockType blockType, String name, boolean tileset,
 			Stage stage) {
 		Block block = null;
 		switch (blockType) {
 		case SOLID:
 			block = new NormalBlock(stage);
+			block.setTileSet(tileset);
 			block.setBlockName(name);
 			break;
 		default:

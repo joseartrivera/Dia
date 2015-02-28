@@ -20,7 +20,6 @@ public class NormalBlock extends Block {
 	private BufferedImage spriteSheet;
 	private BufferedImage spriteSheetImage;
 	private Image singleBlockImage;
-	private boolean isTileSet;
 
 	/**
 	 * Creates a new dirt block on the given stage at the given point
@@ -94,14 +93,6 @@ public class NormalBlock extends Block {
 	@Override
 	public void setSprite(BufferedImage sprite) {
 		this.spriteSheetImage = sprite;
-	}
-
-	public boolean isTileSet() {
-		return isTileSet;
-	}
-
-	public void setTileSet(boolean isTileSet) {
-		this.isTileSet = isTileSet;
 	}
 
 }

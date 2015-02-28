@@ -22,6 +22,7 @@ public abstract class Block implements Placeable {
 	protected String blockName;
 	protected Boolean breakable;
 	protected int blockHealth;
+	protected boolean isTileSet;
 
 	/**
 	 * Block represents a solid wall, floor or roof that a player will interact
@@ -140,54 +141,54 @@ public abstract class Block implements Placeable {
 	public void resolveTile() {
 		if (getSpriteSheet() != null) {
 			// Get surrounding block types
-			BlockType up = stage.getBlockAt(point.x + 16, point.y - 16)
-					.getBlockType();
-			BlockType down = stage.getBlockAt(point.x + 16, point.y + 48)
-					.getBlockType();
-			BlockType left = stage.getBlockAt(point.x - 16, point.y + 16)
-					.getBlockType();
-			BlockType right = stage.getBlockAt(point.x + 48, point.y + 16)
-					.getBlockType();
+			String up = stage.getBlockAt(point.x + 16, point.y - 16)
+					.getBlockName();
+			String down = stage.getBlockAt(point.x + 16, point.y + 48)
+					.getBlockName();
+			String left = stage.getBlockAt(point.x - 16, point.y + 16)
+					.getBlockName();
+			String right = stage.getBlockAt(point.x + 48, point.y + 16)
+					.getBlockName();
 
 			// Left is dirt, right is dirt, up is empty
-			if (left == type && right == type && up != type)
+			if (left == blockName && right == blockName && up != blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (left != type && right != type && up != type & down == type)
+			else if (left != blockName && right != blockName && up != blockName & down == blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (left != type && right != type && up != type
-					&& down != type)
+			else if (left != blockName && right != blockName && up != blockName
+					&& down != blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
 			// Left is dirt, right is empty, up is empty, down is dirt
-			else if (left == type && right != type && up != type
-					&& down == type)
+			else if (left == blockName && right != blockName && up != blockName
+					&& down == blockName)
 				setSprite(getSpriteSheet().getSubimage(33, 0, 32, 32));
 			// Left empty, Right dirt, up empty, down dirt
-			else if (left != type && right == type && up != type
-					&& down == type)
+			else if (left != blockName && right == blockName && up != blockName
+					&& down == blockName)
 				setSprite(getSpriteSheet().getSubimage(66, 0, 32, 32));
 			// all empty except right
-			else if (left != type && right == type && down != type
-					&& up != type)
+			else if (left != blockName && right == blockName && down != blockName
+					&& up != blockName)
 				setSprite(getSpriteSheet().getSubimage(99, 0, 32, 32));
 			// all empty except left
-			else if (left == type && right != type && down != type
-					&& up != type)
+			else if (left == blockName && right != blockName && down != blockName
+					&& up != blockName)
 				setSprite(getSpriteSheet().getSubimage(132, 0, 32, 32));
-			// all types surrounding
-			else if (left == type && right == type && down == type
-					&& up == type)
+			// all blockNames surrounding
+			else if (left == blockName && right == blockName && down == blockName
+					&& up == blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
 			// all surrounding except bottom
-			else if (left == type && right == type && down != type
-					&& up == type)
+			else if (left == blockName && right == blockName && down != blockName
+					&& up == blockName)
 				setSprite(getSpriteSheet().getSubimage(33, 33, 32, 32));
 			// left and top are dirt
-			else if (left == type && right != type && down != type
-					&& up == type)
+			else if (left == blockName && right != blockName && down != blockName
+					&& up == blockName)
 				setSprite(getSpriteSheet().getSubimage(66, 33, 32, 32));
 			// right and top are dirt
-			else if (left != type && right == type && down != type
-					&& up == type)
+			else if (left != blockName && right == blockName && down != blockName
+					&& up == blockName)
 				setSprite(getSpriteSheet().getSubimage(99, 33, 32, 32));
 			else
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
@@ -238,6 +239,15 @@ public abstract class Block implements Placeable {
 
 	public void remove() {
 		stage.placeBlock(null, getX(), getY());
+	}
+
+
+	public boolean isTileSet() {
+		return isTileSet;
+	}
+
+	public void setTileSet(boolean isTileSet) {
+		this.isTileSet = isTileSet;
 	}
 
 }

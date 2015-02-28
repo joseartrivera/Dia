@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -109,8 +110,46 @@ public class Resources {
 		return new ImageIcon(imageURL);
 	}
 	
-	public static String[] getListOfBlocks(){
-		return null;
+	public static ArrayList<String> getListOfTilesets(){
+		ArrayList<String> blocks = new ArrayList<String>();
+		// Load all the resources in the images folder
+		File dir = new File("resources/tilesets");
+		for (File file : dir.listFiles()) {
+			// Regex to find png and gif files
+			if (file.getName().matches(".*\\.(png|gif)")) {
+				blocks.add(file.getName());
+			}
+		}
+		
+		return blocks;
+	}
+	
+	public static ArrayList<String> getListOfTraps(){
+		ArrayList<String> blocks = new ArrayList<String>();
+		// Load all the resources in the images folder
+		File dir = new File("resources/traps");
+		for (File file : dir.listFiles()) {
+			// Regex to find png and gif files
+			if (file.getName().matches(".*\\.(png|gif)")) {
+				blocks.add(file.getName());
+			}
+		}
+		
+		return blocks;
+	}
+	
+	public static ArrayList<String> getListOfBlocks(){
+		ArrayList<String> blocks = new ArrayList<String>();
+		// Load all the resources in the images folder
+		File dir = new File("resources/blocks");
+		for (File file : dir.listFiles()) {
+			// Regex to find png and gif files
+			if (file.getName().matches(".*\\.(png|gif)")) {
+				blocks.add(file.getName());
+			}
+		}
+		
+		return blocks;
 	}
 
 	public static BufferedImage getSpriteSheet(String folder, String str) {
@@ -208,7 +247,7 @@ public class Resources {
 
 						if (blockType != null && blockName != "") {
 							block = Creator.createBlock(blockType, blockName,
-									stage);
+									true, stage);
 							stage.setBlock(block, i, j);
 						}
 
