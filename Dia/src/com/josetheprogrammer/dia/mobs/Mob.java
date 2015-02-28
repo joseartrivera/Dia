@@ -27,6 +27,8 @@ public abstract class Mob implements Placeable{
 	protected int jumpPower;
 	protected int jumpCount;
 	protected int maxJumpHeight;
+	protected int height;
+	protected int width;
 
 	// The range the mob can "see" the player
 	protected int range;
@@ -54,6 +56,8 @@ public abstract class Mob implements Placeable{
 		this.maxJumpHeight = 10;
 		this.range = 140;
 		this.attackRange = 30;
+		height = 32;
+		width = 32;
 		dead = false;
 		this.direction = Direction.FACE_LEFT;
 	}
@@ -72,18 +76,18 @@ public abstract class Mob implements Placeable{
 		if (stage.getBlockAt(point.x + 24, point.y + stage.getGravity() + 30)
 				.getBlockProperty() == BlockProperty.EMPTY
 				&& stage.getBlockAt(point.x + 6,
-						point.y + stage.getGravity() + 30).getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + 16,
-						point.y + stage.getGravity() + 30).getBlockProperty() == BlockProperty.EMPTY
+						point.y + stage.getGravity() + height-2).getBlockProperty() == BlockProperty.EMPTY
+				&& stage.getBlockAt(point.x + width/2,
+						point.y + stage.getGravity() + height-2).getBlockProperty() == BlockProperty.EMPTY
 				&& !jumping) {
 			point.translate(0, stage.getGravity());
 		}
 		// If the mob is jumping, make sure it can go up and move upward
-		else if (stage.getBlockAt(point.x + 24, point.y - jumpPower)
+		else if (stage.getBlockAt(point.x + width - 10, point.y - jumpPower)
 				.getBlockProperty() == BlockProperty.EMPTY
 				&& stage.getBlockAt(point.x + 6, point.y - jumpPower)
 						.getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + 16, point.y - jumpPower)
+				&& stage.getBlockAt(point.x + width/2, point.y - jumpPower)
 						.getBlockProperty() == BlockProperty.EMPTY && jumping) {
 			point.translate(0, -jumpPower);
 
@@ -108,8 +112,8 @@ public abstract class Mob implements Placeable{
 	 * @return
 	 */
 	public boolean contained(int x, int y) {
-		return x > point.x && x < point.x + 32 && y > point.y
-				&& y < point.y + 32;
+		return x > point.x && x < point.x + width && y > point.y
+				&& y < point.y + height;
 	}
 
 	public Point getPoint() {
@@ -203,11 +207,11 @@ public abstract class Mob implements Placeable{
 	public boolean isOnGround() {
 		// Check below us for ground, if we are grounded return true
 		return stage
-				.getBlockAt(point.x + 24, point.y + stage.getGravity() + 32)
+				.getBlockAt(point.x + width - 10, point.y + stage.getGravity() + 32)
 				.getBlockProperty() == BlockProperty.GROUND
 				|| stage.getBlockAt(point.x + 6,
 						point.y + stage.getGravity() + 32).getBlockProperty() == BlockProperty.GROUND
-				|| stage.getBlockAt(point.x + 16,
+				|| stage.getBlockAt(point.x + width/2,
 						point.y + stage.getGravity() + 32).getBlockProperty() == BlockProperty.GROUND;
 	}
 
@@ -298,11 +302,11 @@ public abstract class Mob implements Placeable{
 					&& getStage().getBlockAt(getPoint().x - getSpeed(),
 							getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY;
 		} else {
-			return getStage().getBlockAt(getPoint().x + getSpeed() + 32,
+			return getStage().getBlockAt(getPoint().x + getSpeed() + width,
 					getPoint().y + 16).getBlockProperty() == BlockProperty.EMPTY
-					&& getStage().getBlockAt(getPoint().x + getSpeed() + 32,
+					&& getStage().getBlockAt(getPoint().x + getSpeed() + width,
 							getPoint().y + 26).getBlockProperty() == BlockProperty.EMPTY
-					&& getStage().getBlockAt(getPoint().x + getSpeed() + 32,
+					&& getStage().getBlockAt(getPoint().x + getSpeed() + width,
 							getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY;
 		}
 	}

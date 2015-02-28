@@ -29,6 +29,7 @@ import com.josetheprogrammer.dia.items.MeleeTossItem;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.BasicMob;
 import com.josetheprogrammer.dia.mobs.CrawlMob;
+import com.josetheprogrammer.dia.mobs.FireBreatherMob;
 import com.josetheprogrammer.dia.mobs.FlyingMob;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
@@ -136,7 +137,7 @@ public class GameWindow extends JFrame {
 		mob.setJumpPower(3);
 		mob.setRange(200);
 		game.getStage().addMob(mob);
-		game.getStage().addMob(new BasicMob(game.getStage(), new Point(600, 100)));
+		game.getStage().addMob(new FireBreatherMob(game.getStage(), new Point(550, 100)));
 		mob = new CrawlMob(game.getStage(), new Point(350, 100));
 		game.getStage().addMob(mob);
 		game.startGame();

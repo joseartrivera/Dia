@@ -46,6 +46,8 @@ public class BasicMob extends Mob {
 		attack = Resources.getImage(FOLDER, mobName + "_attack.gif");
 		mobDead = Resources.getImage(FOLDER, mobName + "_dead.png");
 		mobDamaged = Resources.getImage(FOLDER, mobName + "_damaged.gif");
+		width = stand.getIconWidth();
+		height = stand.getIconHeight();
 	}
 
 	public Image getSprite() {
@@ -92,7 +94,7 @@ public class BasicMob extends Mob {
 			if (isTakingDamage()) {
 				speed = -speed * 4;
 				getStage().addParticles(6, ParticleType.DUST, Color.RED,
-						getX() + 16, getY() + 16, 1, 1, 6, 6, 2, 2, 10, 3);
+						getX() + width/2, getY() + height/2, 1, 1, 6, 6, 2, 2, 10, 3);
 			}
 
 			// Determine if we need to move left or right
@@ -118,6 +120,7 @@ public class BasicMob extends Mob {
 			}
 		} else {
 			setRunning(false);
+			setAttacking(false);
 		}
 	}
 

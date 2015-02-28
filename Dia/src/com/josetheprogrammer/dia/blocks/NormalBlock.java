@@ -49,7 +49,10 @@ public class NormalBlock extends Block {
 	 */
 	@Override
 	public void setSpriteSheet() {
-		spriteSheet = Resources.getSpriteSheet("tilesets", this.getBlockName());
+		String folder = "tilesets";
+		if (type == BlockType.DECORATION)
+			folder = "decoration_tilesets";
+		spriteSheet = Resources.getSpriteSheet(folder, this.getBlockName());
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class NormalBlock extends Block {
 	@Override
 	public void setSprite() {
 		String folder = "blocks";
-		if (getBlockType() == BlockType.DECORATION) {
+		if (type == BlockType.DECORATION){
 			folder = "decoration";
 		}
 		singleBlockImage = Resources.getImage(folder, blockName).getImage();

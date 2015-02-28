@@ -17,11 +17,11 @@ public class CrawlMob extends BasicMob {
 	@Override
 	public void applyGravity() {
 		// Else make sure we can crawl on a wall
-		if (stage.getBlockAt(point.x + 24, point.y - jumpPower)
+		if (stage.getBlockAt(point.x + width-10, point.y - jumpPower)
 				.getBlockProperty() == BlockProperty.EMPTY
 				&& stage.getBlockAt(point.x + 6, point.y - jumpPower)
 						.getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + 16, point.y - jumpPower)
+				&& stage.getBlockAt(point.x + width/2, point.y - jumpPower)
 						.getBlockProperty() == BlockProperty.EMPTY && isJumping()) {
 			if (canClimb()) {
 				point.translate(0, -jumpPower);
@@ -29,12 +29,12 @@ public class CrawlMob extends BasicMob {
 				setJumping(false);
 			}
 		} // Push mob down if he is in the air and is not jumping
-		if (stage.getBlockAt(point.x + 24, point.y + stage.getGravity() + 30)
+		if (stage.getBlockAt(point.x + width-10, point.y + stage.getGravity() + 30)
 				.getBlockProperty() == BlockProperty.EMPTY
 				&& stage.getBlockAt(point.x + 6,
-						point.y + stage.getGravity() + 30).getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + 16,
-						point.y + stage.getGravity() + 30).getBlockProperty() == BlockProperty.EMPTY
+						point.y + stage.getGravity() + height-2).getBlockProperty() == BlockProperty.EMPTY
+				&& stage.getBlockAt(point.x + width/2,
+						point.y + stage.getGravity() + height-2).getBlockProperty() == BlockProperty.EMPTY
 				&& !isJumping()) {
 			point.translate(0, stage.getGravity());
 		}
@@ -43,18 +43,18 @@ public class CrawlMob extends BasicMob {
 	private boolean canClimb() {
 		if (getDirection() == Direction.FACE_LEFT)
 		return getStage().getBlockAt(getPoint().x - getSpeed(),
-				getPoint().y + 16).getBlockProperty() != BlockProperty.EMPTY
+				getPoint().y + height/2).getBlockProperty() != BlockProperty.EMPTY
 				|| getStage().getBlockAt(getPoint().x - getSpeed(),
-						getPoint().y + 32).getBlockProperty() != BlockProperty.EMPTY
+						getPoint().y + height).getBlockProperty() != BlockProperty.EMPTY
 				|| getStage().getBlockAt(getPoint().x - getSpeed(),
-						getPoint().y + 8).getBlockProperty() != BlockProperty.EMPTY;
+						getPoint().y + height/4).getBlockProperty() != BlockProperty.EMPTY;
 		else
-			return getStage().getBlockAt(getPoint().x + getSpeed() + 32,
-					getPoint().y + 16).getBlockProperty() != BlockProperty.EMPTY
-			|| getStage().getBlockAt(getPoint().x + getSpeed() + 32,
-					getPoint().y + 32).getBlockProperty() != BlockProperty.EMPTY
-			|| getStage().getBlockAt(getPoint().x + getSpeed() + 32,
-					getPoint().y + 8).getBlockProperty() != BlockProperty.EMPTY;
+			return getStage().getBlockAt(getPoint().x + getSpeed() + width,
+					getPoint().y + height/2).getBlockProperty() != BlockProperty.EMPTY
+			|| getStage().getBlockAt(getPoint().x + getSpeed() + width,
+					getPoint().y + height).getBlockProperty() != BlockProperty.EMPTY
+			|| getStage().getBlockAt(getPoint().x + getSpeed() + width,
+					getPoint().y + height/4).getBlockProperty() != BlockProperty.EMPTY;
 	}
 
 	@Override
