@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -28,10 +29,11 @@ import com.josetheprogrammer.dia.items.EditibleItem;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.PlaceableBlock;
 import com.josetheprogrammer.dia.items.PlaceableMob;
+import com.josetheprogrammer.dia.listeners.EditorListener;
 import com.josetheprogrammer.dia.mobs.MobType;
 
 @SuppressWarnings("serial")
-public class StageEditorMenu extends JFrame {
+public class StageEditorMenu extends JPanel {
 	private Game game;
 	private EditibleItem placeableItem;
 	private JLabel preview;
@@ -52,11 +54,27 @@ public class StageEditorMenu extends JFrame {
 		handler = new SharedListSelectionHandler();
 		addListener = new AddButtonListener();
 		checkboxListener = new CheckBoxListener();
-		setUpWindow();
+		setup();
 		this.game = game;
 		this.mode = mode;
 		setUpMode(mode);
 		setVisible(true);
+	}
+	
+	private void setup() {
+		setLayout(null);
+		setSize(480, 480);
+		setLocation(640,0);
+		//setResizable(false);
+		//setTitle("Dia Editor");
+
+		add = new JButton("Add to Inventory");
+		add.setSize(142, 32);
+		add.setLocation(16, 192);
+		add.setVisible(true);
+		add.addActionListener(addListener);
+		//this.getContentPane().add(add);
+		this.add(add);
 	}
 
 	private void setUpMode(EditorMode mode) {
@@ -81,7 +99,8 @@ public class StageEditorMenu extends JFrame {
 		preview = new JLabel(previewIcon);
 		preview.setLocation(64, 64);
 		preview.setSize(previewIcon.getIconWidth(), previewIcon.getIconWidth());
-		this.getContentPane().add(preview);
+		//this.getContentPane().add(preview);
+		this.add(preview);
 
 		tilesetBox = new JCheckBox("Tileset");
 		tilesetBox.setMnemonic(KeyEvent.VK_T);
@@ -89,7 +108,7 @@ public class StageEditorMenu extends JFrame {
 		tileset = true;
 
 		decorationBox = new JCheckBox("Decoration");
-		decorationBox.setMnemonic(KeyEvent.VK_D);
+		decorationBox.setMnemonic(KeyEvent.VK_R);
 		decorationBox.setSelected(false);
 
 		// Register a listener for the check boxes.
@@ -99,8 +118,10 @@ public class StageEditorMenu extends JFrame {
 		tilesetBox.setSize(80, 32);
 		decorationBox.setLocation(16, 160);
 		decorationBox.setSize(126, 32);
-		this.getContentPane().add(tilesetBox);
-		this.getContentPane().add(decorationBox);
+//		this.getContentPane().add(tilesetBox);
+//		this.getContentPane().add(decorationBox);
+		this.add(tilesetBox);
+		this.add(decorationBox);
 		buildBlockList();
 
 	}
@@ -112,7 +133,8 @@ public class StageEditorMenu extends JFrame {
 		preview = new JLabel(previewIcon);
 		preview.setLocation(64, 64);
 		preview.setSize(previewIcon.getIconWidth(), previewIcon.getIconWidth());
-		this.getContentPane().add(preview);
+		//this.getContentPane().add(preview);
+		this.add(preview);
 		buildMobList();
 
 	}
@@ -126,8 +148,10 @@ public class StageEditorMenu extends JFrame {
 		listScroller.setSize(160, 208);
 		listScroller.setLocation(206, 16);
 		list.addListSelectionListener(handler);
-		this.getContentPane().add(listScroller);
-		this.getContentPane().repaint();
+//		this.getContentPane().add(listScroller);
+//		this.getContentPane().repaint();
+		this.add(listScroller);
+		this.repaint();
 	}
 
 	private void buildBlockList() {
@@ -149,8 +173,10 @@ public class StageEditorMenu extends JFrame {
 		listScroller.setSize(160, 208);
 		listScroller.setLocation(206, 16);
 		list.addListSelectionListener(handler);
-		this.getContentPane().add(listScroller);
-		this.getContentPane().repaint();
+//		this.getContentPane().add(listScroller);
+//		this.getContentPane().repaint();
+		this.add(listScroller);
+		this.repaint();
 	}
 
 	private void rebuildBlockList() {
@@ -165,21 +191,6 @@ public class StageEditorMenu extends JFrame {
 			stringList = Resources.getList("blocks");
 		}
 		list.setListData(stringList.toArray());
-	}
-
-	private void setUpWindow() {
-		setLayout(null);
-		setSize(480, 360);
-		setLocation(0, 0);
-		setResizable(false);
-		setTitle("Dia Editor");
-
-		add = new JButton("Add to Inventory");
-		add.setSize(142, 32);
-		add.setLocation(16, 192);
-		add.setVisible(true);
-		add.addActionListener(addListener);
-		this.getContentPane().add(add);
 	}
 
 	private class SharedListSelectionHandler implements ListSelectionListener {
@@ -211,8 +222,8 @@ public class StageEditorMenu extends JFrame {
 		previewIcon.setImage(placeableItem.getInventorySprite());
 		previewIcon.getImage().flush();
 		preview.setIcon(previewIcon);
-		this.getContentPane().repaint();
-
+		//this.getContentPane().repaint();
+		this.repaint();
 	}
 
 	private void createPlaceableMob(String name) {
@@ -221,7 +232,8 @@ public class StageEditorMenu extends JFrame {
 		previewIcon.setImage(placeableItem.getInventorySprite());
 		previewIcon.getImage().flush();
 		preview.setIcon(previewIcon);
-		this.getContentPane().repaint();
+		//this.getContentPane().repaint();
+		this.repaint();
 
 	}
 

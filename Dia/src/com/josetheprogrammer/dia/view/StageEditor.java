@@ -5,50 +5,39 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.josetheprogrammer.dia.blocks.Block;
-import com.josetheprogrammer.dia.blocks.BlockType;
-import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.gameObjects.PlayerInventory;
-import com.josetheprogrammer.dia.gameObjects.Stage;
-import com.josetheprogrammer.dia.items.EditibleItem;
 import com.josetheprogrammer.dia.items.Item;
-import com.josetheprogrammer.dia.items.ItemType;
-import com.josetheprogrammer.dia.items.PlaceableBlock;
+import com.josetheprogrammer.dia.listeners.EditorListener;
 import com.josetheprogrammer.dia.mobs.Mob;
-import com.josetheprogrammer.dia.mobs.MobType;
 import com.josetheprogrammer.dia.projectiles.Projectile;
-import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 @SuppressWarnings("serial")
-public class StageEditor extends JPanel implements Observer, KeyListener,
-		MouseListener, MouseMotionListener {
+public class StageEditor extends JPanel implements Observer {
 	public static DrawStage draw;
 	private Game game;
 	private int cameraWidth, cameraHeight;
-	private int x1, x2, y1, y2, centerX, centerY; // Camera view
-	private int xSpeed, ySpeed, speed;
+	private int centerX, centerY; // Camera view
+	private EditorListener editKey;
 
 	/**
 	 * Constructor for our DrawGame panel, used to draw the game
 	 */
-	public StageEditor(Game game) {
+	public StageEditor(Game game, EditorListener editKey) {
 		this.game = game;
-		this.addKeyListener(this);
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
-		game.getStage().changeStageDimensions(20, 14);
+		this.editKey = editKey;
+		//this.addKeyListener(editKey);
+		editKey.setKeys(this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW), this.getActionMap());
+		this.addMouseListener(editKey);
+		this.addMouseMotionListener(editKey);
+		game.getStage().changeStageDimensions(40, 28);
 		setup();
 		setVisible(true);
 	}
@@ -63,7 +52,6 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		cameraHeight = 240;
 		centerX = 320;
 		centerY = (game.getStage().getStageHeight() * 32) + 32 - 240;
-		speed = 12;
 		setLocation(0, 0);
 		updateCamera();
 	}
@@ -99,10 +87,10 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 		Point mousePos = getMousePosition();
 		if (mousePos != null) {
 
-			int x = ((mousePos.x + x1) / 32) * 32;
-			int y = ((mousePos.y + y1) / 32) * 32;
+			int x = ((mousePos.x + editKey.x1) / 32) * 32;
+			int y = ((mousePos.y + editKey.y1) / 32) * 32;
 			g2.setColor(Color.ORANGE);
-			g2.draw3DRect(x - x1, y - y1, 32, 32, true);
+			g2.draw3DRect(x - editKey.x1, y - editKey.y1, 32, 32, true);
 
 		}
 	}
@@ -223,162 +211,28 @@ public class StageEditor extends JPanel implements Observer, KeyListener,
 
 	private void drawImageInView(Graphics2D g2, Image image, int x, int y) {
 		if (inView(x, y)) {
-			g2.drawImage(image, x - x1, y - y1, this);
+			g2.drawImage(image, x - editKey.x1, y - editKey.y1, this);
 		}
 	}
 
 	private boolean inView(int x, int y) {
-		return x1 - 32 < x && x2 > x && y1 - 32 < y && y2 + 32 > y;
+		return editKey.x1 - 32 < x && editKey.x2 > x && editKey.y1 - 32 < y && editKey.y2 + 32 > y;
 	}
 
 	private void updateCamera() {
-		int x = centerX + xSpeed;
-		int y = centerY + ySpeed;
+		int x = centerX + editKey.xSpeed;
+		int y = centerY + editKey.ySpeed;
 		if ((x - cameraWidth) >= 0
 				&& (x + cameraWidth) <= game.getStage().getStageWidth() * 32) {
-			x1 = x - cameraWidth;
-			x2 = x + cameraWidth;
-			centerX += xSpeed;
+			editKey.x1 = x - cameraWidth;
+			editKey.x2 = x + cameraWidth;
+			centerX += editKey.xSpeed;
 		}
 		if ((y - cameraHeight) >= 0
 				&& (y + cameraHeight) <= (game.getStage().getStageHeight() * 32) + 32) {
-			y1 = y - cameraHeight;
-			y2 = y + cameraHeight;
-			centerY += ySpeed;
-		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent mouse) {
-		place(mouse);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent mouse) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent mouse) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent mouse) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent me) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent key) {
-		Player player = game.getPlayer();
-		switch (key.getKeyChar()) {
-		case 'w':
-			ySpeed = -speed;
-			break;
-		case 'a':
-			xSpeed = -speed;
-			break;
-		case 'd':
-			xSpeed = speed;
-			break;
-		case 's':
-			ySpeed = speed;
-			break;
-		case 'p':
-			Resources.SaveStage(game.getStage(), "new stage");
-			break;
-		case 'l':
-			Stage stage = new Stage();
-			Resources.LoadStage("new stage.stage", stage);
-			game.setStage(stage);
-		case '1':
-			player.setSelectedItem(0);
-			break;
-		case '2':
-			player.setSelectedItem(1);
-			break;
-		case '3':
-			player.setSelectedItem(2);
-			break;
-		case '4':
-			player.setSelectedItem(3);
-			break;
-		case '5':
-			player.setSelectedItem(4);
-			break;
-		case '6':
-			player.setSelectedItem(5);
-			break;
-		case '7':
-			player.setSelectedItem(6);
-			break;
-		case '8':
-			player.setSelectedItem(7);
-			break;
-		case '9':
-			player.setSelectedItem(8);
-			break;
-		case '0':
-			player.setSelectedItem(9);
-		default:
-			break;
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent key) {
-		switch (key.getKeyChar()) {
-		case 'w':
-			if (ySpeed < 0)
-				ySpeed = 0;
-			break;
-		case 's':
-			if (ySpeed > 0)
-				ySpeed = 0;
-			break;
-		case 'a':
-			if (xSpeed < 0)
-				xSpeed = 0;
-			break;
-		case 'd':
-			if (xSpeed > 0)
-				xSpeed = 0;
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent key) {
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent mouse) {
-		place(mouse);
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-	}
-
-	public void place(MouseEvent mouse) {
-		Player player = game.getPlayer();
-		EditibleItem item;
-		if (mouse.getButton() == MouseEvent.BUTTON1
-				&& player.getEquippedItem() != null) {
-			item = (EditibleItem) player.getEquippedItem();
-			item.generatePlaceable(game.getStage(), mouse.getX() + x1,
-					mouse.getY() + y1);
-
-			((Item) item).useItem();
-		} else if (mouse.getButton() == MouseEvent.BUTTON3
-				&& player.getEquippedItem() != null) {
-			item = (PlaceableBlock) player.getEquippedItem();
-			item.setRemoveX(mouse.getX() + x1);
-			item.setRemoveY(mouse.getY() + y1);
-			((Item) item).altUseItem();
+			editKey.y1 = y - cameraHeight;
+			editKey.y2 = y + cameraHeight;
+			centerY += editKey.ySpeed;
 		}
 	}
 

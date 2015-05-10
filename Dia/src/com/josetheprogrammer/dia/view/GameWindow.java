@@ -26,6 +26,7 @@ import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.MeleeDashItem;
 import com.josetheprogrammer.dia.items.MeleeItem;
 import com.josetheprogrammer.dia.items.MeleeTossItem;
+import com.josetheprogrammer.dia.listeners.EditorListener;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
 import com.josetheprogrammer.dia.mobs.BasicMob;
 import com.josetheprogrammer.dia.mobs.CrawlMob;
@@ -42,12 +43,12 @@ public class GameWindow extends JFrame {
 	// Used to hold our DrawGame
 	private Container cp = getContentPane();
 	private static Game game;
-	
-	//menu items
+
+	// menu items
 	private JMenuBar menuBar;
 	private JMenu menu;
 	private JMenuItem menuItem;
-	private JFrame stageEditorMenu;
+	private JPanel stageEditorMenu;
 
 	// Panel that draws the game
 	private JPanel drawGame, mainMenu, stageEditor;
@@ -110,10 +111,11 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 9);
 
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 13, 8);
-		game.getStage().setItemByIndex(new MeleeTossItem(game.getStage()), 14, 6);
-		game.getStage().setItemByIndex(new MeleeDashItem(game.getStage()), 14, 9);
+		game.getStage().setItemByIndex(new MeleeTossItem(game.getStage()), 14,
+				6);
+		game.getStage().setItemByIndex(new MeleeDashItem(game.getStage()), 14,
+				9);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 14, 7);
-		
 
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 0);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 1);
@@ -121,125 +123,135 @@ public class GameWindow extends JFrame {
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 3);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 4);
 		game.getStage().setBlock(new NormalBlock(game.getStage()), 10, 5);
-		
 
-		game.getStage().setItemByIndex(new LauncherItem(game.getStage(), ProjectileType.Bullet, 6, 0), 10, 8);
-		//game.getStage().setItemByIndex(new LauncherItem(null, ProjectileType.FireBall, 4, -8), 9, 8);
-		game.getStage().setItemByIndex(Creator.createItem(ItemType.LAUNCHER, "fireball.gif", game.getStage(), ProjectileType.FireBall, 4, -6),9,8);
+		game.getStage().setItemByIndex(
+				new LauncherItem(game.getStage(), ProjectileType.Bullet, 6, 0),
+				10, 8);
+		// game.getStage().setItemByIndex(new LauncherItem(null,
+		// ProjectileType.FireBall, 4, -8), 9, 8);
+		game.getStage().setItemByIndex(
+				Creator.createItem(ItemType.LAUNCHER, "fireball.gif",
+						game.getStage(), ProjectileType.FireBall, 4, -6), 9, 8);
 		for (int i = 0; i < 20; i++) {
 			game.getStage().setBlock(new NormalBlock(game.getStage()), i, 10);
 			game.getStage().setBlock(new NormalBlock(game.getStage()), i, 11);
 		}
-		
+
 		Mob mob = new FlyingMob(game.getStage(), new Point(250, 164));
 		mob.setMobName("hollow");
 		mob.setSpeed(1);
 		mob.setJumpPower(3);
 		mob.setRange(200);
 		game.getStage().addMob(mob);
-		game.getStage().addMob(new FireBreatherMob(game.getStage(), new Point(550, 100)));
+		game.getStage().addMob(
+				new FireBreatherMob(game.getStage(), new Point(550, 100)));
 		mob = new CrawlMob(game.getStage(), new Point(350, 100));
 		game.getStage().addMob(mob);
 		game.startGame();
 	}
 
 	public void startEditor() {
-		
-		setSize(640, 480);
+
+		EditorListener listener = new EditorListener(game, 12);
+
+		setSize(1120, 480);
 		cp.remove(mainMenu);
 		game.startEditMode();
-		stageEditor = new StageEditor(game);
+
+		stageEditor = new StageEditor(game, listener);
 		game.addObserver((Observer) stageEditor);
+		stageEditor.setFocusable(true);
 		cp.add(stageEditor);
 		stageEditor.requestFocus();
+		
+		stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
+		cp.add(stageEditorMenu);
+		
 
 		buildMenu();
 	}
-	
-	
-	private void buildMenu(){
+
+	private void buildMenu() {
 		MenuAction action = new MenuAction();
 		menuBar = new JMenuBar();
 		menuBar.setBackground(Color.DARK_GRAY);
-		//Build the stage menu.
+		// Build the stage menu.
 		menu = new JMenu("Stage");
 		menu.setBackground(Color.DARK_GRAY);
-		
+
 		menu.setMnemonic(KeyEvent.VK_T);
 		menuBar.add(menu);
 
-		//a group of JMenuItems
+		// a group of JMenuItems
 		menuItem = new JMenuItem("Save Stage", KeyEvent.VK_S);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
-		
 
 		menu.add(menuItem);
-		
+
 		menuItem = new JMenuItem("Load Stage", KeyEvent.VK_L);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
 
-		//a group of radio button menu items
+		// a group of radio button menu items
 		menu.addSeparator();
-		
+
 		menuItem = new JMenuItem("Edit Stage Properties", KeyEvent.VK_E);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
-		
-		
-		//Build the inventory menu.
+
+		// Build the inventory menu.
 		menu = new JMenu("Inventory");
 		menu.setBackground(Color.DARK_GRAY);
-		
+
 		menu.setMnemonic(KeyEvent.VK_V);
 		menuBar.add(menu);
-		
-		//a group of JMenuItems
+
+		// a group of JMenuItems
 		menuItem = new JMenuItem("Block Editor", KeyEvent.VK_B);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
-		
+
 		menuItem = new JMenuItem("Mob Editor", KeyEvent.VK_M);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
-		
+
 		menuItem = new JMenuItem("Item Editor", KeyEvent.VK_I);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
-		
-		menuItem = new JMenuItem("Decoration Editor", KeyEvent.VK_D);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(
-		        KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+
+		menuItem = new JMenuItem("Decoration Editor", KeyEvent.VK_R);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,
+				ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
-		
-		
+
 		this.setJMenuBar(menuBar);
 		this.validate();
 	}
-	
+
 	public class MenuAction extends AbstractAction {
 
-	    public void actionPerformed(ActionEvent ae) {
-	    	 if (ae.getActionCommand().equals("Block Editor")){
-	    		 stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
-	    	 }
-	    	 if (ae.getActionCommand().equals("Mob Editor")){
-	    		 stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
-	    	 }
-	    }
+		public void actionPerformed(ActionEvent ae) {
+//			if (ae.getActionCommand().equals("Block Editor")) {
+//				stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
+//				cp.add(stageEditorMenu);
+//			}
+//			if (ae.getActionCommand().equals("Mob Editor")) {
+//				stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
+//			}
+		}
 	}
 
 }

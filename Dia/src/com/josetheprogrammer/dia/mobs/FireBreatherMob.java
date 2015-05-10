@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Stage;
-import com.josetheprogrammer.dia.particles.Particle;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
