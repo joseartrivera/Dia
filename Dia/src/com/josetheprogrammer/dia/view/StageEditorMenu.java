@@ -152,6 +152,7 @@ public class StageEditorMenu extends JPanel {
 //		this.getContentPane().repaint();
 		this.add(listScroller);
 		this.repaint();
+		this.validate();
 	}
 
 	private void buildBlockList() {
@@ -177,6 +178,7 @@ public class StageEditorMenu extends JPanel {
 //		this.getContentPane().repaint();
 		this.add(listScroller);
 		this.repaint();
+		this.validate();
 	}
 
 	private void rebuildBlockList() {

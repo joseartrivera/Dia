@@ -28,7 +28,7 @@ public class Game extends Observable {
 		this.resources = resources;
 		stage = new Stage();
 		player = new Player(stage, new Point(stage.getStartPoint().x,
-				stage.getStartPoint().y), 100, 4);
+				stage.getStartPoint().y), 100, 3);
 	}
 
 	/**

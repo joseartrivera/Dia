@@ -325,7 +325,7 @@ public abstract class Mob implements Placeable{
 	}
 	
 	public void remove(){
-		setDead(true);
+		
 	}
 
 }

@@ -244,13 +244,17 @@ public class GameWindow extends JFrame {
 	public class MenuAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent ae) {
-//			if (ae.getActionCommand().equals("Block Editor")) {
-//				stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
-//				cp.add(stageEditorMenu);
-//			}
-//			if (ae.getActionCommand().equals("Mob Editor")) {
-//				stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
-//			}
+			cp.remove(stageEditorMenu);
+			if (ae.getActionCommand().equals("Block Editor")) {
+				stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
+				cp.add(stageEditorMenu);
+			}
+			if (ae.getActionCommand().equals("Mob Editor")) {
+				stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
+			}
+			
+			cp.add(stageEditorMenu);
+			cp.validate();
 		}
 	}
 

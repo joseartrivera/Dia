@@ -190,10 +190,7 @@ public class EditorListener implements MouseListener, MouseMotionListener {
 			((Item) item).useItem();
 		} else if (mouse.getButton() == MouseEvent.BUTTON3
 				&& player.getEquippedItem() != null) {
-			item = (PlaceableBlock) player.getEquippedItem();
-			item.setRemoveX(mouse.getX() + x1);
-			item.setRemoveY(mouse.getY() + y1);
-			((Item) item).altUseItem();
+			game.getStage().editorDelete(mouse.getX() + x1, mouse.getY() + y1);
 		}
 	}
 }

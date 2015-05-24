@@ -25,6 +25,8 @@ public class PlaceableMob extends Item implements EditibleItem {
 	}
 
 	public void generatePlaceable(Stage stage, int x, int y) {
+		x = x - 16;
+		y = y - 16;
 		this.placeable = Creator.createMob(mobType, name, stage, x, y);
 		placeable.setX(x);
 		placeable.setY(y);

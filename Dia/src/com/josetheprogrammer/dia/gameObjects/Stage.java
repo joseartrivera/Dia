@@ -141,8 +141,8 @@ public class Stage {
 			blocks[i][j] = block;
 		}
 	}
-	
-	public void placeBlock(Block block, int x, int y){
+
+	public void placeBlock(Block block, int x, int y) {
 		setBlock(block, x / BLOCK_SIZE, y / BLOCK_SIZE);
 
 		Block[][] blocks = getBlocks();
@@ -228,7 +228,7 @@ public class Stage {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates projectiles, removing dead projectiles and moving alive
 	 * projectiles
@@ -293,7 +293,7 @@ public class Stage {
 			}
 		}
 	}
-	
+
 	public void updateEditModeMobs() {
 		synchronized (mobs) {
 			Iterator<Mob> iter = mobs.iterator();
@@ -301,11 +301,10 @@ public class Stage {
 				Mob mob = iter.next();
 				if (mob.isDead()) {
 					iter.remove();
-				} 
+				}
 			}
 		}
 	}
-
 
 	/**
 	 * Gets the start point where the player will spawn
@@ -439,6 +438,34 @@ public class Stage {
 
 	public Vector<Particle> getParticles() {
 		return particles;
+	}
+
+	public boolean editorDelete(int x, int y) {
+		synchronized (mobs) {
+			Iterator<Mob> iter = mobs.iterator();
+			while (iter.hasNext()) {
+				Mob mob = iter.next();
+				if (mob.contained(x, y)) {
+					iter.remove();
+					return true;
+				}
+			}
+		}
+
+		Item item = this.getItemAt(x, y);
+		if (item != null) {
+			item.remove();
+
+			return true;
+		}
+
+		Block block = this.getBlockAt(x, y);
+
+		if (block != null) {
+			this.placeBlock(null, x, y);
+			return true;
+		}
+		return false;
 	}
 
 	public void addParticles(int amount, ParticleType type, Color color, int x,
