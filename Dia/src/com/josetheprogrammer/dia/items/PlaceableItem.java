@@ -2,33 +2,31 @@ package com.josetheprogrammer.dia.items;
 
 import java.awt.Image;
 
-import com.josetheprogrammer.dia.blocks.BlockType;
 import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Placeable;
 import com.josetheprogrammer.dia.gameObjects.Stage;
 
-public class PlaceableBlock extends Item implements EditibleItem {
+public class PlaceableItem extends Item implements EditibleItem {
 
 	private Placeable item;
 	private Placeable placeable;
-	private BlockType blockType;
-	private boolean tileset;
-	private String name;
+	private ItemType itemType;
+	private Enum<?> type;
+	private String itemName;
 	@SuppressWarnings("unused")
 	private Stage stage;
 
-	public PlaceableBlock(BlockType blockType, String blockName,
-			boolean tileset, Stage stage) {
+	public PlaceableItem(ItemType itemType, String itemName, Stage stage, Enum<?> type) {
 		super(stage);
-		this.blockType = blockType;
-		this.name = blockName;
+		this.itemType = itemType;
+		this.itemName = itemName;
 		this.stage = stage;
-		this.tileset = tileset;
-		this.item = Creator.createBlock(blockType, name, tileset, stage);
+		this.type = type;
+		this.item = Creator.createItem(itemType, itemName, stage, type, 0, 0);
 	}
 
 	public void generatePlaceable(Stage stage, int x, int y) {
-		placeable = Creator.createBlock(blockType, name, tileset, stage);
+		placeable = this.item = Creator.createItem(itemType, itemName, stage, type, 0, 0);
 		placeable.setX(x);
 		placeable.setY(y);
 	}
@@ -82,5 +80,6 @@ public class PlaceableBlock extends Item implements EditibleItem {
 	public Image getInventorySprite() {
 		return item.getSprite();
 	}
+
 
 }

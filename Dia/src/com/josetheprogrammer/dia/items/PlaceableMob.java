@@ -81,21 +81,4 @@ public class PlaceableMob extends Item implements EditibleItem {
 	public Image getInventorySprite() {
 		return item.getSprite();
 	}
-
-	public int getRemoveX() {
-		return item.getX();
-	}
-
-	public void setRemoveX(int x) {
-		item.setX(x);
-	}
-
-	public int getRemoveY() {
-		return item.getY();
-	}
-
-	public void setRemoveY(int y) {
-		item.setY(y);
-	}
-
 }

@@ -231,12 +231,6 @@ public class GameWindow extends JFrame {
 		menuItem.addActionListener(action);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Decoration Editor", KeyEvent.VK_R);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,
-				ActionEvent.CTRL_MASK));
-		menuItem.addActionListener(action);
-		menu.add(menuItem);
-
 		this.setJMenuBar(menuBar);
 		this.validate();
 	}
@@ -244,6 +238,7 @@ public class GameWindow extends JFrame {
 	public class MenuAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent ae) {
+			stageEditorMenu.setVisible(false);
 			cp.remove(stageEditorMenu);
 			if (ae.getActionCommand().equals("Block Editor")) {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
@@ -253,7 +248,12 @@ public class GameWindow extends JFrame {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
 			}
 			
+			if (ae.getActionCommand().equals("Item Editor")) {
+				stageEditorMenu = new StageEditorMenu(game, EditorMode.Item);
+			}
+			
 			cp.add(stageEditorMenu);
+			cp.invalidate();
 			cp.validate();
 		}
 	}

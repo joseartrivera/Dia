@@ -25,9 +25,12 @@ import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 import com.josetheprogrammer.dia.blocks.BlockType;
 import com.josetheprogrammer.dia.gameObjects.Game;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.items.EditibleItem;
 import com.josetheprogrammer.dia.items.Item;
+import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.PlaceableBlock;
+import com.josetheprogrammer.dia.items.PlaceableItem;
 import com.josetheprogrammer.dia.items.PlaceableMob;
 import com.josetheprogrammer.dia.listeners.EditorListener;
 import com.josetheprogrammer.dia.mobs.MobType;
@@ -85,6 +88,8 @@ public class StageEditorMenu extends JPanel {
 		case Mob:
 			setupMobEditor();
 			break;
+		case Item:
+			setupItemEditor();
 		default:
 			break;
 
@@ -174,8 +179,6 @@ public class StageEditorMenu extends JPanel {
 		listScroller.setSize(160, 208);
 		listScroller.setLocation(206, 16);
 		list.addListSelectionListener(handler);
-//		this.getContentPane().add(listScroller);
-//		this.getContentPane().repaint();
 		this.add(listScroller);
 		this.repaint();
 		this.validate();
@@ -194,6 +197,32 @@ public class StageEditorMenu extends JPanel {
 		}
 		list.setListData(stringList.toArray());
 	}
+	
+	private void setupItemEditor() {
+		placeableItem = new PlaceableItem(ItemType.SWORD, "sword.gif", game.getStage(), null);
+		previewIcon = new ImageIcon(placeableItem.getInventorySprite());
+		preview = new JLabel(previewIcon);
+		preview.setLocation(64, 64);
+		preview.setSize(previewIcon.getIconWidth(), previewIcon.getIconWidth());
+		this.add(preview);
+		
+		buildItemList();
+
+	}
+	
+	private void buildItemList() {
+		list = new JList(Resources.getItemList().toArray());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+		listScroller = new JScrollPane(list);
+		listScroller.setSize(160, 208);
+		listScroller.setLocation(206, 16);
+		list.addListSelectionListener(handler);
+		this.add(listScroller);
+		this.repaint();
+		this.validate();
+	}
 
 	private class SharedListSelectionHandler implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent e) {
@@ -206,6 +235,9 @@ public class StageEditorMenu extends JPanel {
 						break;
 					case Mob:
 						createPlaceableMob(name);
+						break;
+					case Item:
+						createPlaceableItem(name);
 						break;
 					default:
 						break;
@@ -237,6 +269,15 @@ public class StageEditorMenu extends JPanel {
 		//this.getContentPane().repaint();
 		this.repaint();
 
+	}
+	
+	private void createPlaceableItem(String name){
+		placeableItem = new PlaceableItem(ItemType.SWORD, name, game.getStage(), null);
+		previewIcon.setImage(placeableItem.getInventorySprite());
+		previewIcon.getImage().flush();
+		preview.setIcon(previewIcon);
+		//this.getContentPane().repaint();
+		this.repaint();
 	}
 
 	private class AddButtonListener implements ActionListener {

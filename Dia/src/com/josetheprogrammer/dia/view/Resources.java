@@ -133,6 +133,20 @@ public class Resources {
 		return list;
 	}
 	
+	public static ArrayList<String> getItemList(){
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("sword.gif");
+		list.add("fireball.gif");
+		list.add("gun.png");
+		list.add("Dobble_axe.png");
+		list.add("spear.png");
+		list.add("shield.png");
+		list.add("potion_1.png");
+		list.add("potion_2.png");
+		list.add("float_coin.gif");
+		return list;
+	}
+	
 
 	public static BufferedImage getSpriteSheet(String folder, String str) {
 		if (!onWeb) {
