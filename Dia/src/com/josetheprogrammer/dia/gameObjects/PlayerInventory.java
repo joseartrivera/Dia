@@ -70,12 +70,15 @@ public class PlayerInventory implements Serializable {
 	 */
 	public boolean addItem(Item item) {
 		if (items < size) {
-			inventory[items] = item;
-			items++;
-			return true;
-		} else {
-			return false;
+			for (int i = 0; i < inventory.length; i++) {
+				if (inventory[i] == null) {
+					inventory[i] = item;
+					items++;
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 
 	public ImageIcon getSprite(int index) {
@@ -123,8 +126,10 @@ public class PlayerInventory implements Serializable {
 	public void removeItemByIndex(int index) {
 		if (index >= size)
 			return;
-		else
+		else {
 			inventory[index] = null;
+			items--;
+		}
 	}
 
 	/**

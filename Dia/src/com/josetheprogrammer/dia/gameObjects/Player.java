@@ -441,4 +441,9 @@ public class Player implements Serializable {
 		loadResources();
 	}
 
+	public void dropItem() {
+		inventory.removeItemByIndex(inventory.getSelectedIndex());
+		
+	}
+
 }

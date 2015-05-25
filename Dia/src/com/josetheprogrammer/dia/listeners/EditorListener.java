@@ -99,6 +99,14 @@ public class EditorListener implements MouseListener, MouseMotionListener {
 					ySpeed = 0;
 			}
 		});
+		
+		input.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0, true), "drop");
+
+		action.put("drop", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				player.dropItem();
+			}
+		});
 
 		input.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0), "1");
 		action.put("1", new selectInventoryItem(0));
