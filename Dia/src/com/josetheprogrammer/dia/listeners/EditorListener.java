@@ -15,7 +15,6 @@ import com.josetheprogrammer.dia.gameObjects.Game;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.items.EditibleItem;
 import com.josetheprogrammer.dia.items.Item;
-import com.josetheprogrammer.dia.items.PlaceableBlock;
 
 public class EditorListener implements MouseListener, MouseMotionListener {
 

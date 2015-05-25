@@ -14,7 +14,11 @@ import com.josetheprogrammer.dia.view.Resources;
 
 public class FlyingMob extends BasicMob {
 
-	private ImageIcon ghost;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	transient private ImageIcon ghost;
 	private boolean isGhost;
 	private int attackCooldown;
 	private int currentAttackCooldown;

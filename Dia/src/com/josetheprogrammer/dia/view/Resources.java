@@ -1,28 +1,21 @@
 package com.josetheprogrammer.dia.view;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import com.josetheprogrammer.dia.blocks.Block;
-import com.josetheprogrammer.dia.blocks.BlockType;
-import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Stage;
-import com.josetheprogrammer.dia.items.Item;
-import com.josetheprogrammer.dia.items.ItemType;
-import com.josetheprogrammer.dia.mobs.Mob;
-import com.josetheprogrammer.dia.mobs.MobType;
 
 /**
  * This class will load all resources, other class can request resources from
@@ -109,8 +102,8 @@ public class Resources {
 		}
 		return new ImageIcon(imageURL);
 	}
-	
-	public static ArrayList<String> getList(String folder){
+
+	public static ArrayList<String> getList(String folder) {
 		ArrayList<String> list = new ArrayList<String>();
 		// Load all the resources in the images folder
 		File dir = new File("resources/" + folder);
@@ -120,11 +113,11 @@ public class Resources {
 				list.add(file.getName());
 			}
 		}
-		
+
 		return list;
 	}
-	
-	public static ArrayList<String> getMobList(){
+
+	public static ArrayList<String> getMobList() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("slime");
 		list.add("spider");
@@ -132,8 +125,8 @@ public class Resources {
 		list.add("hollow");
 		return list;
 	}
-	
-	public static ArrayList<String> getItemList(){
+
+	public static ArrayList<String> getItemList() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("sword.gif");
 		list.add("fireball.gif");
@@ -146,7 +139,6 @@ public class Resources {
 		list.add("float_coin.gif");
 		return list;
 	}
-	
 
 	public static BufferedImage getSpriteSheet(String folder, String str) {
 		if (!onWeb) {
@@ -179,118 +171,51 @@ public class Resources {
 		}
 		return null;
 	}
+	
 
 	public static boolean SaveStage(Stage stage, String name) {
 		try {
-			File file = new File("stages/" + name + ".stage");
+			File file = new File("resources/stages/" + name + ".stage");
 			if (!file.exists()) {
-				file.createNewFile();
-			}
+				if (!file.createNewFile()) {
+					return false;
+				}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write("0.1\n"); // version
-			bw.write(stage.Serialize());
-			bw.close();
+			}
+			FileOutputStream fileOut = new FileOutputStream(file);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(stage);
+			out.close();
+			fileOut.close();
 			return true;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
 
-	public static boolean LoadStage(String fileName, Stage stage) {
-		File file = new File("stages/" + fileName);
-		if (file.exists()) {
-			try {
-				Scanner scan = new Scanner(file);
-				scan.nextLine(); // version
-				stage.setStageName(scan.nextLine());
-				int width = Integer.parseInt(scan.nextLine());
-				int height = Integer.parseInt(scan.nextLine());
-				stage.changeStageDimensions(width, height);
-
-				int startX = Integer.parseInt(scan.nextLine());
-				int startY = Integer.parseInt(scan.nextLine());
-				stage.setStartPoint(startX, startY);
-
-				BlockType blockType = null;
-				String blockName = "";
-				Block block;
-
-				ItemType itemType = null;
-				String itemName = "";
-				Item item;
-
-				Mob mob;
-				MobType mobType = null;
-				String mobName = "";
-				int mobX = 0;
-				int mobY = 0;
-
-				for (int i = 0; i < width; i++) {
-					for (int j = 0; j < height; j++) {
-
-						Scanner scanSection = new Scanner(scan.nextLine());
-						scanSection.useDelimiter(";");
-
-						blockType = null;
-						blockName = "";
-
-						if (scanSection.hasNext())
-							blockType = BlockType.valueOf(scanSection.next());
-						if (scanSection.hasNext())
-							blockName = scanSection.next();
-
-						if (blockType != null && blockName != "") {
-							block = Creator.createBlock(blockType, blockName,
-									true, stage);
-							stage.setBlock(block, i, j);
-						}
-
-						scanSection = new Scanner(scan.nextLine());
-						scanSection.useDelimiter(";");
-
-						itemType = null;
-						itemName = "";
-
-						if (scanSection.hasNext())
-							itemType = ItemType.valueOf(scanSection.next());
-						if (scanSection.hasNext())
-							itemName = scanSection.next();
-
-						if (itemType != null && itemName != "") {
-							// item = Creator
-							// .createItem(itemType, itemName, stage);
-							// stage.setItemByIndex(item, i, j);
-						}
-					}
-				}
-
-				while (scan.hasNextLine()) {
-					Scanner scanSection = new Scanner(scan.nextLine());
-					scanSection.useDelimiter(";");
-
-					if (scanSection.hasNext())
-						mobType = MobType.valueOf(scanSection.next());
-					if (scanSection.hasNext())
-						mobName = scanSection.next();
-					if (scanSection.hasNext())
-						mobX = Integer.parseInt(scanSection.next());
-					if (scanSection.hasNext())
-						mobY = Integer.parseInt(scanSection.next());
-
-					if (mobType != null && mobName != "") {
-						mob = Creator.createMob(mobType, mobName, stage, mobX,
-								mobY);
-						stage.addMob(mob);
-					}
-				}
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				return false;
-			}
+	public static Stage LoadStage(String name) {
+		Stage stage = null;
+		File file = new File("resources/stages/" + name + ".stage");
+		if (!file.exists()) {
+			return null;
 		}
-		return false;
+		try {
+			FileInputStream fileIn = new FileInputStream(file);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			stage = (Stage) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Stage not found");
+			c.printStackTrace();
+			return null;
+		}
+		return stage;
 	}
+
+
 }

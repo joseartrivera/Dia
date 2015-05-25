@@ -8,27 +8,23 @@ import java.awt.event.KeyEvent;
 import java.util.Observer;
 
 import javax.swing.AbstractAction;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
 import com.josetheprogrammer.dia.blocks.NormalBlock;
 import com.josetheprogrammer.dia.gameObjects.Creator;
 import com.josetheprogrammer.dia.gameObjects.Game;
+import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.LauncherItem;
 import com.josetheprogrammer.dia.items.MeleeDashItem;
-import com.josetheprogrammer.dia.items.MeleeItem;
 import com.josetheprogrammer.dia.items.MeleeTossItem;
 import com.josetheprogrammer.dia.listeners.EditorListener;
 import com.josetheprogrammer.dia.listeners.PlayerKeyListener;
-import com.josetheprogrammer.dia.mobs.BasicMob;
 import com.josetheprogrammer.dia.mobs.CrawlMob;
 import com.josetheprogrammer.dia.mobs.FireBreatherMob;
 import com.josetheprogrammer.dia.mobs.FlyingMob;
@@ -173,6 +169,7 @@ public class GameWindow extends JFrame {
 
 	private void buildMenu() {
 		MenuAction action = new MenuAction();
+		SaveLoadAction saveLoadAction = new SaveLoadAction();
 		menuBar = new JMenuBar();
 		menuBar.setBackground(Color.DARK_GRAY);
 		// Build the stage menu.
@@ -186,14 +183,14 @@ public class GameWindow extends JFrame {
 		menuItem = new JMenuItem("Save Stage", KeyEvent.VK_S);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.CTRL_MASK));
-		menuItem.addActionListener(action);
+		menuItem.addActionListener(saveLoadAction);
 
 		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Load Stage", KeyEvent.VK_L);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
 				ActionEvent.CTRL_MASK));
-		menuItem.addActionListener(action);
+		menuItem.addActionListener(saveLoadAction);
 		menu.add(menuItem);
 
 		// a group of radio button menu items
@@ -242,7 +239,6 @@ public class GameWindow extends JFrame {
 			cp.remove(stageEditorMenu);
 			if (ae.getActionCommand().equals("Block Editor")) {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
-				cp.add(stageEditorMenu);
 			}
 			if (ae.getActionCommand().equals("Mob Editor")) {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
@@ -255,6 +251,23 @@ public class GameWindow extends JFrame {
 			cp.add(stageEditorMenu);
 			cp.invalidate();
 			cp.validate();
+		}
+	}
+	
+	public class SaveLoadAction extends AbstractAction {
+
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getActionCommand().equals("Save Stage")) {
+				if (!Resources.SaveStage(game.getStage(), "stage1")){
+					System.out.println("Error saving stage");
+					return;
+				}
+				System.out.println("Stage saved");
+			}
+			if (ae.getActionCommand().equals("Load Stage")) {
+				Stage stage = Resources.LoadStage("stage1");
+				game.setStage(stage);
+			}
 		}
 	}
 

@@ -14,6 +14,10 @@ import com.josetheprogrammer.dia.particles.ParticleType;
  */
 public class Bullet extends Projectile {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Bullet(Stage stage, int x, int y, int xSpeed, int ySpeed) {
 		super(stage, x, y, xSpeed, ySpeed);
 		setProjectileName("bullet.png");

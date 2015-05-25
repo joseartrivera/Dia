@@ -21,7 +21,12 @@ import com.josetheprogrammer.dia.view.Resources;
  * 
  */
 public class MeleeItem extends Item {
-	private ImageIcon sword;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	transient private ImageIcon sword;
 
 	private int actionCount;
 	private int maxActionCount;

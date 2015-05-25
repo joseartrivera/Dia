@@ -2,6 +2,8 @@ package com.josetheprogrammer.dia.gameObjects;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.io.IOException;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
@@ -18,8 +20,12 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author Jose Rivera
  */
 
-public class Player {
+public class Player implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Attributes
 	private int health;
 	private int maxHealth;
@@ -40,10 +46,10 @@ public class Player {
 	private Stage stage;
 
 	// Images
-	private ImageIcon stand;
-	private ImageIcon run;
-	private ImageIcon jump;
-	private ImageIcon healthbar;
+	transient private ImageIcon stand;
+	transient private ImageIcon run;
+	transient private ImageIcon jump;
+	transient private ImageIcon healthbar;
 
 	private final String FOLDER = "player";
 
@@ -77,6 +83,10 @@ public class Player {
 		jumpCount = 0;
 		maxJumpHeight = 14;
 
+		loadResources();
+	}
+
+	private void loadResources() {
 		// Load images
 		stand = Resources.getImage(FOLDER, "robo_stand.gif");
 		run = Resources.getImage(FOLDER, "robo_run.gif");
@@ -423,6 +433,12 @@ public class Player {
 	public boolean contained(int x, int y) {
 		return x > point.x && x < point.x + 32 && y > point.y
 				&& y < point.y + 32;
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		loadResources();
 	}
 
 }

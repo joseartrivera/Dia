@@ -1,5 +1,8 @@
 package com.josetheprogrammer.dia.gameObjects;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
 import com.josetheprogrammer.dia.items.Item;
@@ -14,7 +17,12 @@ import com.josetheprogrammer.dia.view.Resources;
  * 
  */
 
-public class PlayerInventory {
+public class PlayerInventory implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// Total size of inventory
 	private int size;
@@ -28,10 +36,10 @@ public class PlayerInventory {
 	// Array of items represents the inventory
 	Item[] inventory;
 
-	private ImageIcon inventoryLeft;
-	private ImageIcon inventoryRight;
-	private ImageIcon inventorySlot;
-	private ImageIcon selectedSlot;
+	transient private ImageIcon inventoryLeft;
+	transient private ImageIcon inventoryRight;
+	transient private ImageIcon inventorySlot;
+	transient private ImageIcon selectedSlot;
 
 	/**
 	 * Creates an inventory with the given size
@@ -44,6 +52,10 @@ public class PlayerInventory {
 		inventory = new Item[size];
 		setSelectedIndex(0);
 
+		loadResources();
+	}
+
+	private void loadResources() {
 		inventorySlot = Resources.getImage("images", "inventory_slot.png");
 		selectedSlot = Resources.getImage("images", "inventory_selected.png");
 		inventoryRight = Resources.getImage("images", "inventory_right.png");
@@ -215,5 +227,11 @@ public class PlayerInventory {
 
 	public boolean isFull() {
 		return items == size;
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		loadResources();
 	}
 }

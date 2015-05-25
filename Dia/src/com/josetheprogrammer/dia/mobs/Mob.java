@@ -2,6 +2,8 @@ package com.josetheprogrammer.dia.mobs;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.io.IOException;
+import java.io.Serializable;
 
 import com.josetheprogrammer.dia.blocks.BlockProperty;
 import com.josetheprogrammer.dia.gameObjects.Direction;
@@ -15,8 +17,12 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
  * 
  */
 
-public abstract class Mob implements Placeable{
+public abstract class Mob implements Placeable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Point point;
 	protected Stage stage;
 	protected MobType type;
@@ -42,7 +48,7 @@ public abstract class Mob implements Placeable{
 	protected boolean takingDamage;
 
 	protected boolean dead;
-	
+
 	protected Direction direction;
 
 	public Mob(Stage stage, Point point) {
@@ -76,10 +82,11 @@ public abstract class Mob implements Placeable{
 		if (stage.getBlockAt(point.x + 24, point.y + stage.getGravity() + 30)
 				.getBlockProperty() == BlockProperty.EMPTY
 				&& stage.getBlockAt(point.x + 6,
-						point.y + stage.getGravity() + height-2).getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + width/2,
-						point.y + stage.getGravity() + height-2).getBlockProperty() == BlockProperty.EMPTY
-				&& !jumping) {
+						point.y + stage.getGravity() + height - 2)
+						.getBlockProperty() == BlockProperty.EMPTY
+				&& stage.getBlockAt(point.x + width / 2,
+						point.y + stage.getGravity() + height - 2)
+						.getBlockProperty() == BlockProperty.EMPTY && !jumping) {
 			point.translate(0, stage.getGravity());
 		}
 		// If the mob is jumping, make sure it can go up and move upward
@@ -87,7 +94,7 @@ public abstract class Mob implements Placeable{
 				.getBlockProperty() == BlockProperty.EMPTY
 				&& stage.getBlockAt(point.x + 6, point.y - jumpPower)
 						.getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + width/2, point.y - jumpPower)
+				&& stage.getBlockAt(point.x + width / 2, point.y - jumpPower)
 						.getBlockProperty() == BlockProperty.EMPTY && jumping) {
 			point.translate(0, -jumpPower);
 
@@ -127,7 +134,7 @@ public abstract class Mob implements Placeable{
 	public int getY() {
 		return point.y;
 	}
-	
+
 	public void setX(int x) {
 		point.x = x;
 	}
@@ -206,12 +213,11 @@ public abstract class Mob implements Placeable{
 	 */
 	public boolean isOnGround() {
 		// Check below us for ground, if we are grounded return true
-		return stage
-				.getBlockAt(point.x + width - 10, point.y + stage.getGravity() + 32)
-				.getBlockProperty() == BlockProperty.GROUND
+		return stage.getBlockAt(point.x + width - 10,
+				point.y + stage.getGravity() + 32).getBlockProperty() == BlockProperty.GROUND
 				|| stage.getBlockAt(point.x + 6,
 						point.y + stage.getGravity() + 32).getBlockProperty() == BlockProperty.GROUND
-				|| stage.getBlockAt(point.x + width/2,
+				|| stage.getBlockAt(point.x + width / 2,
 						point.y + stage.getGravity() + 32).getBlockProperty() == BlockProperty.GROUND;
 	}
 
@@ -284,15 +290,15 @@ public abstract class Mob implements Placeable{
 	public void setMobName(String mobName) {
 		this.mobName = mobName;
 	}
-	
-	public Direction getDirection(){
+
+	public Direction getDirection() {
 		return direction;
 	}
-	
-	public void setDirection(Direction direction){
+
+	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
-	
+
 	protected boolean canMove() {
 		if (getDirection() == Direction.FACE_LEFT) {
 			return getStage().getBlockAt(getPoint().x - getSpeed(),
@@ -310,22 +316,28 @@ public abstract class Mob implements Placeable{
 							getPoint().y + 8).getBlockProperty() == BlockProperty.EMPTY;
 		}
 	}
-	
-	protected boolean inAttackRange(int targetX, int targetY){
+
+	protected boolean inAttackRange(int targetX, int targetY) {
 		return getPoint().distance(targetX, targetY) < getAttackRange()
-		&& !isTakingDamage();
+				&& !isTakingDamage();
 	}
-	
-	protected boolean inFollowRange(int targetX, int targetY){
+
+	protected boolean inFollowRange(int targetX, int targetY) {
 		return getPoint().distance(targetX, targetY) < getRange();
 	}
-	
-	public void place(){
+
+	public void place() {
 		stage.addMob(this);
 	}
-	
-	public void remove(){
-		
+
+	public void remove() {
+
 	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		this.setMobName(mobName);
+		}
 
 }

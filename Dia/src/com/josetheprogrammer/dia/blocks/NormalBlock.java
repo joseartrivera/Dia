@@ -14,12 +14,17 @@ import com.josetheprogrammer.dia.view.Resources;
  */
 public class NormalBlock extends Block {
 
-	// Whether this block's sprite is set
-	private boolean set;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	private BufferedImage spriteSheet;
-	private BufferedImage spriteSheetImage;
-	private Image singleBlockImage;
+	// Whether this block's sprite is set
+	transient private boolean set;
+
+	transient private BufferedImage spriteSheet;
+	transient private BufferedImage spriteSheetImage;
+	transient private Image singleBlockImage;
 
 	/**
 	 * Creates a new dirt block on the given stage at the given point
@@ -35,13 +40,6 @@ public class NormalBlock extends Block {
 		// Set this to false, need to wait for all adjacent dirt blocks to be
 		// set before we determine which sprite to assign to this block
 		set = false;
-	}
-
-	public NormalBlock(BlockProperty property, BlockType type, String blockName) {
-		super();
-		this.property = property;
-		this.type = type;
-		this.setBlockName(blockName);
 	}
 
 	/**

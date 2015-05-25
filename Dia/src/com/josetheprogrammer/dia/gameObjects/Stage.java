@@ -3,6 +3,8 @@ package com.josetheprogrammer.dia.gameObjects;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
@@ -27,7 +29,11 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author Jose Rivera
  */
 
-public class Stage {
+public class Stage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int stageWidth = 20;
 	private int stageHeight = 14;
 	public final int BLOCK_SIZE = 32;
@@ -59,12 +65,14 @@ public class Stage {
 	private Block emptyBlock;
 
 	// Background
-	private ImageIcon background;
+	transient private ImageIcon background;
 
 	/**
 	 * Stage is 640 x 640 pixels, divide pixels by 32 to get the array index
 	 */
 	public Stage() {
+
+		System.out.println("ayyy");
 
 		blocks = new Block[getStageWidth()][getStageHeight()];
 		items = new Item[getStageWidth()][getStageHeight()];
@@ -386,47 +394,6 @@ public class Stage {
 		items = newItems;
 	}
 
-	public String Serialize() {
-		String stage = "";
-		stage = stage + getStageName() + "\n" + stage + getStageWidth() + "\n"
-				+ getStageHeight() + "\n";
-		stage = stage + startPoint.x + "\n" + startPoint.y + "\n";
-		stage = stage + serializeBlocks();
-		stage = stage + serializeMobs();
-
-		return stage;
-	}
-
-	private String serializeBlocks() {
-		String stageBlocks = "";
-		// Copy over blocks/items
-		for (int i = 0; i < getStageWidth(); i++) {
-			for (int j = 0; j < getStageHeight(); j++) {
-				if (blocks[i][j] != null)
-					stageBlocks = stageBlocks + blocks[i][j].getBlockType()
-							+ ";" + blocks[i][j].getBlockName();
-				stageBlocks = stageBlocks + "\n";
-				if (items[i][j] != null)
-					stageBlocks = stageBlocks + items[i][j].getItemType() + ";"
-							+ items[i][j].getItemName();
-				stageBlocks = stageBlocks + "\n";
-			}
-		}
-		return stageBlocks;
-	}
-
-	private String serializeMobs() {
-		String stageMobs = "";
-		Mob mob = null;
-		Iterator<Mob> iter = mobs.iterator();
-		while (iter.hasNext()) {
-			mob = iter.next();
-			stageMobs = stageMobs + mob.getType() + ";" + mob.getMobName();
-		}
-		stageMobs = stageMobs + "\n";
-
-		return stageMobs;
-	}
 
 	public String getStageName() {
 		return stageName;
@@ -498,5 +465,11 @@ public class Stage {
 			}
 		}
 
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		background = Resources.getImage("backgrounds", "dungeon.png");
 	}
 }

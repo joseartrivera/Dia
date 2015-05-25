@@ -9,6 +9,10 @@ import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 public class FireBreatherMob extends BasicMob {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ProjectileType projectileType;
 	private int fireballs;
 	private int fireballLimit;

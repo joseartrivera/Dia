@@ -8,6 +8,10 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
 
 public class PlaceableItem extends Item implements EditibleItem {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Placeable item;
 	private Placeable placeable;
 	private ItemType itemType;

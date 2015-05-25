@@ -4,6 +4,11 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
 
 public class MeleeDashItem extends MeleeItem{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MeleeDashItem(Stage stage) {
 		super(stage);
 	}

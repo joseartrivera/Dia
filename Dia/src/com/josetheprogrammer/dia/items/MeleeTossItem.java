@@ -10,6 +10,11 @@ import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
 public class MeleeTossItem extends MeleeItem {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MeleeTossItem(Stage stage) {
 		super(stage);
 		this.setItemName("spear.png");

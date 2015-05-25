@@ -5,10 +5,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.KeyStroke;
-
 import com.josetheprogrammer.dia.gameObjects.Direction;
 import com.josetheprogrammer.dia.gameObjects.Player;
 import com.josetheprogrammer.dia.items.Item;
@@ -25,11 +21,6 @@ public class PlayerKeyListener implements KeyListener, MouseListener {
 
 	public PlayerKeyListener(Player player) {
 		this.player = player;
-	}
-	
-	private void RunAction(Direction direction){
-		player.setRunning(true);
-		player.setAction(direction);
 	}
 
 	@Override

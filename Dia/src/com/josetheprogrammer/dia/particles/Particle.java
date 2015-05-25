@@ -1,8 +1,13 @@
 package com.josetheprogrammer.dia.particles;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Particle {
+public class Particle implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ParticleType type;
 	private int x;
 	private int y;

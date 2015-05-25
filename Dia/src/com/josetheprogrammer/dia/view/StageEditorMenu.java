@@ -3,15 +3,11 @@ package com.josetheprogrammer.dia.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -19,20 +15,15 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 import com.josetheprogrammer.dia.blocks.BlockType;
 import com.josetheprogrammer.dia.gameObjects.Game;
-import com.josetheprogrammer.dia.gameObjects.Stage;
 import com.josetheprogrammer.dia.items.EditibleItem;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.PlaceableBlock;
 import com.josetheprogrammer.dia.items.PlaceableItem;
 import com.josetheprogrammer.dia.items.PlaceableMob;
-import com.josetheprogrammer.dia.listeners.EditorListener;
 import com.josetheprogrammer.dia.mobs.MobType;
 
 @SuppressWarnings("serial")

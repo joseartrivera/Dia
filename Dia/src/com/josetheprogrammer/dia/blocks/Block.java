@@ -3,6 +3,8 @@ package com.josetheprogrammer.dia.blocks;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.Serializable;
 
 import com.josetheprogrammer.dia.gameObjects.Placeable;
 import com.josetheprogrammer.dia.gameObjects.Stage;
@@ -14,7 +16,11 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
  * @author Jose Rivera
  * 
  */
-public abstract class Block implements Placeable {
+public abstract class Block implements Placeable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected BlockProperty property;
 	protected Point point;
 	protected Stage stage;
@@ -36,14 +42,6 @@ public abstract class Block implements Placeable {
 		this.point = new Point();
 		property = BlockProperty.GROUND;
 		this.stage = stage;
-		this.blockName = "";
-		this.breakable = false;
-	}
-
-	public Block() {
-		this.point = new Point();
-		property = BlockProperty.GROUND;
-		this.stage = null;
 		this.blockName = "";
 		this.breakable = false;
 	}
@@ -153,7 +151,8 @@ public abstract class Block implements Placeable {
 			// Left is dirt, right is dirt, up is empty
 			if (left == blockName && right == blockName && up != blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (left != blockName && right != blockName && up != blockName & down == blockName)
+			else if (left != blockName && right != blockName && up != blockName
+					& down == blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
 			else if (left != blockName && right != blockName && up != blockName
 					&& down != blockName)
@@ -167,28 +166,28 @@ public abstract class Block implements Placeable {
 					&& down == blockName)
 				setSprite(getSpriteSheet().getSubimage(66, 0, 32, 32));
 			// all empty except right
-			else if (left != blockName && right == blockName && down != blockName
-					&& up != blockName)
+			else if (left != blockName && right == blockName
+					&& down != blockName && up != blockName)
 				setSprite(getSpriteSheet().getSubimage(99, 0, 32, 32));
 			// all empty except left
-			else if (left == blockName && right != blockName && down != blockName
-					&& up != blockName)
+			else if (left == blockName && right != blockName
+					&& down != blockName && up != blockName)
 				setSprite(getSpriteSheet().getSubimage(132, 0, 32, 32));
 			// all blockNames surrounding
-			else if (left == blockName && right == blockName && down == blockName
-					&& up == blockName)
+			else if (left == blockName && right == blockName
+					&& down == blockName && up == blockName)
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
 			// all surrounding except bottom
-			else if (left == blockName && right == blockName && down != blockName
-					&& up == blockName)
+			else if (left == blockName && right == blockName
+					&& down != blockName && up == blockName)
 				setSprite(getSpriteSheet().getSubimage(33, 33, 32, 32));
 			// left and top are dirt
-			else if (left == blockName && right != blockName && down != blockName
-					&& up == blockName)
+			else if (left == blockName && right != blockName
+					&& down != blockName && up == blockName)
 				setSprite(getSpriteSheet().getSubimage(66, 33, 32, 32));
 			// right and top are dirt
-			else if (left != blockName && right == blockName && down != blockName
-					&& up == blockName)
+			else if (left != blockName && right == blockName
+					&& down != blockName && up == blockName)
 				setSprite(getSpriteSheet().getSubimage(99, 33, 32, 32));
 			else
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
@@ -241,13 +240,18 @@ public abstract class Block implements Placeable {
 		stage.placeBlock(null, getX(), getY());
 	}
 
-
 	public boolean isTileSet() {
 		return isTileSet;
 	}
 
 	public void setTileSet(boolean isTileSet) {
 		this.isTileSet = isTileSet;
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		this.setBlockName(blockName);
 	}
 
 }

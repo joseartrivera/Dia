@@ -3,6 +3,8 @@ package com.josetheprogrammer.dia.projectiles;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
+import java.io.IOException;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +19,11 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author Jose Rivera
  * 
  */
-public abstract class Projectile implements Placeable {
+public abstract class Projectile implements Placeable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Stage stage;
 	private Point point;
 	private boolean altUse;
@@ -26,7 +32,7 @@ public abstract class Projectile implements Placeable {
 	private int attackPower;
 	private boolean dead;
 	private String projectileName;
-	private ImageIcon projectileImage;
+	transient private ImageIcon projectileImage;
 	private Color color;
 	protected boolean hit;
 
@@ -80,14 +86,14 @@ public abstract class Projectile implements Placeable {
 		return point;
 	}
 
-	public int getX(){
+	public int getX() {
 		return point.x;
 	}
 
-	public int getY(){
+	public int getY() {
 		return point.y;
 	}
-	
+
 	public void setX(int x) {
 		point.x = x;
 	}
@@ -172,13 +178,19 @@ public abstract class Projectile implements Placeable {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	
-	public void place(){
+
+	public void place() {
 		stage.addProjectile(this);
 	}
-	
-	public void remove(){
+
+	public void remove() {
 		setDead(true);
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		this.setProjectileName(projectileName);
 	}
 
 }

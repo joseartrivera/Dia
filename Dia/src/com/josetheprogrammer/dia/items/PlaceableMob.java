@@ -9,6 +9,10 @@ import com.josetheprogrammer.dia.mobs.MobType;
 
 public class PlaceableMob extends Item implements EditibleItem {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Placeable item;
 	private Placeable placeable;
 	private MobType mobType;

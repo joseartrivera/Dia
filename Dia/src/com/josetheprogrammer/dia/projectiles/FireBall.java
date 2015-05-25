@@ -13,6 +13,10 @@ import com.josetheprogrammer.dia.particles.ParticleType;
  * 
  */
 public class FireBall extends Projectile {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int initialYSpeed;
 	private int bounces;
 

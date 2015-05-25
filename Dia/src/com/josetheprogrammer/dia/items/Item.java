@@ -2,6 +2,8 @@ package com.josetheprogrammer.dia.items;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.io.IOException;
+import java.io.Serializable;
 
 import com.josetheprogrammer.dia.gameObjects.Placeable;
 import com.josetheprogrammer.dia.gameObjects.Player;
@@ -13,7 +15,11 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
  * @author Jose Rivera
  * 
  */
-public abstract class Item implements Placeable{
+public abstract class Item implements Placeable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String itemName;
 	protected Point point;
 	protected Stage stage;
@@ -62,7 +68,7 @@ public abstract class Item implements Placeable{
 	public int getY() {
 		return point.y;
 	}
-	
+
 	public void setX(int x) {
 		point.x = x;
 	}
@@ -131,8 +137,8 @@ public abstract class Item implements Placeable{
 		if (onAltCooldown())
 			currentAltCooldown--;
 	}
-	
-	public boolean drawRotated(){
+
+	public boolean drawRotated() {
 		return false;
 	}
 
@@ -143,22 +149,28 @@ public abstract class Item implements Placeable{
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
 	}
-	
-	public void place(){
+
+	public void place() {
 		getStage().setItem(this, getX(), getY());
 	}
-	
-	public void remove(){
+
+	public void remove() {
 		getStage().setItem(null, getX(), getY());
 	}
-	
+
 	public Stage getStage() {
 		return stage;
 	}
-	
-	public void update(){
+
+	public void update() {
 		updateCooldowns();
 		return;
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		in.defaultReadObject();
+		this.setItemName(itemName);
 	}
 
 }

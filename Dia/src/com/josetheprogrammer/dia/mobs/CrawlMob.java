@@ -8,6 +8,11 @@ import com.josetheprogrammer.dia.gameObjects.Stage;
 
 public class CrawlMob extends BasicMob {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public CrawlMob(Stage stage, Point point) {
 		super(stage, point);
 		this.setMobName("spider");

@@ -18,7 +18,11 @@ import com.josetheprogrammer.dia.view.Resources;
  */
 
 public class LauncherItem extends Item {
-	private ImageIcon launcher;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	transient private ImageIcon launcher;
 	private ItemType type;
 	private int xSpeed;
 	private int ySpeed;

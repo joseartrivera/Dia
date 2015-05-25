@@ -17,15 +17,20 @@ import com.josetheprogrammer.dia.view.Resources;
  * @author Jose Rivera
  * 
  */
-public class BasicMob extends Mob {
+public class BasicMob extends Mob{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected final String FOLDER = "mobs";
 
-	private ImageIcon stand;
-	private ImageIcon move;
-	private ImageIcon attack;
-	private ImageIcon mobDead;
-	private ImageIcon mobDamaged;
+	transient private ImageIcon stand;
+	transient private ImageIcon move;
+	transient private ImageIcon attack;
+	transient private ImageIcon mobDead;
+	transient private ImageIcon mobDamaged;
 
 	private int attackDuration;
 	private int attackCount;
