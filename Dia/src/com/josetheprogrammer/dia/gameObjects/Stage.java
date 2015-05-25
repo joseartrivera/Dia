@@ -72,8 +72,6 @@ public class Stage implements Serializable {
 	 */
 	public Stage() {
 
-		System.out.println("ayyy");
-
 		blocks = new Block[getStageWidth()][getStageHeight()];
 		items = new Item[getStageWidth()][getStageHeight()];
 

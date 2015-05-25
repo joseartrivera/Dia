@@ -85,7 +85,8 @@ public class Resources {
 			if (images.containsKey(str)) {
 				image = images.get(str);
 			} else {
-				File imageFile = new File("resources/" + folder + "/" + str);
+				File imageFile = new File("resources" + File.separator + folder
+						+ File.separator + str);
 				if (imageFile.exists()) {
 					image = new ImageIcon(imageFile.getPath());
 					images.put(str, image);
@@ -96,7 +97,8 @@ public class Resources {
 
 		URL imageURL = null;
 		try {
-			imageURL = new URL(url, "resources/" + folder + "/" + str);
+			imageURL = new URL(url, "resources" + File.separator + folder
+					+ File.separator + str);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -106,7 +108,7 @@ public class Resources {
 	public static ArrayList<String> getList(String folder) {
 		ArrayList<String> list = new ArrayList<String>();
 		// Load all the resources in the images folder
-		File dir = new File("resources/" + folder);
+		File dir = new File("resources" + File.separator + folder);
 		for (File file : dir.listFiles()) {
 			// Regex to find png and gif files
 			if (file.getName().matches(".*\\.(png|gif)")) {
@@ -146,7 +148,8 @@ public class Resources {
 			if (spriteSheet.containsKey(str)) {
 				image = spriteSheet.get(str);
 			} else {
-				File imageFile = new File("resources/" + folder + "/" + str);
+				File imageFile = new File("resources" + File.separator + folder
+						+ File.separator + str);
 				if (imageFile.exists()) {
 					try {
 						image = ImageIO.read(imageFile);
@@ -160,7 +163,8 @@ public class Resources {
 
 		URL imageURL = null;
 		try {
-			imageURL = new URL(url, "resources/" + folder + "/" + str);
+			imageURL = new URL(url, "resources" + File.separator + folder
+					+ File.separator + str);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -171,11 +175,10 @@ public class Resources {
 		}
 		return null;
 	}
-	
 
-	public static boolean SaveStage(Stage stage, String name) {
+	public static boolean SaveStage(Stage stage, String name, String dir) {
 		try {
-			File file = new File("resources/stages/" + name + ".stage");
+			File file = new File(dir + File.separator + name);
 			if (!file.exists()) {
 				if (!file.createNewFile()) {
 					return false;
@@ -194,9 +197,9 @@ public class Resources {
 		}
 	}
 
-	public static Stage LoadStage(String name) {
+	public static Stage LoadStage(String name, String directory) {
 		Stage stage = null;
-		File file = new File("resources/stages/" + name + ".stage");
+		File file = new File(directory + File.separator + name);
 		if (!file.exists()) {
 			return null;
 		}
@@ -216,6 +219,5 @@ public class Resources {
 		}
 		return stage;
 	}
-
 
 }

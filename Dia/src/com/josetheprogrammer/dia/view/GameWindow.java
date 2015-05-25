@@ -5,9 +5,11 @@ import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Observer;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -159,10 +161,9 @@ public class GameWindow extends JFrame {
 		stageEditor.setFocusable(true);
 		cp.add(stageEditor);
 		stageEditor.requestFocus();
-		
+
 		stageEditorMenu = new StageEditorMenu(game, EditorMode.Block);
 		cp.add(stageEditorMenu);
-		
 
 		buildMenu();
 	}
@@ -243,30 +244,54 @@ public class GameWindow extends JFrame {
 			if (ae.getActionCommand().equals("Mob Editor")) {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Mob);
 			}
-			
+
 			if (ae.getActionCommand().equals("Item Editor")) {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Item);
 			}
-			
+
 			cp.add(stageEditorMenu);
 			cp.invalidate();
 			cp.validate();
 		}
 	}
-	
+
 	public class SaveLoadAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent ae) {
+			JFileChooser stageChooser = new JFileChooser();
+			File workingDirectory = new File(System.getProperty("user.dir")
+					+ File.separator + "resources" + File.separator + "stages");
+			stageChooser.setCurrentDirectory(workingDirectory);
+			String stageName = null;
+			String directory = null;
+
 			if (ae.getActionCommand().equals("Save Stage")) {
-				if (!Resources.SaveStage(game.getStage(), "stage1")){
-					System.out.println("Error saving stage");
-					return;
+
+				int rVal = stageChooser.showSaveDialog(GameWindow.this);
+
+				if (rVal == JFileChooser.APPROVE_OPTION) {
+					stageName = stageChooser.getSelectedFile().getName();
+					directory = stageChooser.getCurrentDirectory().toString();
+					if (!Resources.SaveStage(game.getStage(), stageName
+							+ ".stg", directory)) {
+						System.out.println("Error saving stage");
+						return;
+					}
+					System.out.println("Stage saved to " + directory
+							+ stageName + ".stg");
 				}
-				System.out.println("Stage saved");
 			}
 			if (ae.getActionCommand().equals("Load Stage")) {
-				Stage stage = Resources.LoadStage("stage1");
-				game.setStage(stage);
+
+				int rVal = stageChooser.showOpenDialog(GameWindow.this);
+
+				if (rVal == JFileChooser.APPROVE_OPTION) {
+					stageName = stageChooser.getSelectedFile().getName();
+					directory = stageChooser.getCurrentDirectory().toString();
+					Stage stage = Resources.LoadStage(stageName, directory);
+					game.setStage(stage);
+					System.out.println("loaded " + directory + stageName);
+				}
 			}
 		}
 	}
