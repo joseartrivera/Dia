@@ -92,10 +92,6 @@ public class GameWindow extends JFrame {
 		cp.remove(mainMenu);
 		drawGame = new DrawStage(game);
 		game.addObserver((Observer) drawGame);
-		PlayerKeyListener playerListener = new PlayerKeyListener(
-				game.getPlayer());
-		drawGame.addKeyListener(playerListener);
-		drawGame.addMouseListener(playerListener);
 		cp.add(drawGame);
 
 		drawGame.requestFocus();
@@ -145,16 +141,22 @@ public class GameWindow extends JFrame {
 				new FireBreatherMob(game.getStage(), new Point(550, 100)));
 		mob = new CrawlMob(game.getStage(), new Point(350, 100));
 		game.getStage().addMob(mob);
+		game.setStage(Resources.LoadStage("level1.stg", "resources/stages"));
 		game.startGame();
+		PlayerKeyListener playerListener = new PlayerKeyListener(
+				game.getPlayer());
+		drawGame.addKeyListener(playerListener);
+		drawGame.addMouseListener(playerListener);
 	}
 
 	public void startEditor() {
 
-		EditorListener listener = new EditorListener(game, 12);
-
 		setSize(1120, 480);
 		cp.remove(mainMenu);
 		game.startEditMode();
+		
+
+		EditorListener listener = new EditorListener(game, 12);
 
 		stageEditor = new StageEditor(game, listener);
 		game.addObserver((Observer) stageEditor);
@@ -247,6 +249,10 @@ public class GameWindow extends JFrame {
 
 			if (ae.getActionCommand().equals("Item Editor")) {
 				stageEditorMenu = new StageEditorMenu(game, EditorMode.Item);
+			}
+			
+			if (ae.getActionCommand().equals("Edit Stage Properties")) {
+				stageEditorMenu = new StageEditorMenu(game, EditorMode.Stage);
 			}
 
 			cp.add(stageEditorMenu);

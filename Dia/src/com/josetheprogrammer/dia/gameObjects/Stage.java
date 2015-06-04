@@ -41,6 +41,8 @@ public class Stage implements Serializable {
 
 	// Blocks on the stage
 	private Block[][] blocks;
+	
+	private Block[][] decorations;
 
 	// Items on the stage
 	private Item[][] items;
@@ -66,6 +68,7 @@ public class Stage implements Serializable {
 
 	// Background
 	transient private ImageIcon background;
+	private String backgroundName;
 
 	/**
 	 * Stage is 640 x 640 pixels, divide pixels by 32 to get the array index
@@ -74,6 +77,7 @@ public class Stage implements Serializable {
 
 		blocks = new Block[getStageWidth()][getStageHeight()];
 		items = new Item[getStageWidth()][getStageHeight()];
+		decorations = new Block[getStageWidth()][getStageHeight()];
 
 		outOfBoundaryBlock = new NormalBlock(this);
 		outOfBoundaryBlock.setBlockName("");
@@ -91,7 +95,7 @@ public class Stage implements Serializable {
 		// Gravity for this stage
 		setGravity(3);
 
-		background = Resources.getImage("backgrounds", "dungeon.png");
+		this.setBackground("dungeon.png");
 		stageName = "default";
 	}
 
@@ -119,6 +123,22 @@ public class Stage implements Serializable {
 			block = outOfBoundaryBlock;
 		return block;
 	}
+	
+	public Block getDecorationAt(int x, int y) {
+		Block block = null;
+		int i = x / BLOCK_SIZE;
+		int j = y / BLOCK_SIZE;
+
+		// Slighty to the left causes integer to divide to 0
+		if (x < 0) {
+			i = -1;
+		}
+
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
+			block = decorations[i][j];
+		} 
+		return block;
+	}
 
 	/**
 	 * Get an item at a specific part on the screen
@@ -128,7 +148,19 @@ public class Stage implements Serializable {
 	 * @return
 	 */
 	public Item getItemAt(int x, int y) {
-		return items[x / BLOCK_SIZE][y / BLOCK_SIZE];
+		Item item = null;
+		int i = x / BLOCK_SIZE;
+		int j = y / BLOCK_SIZE;
+		
+		// Slighty to the left causes integer to divide to 0
+		if (x < 0) {
+			i = -1;
+		}
+
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
+			item = items[i][j];
+		}
+		return item;
 	}
 
 	/**
@@ -156,6 +188,28 @@ public class Stage implements Serializable {
 			for (int j = 0; j < blocks[i].length; j++) {
 				if (blocks[i][j] != null)
 					blocks[i][j].resolveTile();
+			}
+		}
+	}
+	
+	public void setDecoration(Block block, int i, int j) {
+		if (i < getStageWidth() && i >= 0 && j < getStageHeight() && j >= 0) {
+			if (block != null) {
+				block.setStage(this);
+				block.getPoint().setLocation(i * BLOCK_SIZE, j * BLOCK_SIZE);
+			}
+			decorations[i][j] = block;
+		}
+	}
+
+	public void placeDecoration(Block block, int x, int y) {
+		setDecoration(block, x / BLOCK_SIZE, y / BLOCK_SIZE);
+
+		Block[][] blocks = getBlocks();
+		for (int i = 0; i < blocks.length; i++) {
+			for (int j = 0; j < blocks[i].length; j++) {
+				if (decorations[i][j] != null)
+					decorations[i][j].resolveTile();
 			}
 		}
 	}
@@ -192,6 +246,10 @@ public class Stage implements Serializable {
 
 	public Block[][] getBlocks() {
 		return blocks;
+	}
+	
+	public Block[][] getDecorations(){
+		return decorations;
 	}
 
 	public Item[][] getItems() {
@@ -350,6 +408,7 @@ public class Stage implements Serializable {
 	}
 
 	public void setBackground(String backgroundName) {
+		this.backgroundName = backgroundName;
 		background = Resources.getImage("backgrounds", backgroundName);
 	}
 
@@ -364,6 +423,7 @@ public class Stage implements Serializable {
 	public void changeStageDimensions(int width, int height) {
 		Block[][] newBlocks = new Block[width][height];
 		Item[][] newItems = new Item[width][height];
+		Block[][] newDecorations = new Block[width][height];
 
 		int copyWidth;
 		int copyHeight;
@@ -383,6 +443,7 @@ public class Stage implements Serializable {
 			for (int j = 0; j < copyHeight; j++) {
 				newBlocks[i][j] = blocks[i][j];
 				newItems[i][j] = items[i][j];
+				newDecorations[i][j] = decorations[i][j];
 			}
 		}
 
@@ -390,6 +451,7 @@ public class Stage implements Serializable {
 		stageHeight = height;
 		blocks = newBlocks;
 		items = newItems;
+		decorations = newDecorations;
 	}
 
 
@@ -423,8 +485,15 @@ public class Stage implements Serializable {
 
 			return true;
 		}
+		
+		Block block = this.getDecorationAt(x, y);
 
-		Block block = this.getBlockAt(x, y);
+		if (block != null) {
+			this.placeDecoration(null, x, y);
+			return true;
+		}
+
+		block = this.getBlockAt(x, y);
 
 		if (block != null) {
 			this.placeBlock(null, x, y);
@@ -468,6 +537,6 @@ public class Stage implements Serializable {
 	private void readObject(java.io.ObjectInputStream in) throws IOException,
 			ClassNotFoundException {
 		in.defaultReadObject();
-		background = Resources.getImage("backgrounds", "dungeon.png");
+		background = Resources.getImage("backgrounds", backgroundName);
 	}
 }

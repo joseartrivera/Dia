@@ -36,7 +36,7 @@ public class NormalBlock extends Block {
 		property = BlockProperty.GROUND;
 		type = BlockType.SOLID;
 		setTileSet(true);
-		this.setBlockName("dungeon_tileset.png");
+		this.setBlockName("");
 		// Set this to false, need to wait for all adjacent dirt blocks to be
 		// set before we determine which sprite to assign to this block
 		set = false;

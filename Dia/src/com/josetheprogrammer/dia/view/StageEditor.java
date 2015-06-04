@@ -75,6 +75,7 @@ public class StageEditor extends JPanel implements Observer {
 		drawStage(g2);
 		drawMobs(g2);
 		drawBlocks(g2);
+		drawDecorations(g2);
 		drawItems(g2);
 		drawInventory(g2);
 		drawProjectiles(g2);
@@ -184,6 +185,17 @@ public class StageEditor extends JPanel implements Observer {
 	 */
 	private void drawBlocks(Graphics2D g2) {
 		Block[][] blocks = game.getStage().getBlocks();
+		for (int i = 0; i < blocks.length; i++) {
+			for (int j = 0; j < blocks[i].length; j++) {
+				if (blocks[i][j] != null)
+					drawImageInView(g2, blocks[i][j].getSprite(),
+							blocks[i][j].getX(), blocks[i][j].getY());
+			}
+		}
+	}
+	
+	private void drawDecorations(Graphics2D g2) {
+		Block[][] blocks = game.getStage().getDecorations();
 		for (int i = 0; i < blocks.length; i++) {
 			for (int j = 0; j < blocks[i].length; j++) {
 				if (blocks[i][j] != null)

@@ -27,14 +27,14 @@ public class Game extends Observable {
 	public Game(Resources resources) {
 		this.resources = resources;
 		stage = new Stage();
-		player = new Player(stage, new Point(stage.getStartPoint().x,
-				stage.getStartPoint().y), 100, 3);
 	}
 
 	/**
 	 * Starts the game
 	 */
 	public void startGame() {
+		player = new Player(stage, new Point(stage.getStartPoint().x,
+				stage.getStartPoint().y), 100, 3);
 		stage.setPlayer(player);
 		startTimers();
 	}
@@ -83,6 +83,8 @@ public class Game extends Observable {
 	 * Start the editing this stage
 	 */
 	public void startEditMode() {
+		player = new Player(stage, new Point(stage.getStartPoint().x,
+				stage.getStartPoint().y), 100, 3);
 		player.getInventory().setSize(10);
 		stepTimer = new Timer();
 		stepTimer.schedule(new EditTasks(), 0, 20);

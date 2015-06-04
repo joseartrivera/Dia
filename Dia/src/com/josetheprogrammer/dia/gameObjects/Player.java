@@ -33,13 +33,15 @@ public class Player implements Serializable {
 	private int realJumpPower;
 	private int speed;
 	private int gravity;
-	private int jumpCount;
+	private int jumpCounter;
 	private int maxJumpHeight;
 	private int boostDuration;
 	private int xBoost;
 	private int yBoost;
 	private PlayerInventory inventory;
 	private Item equipped;
+	private int maxExtraJumpCount;
+	private int extraJumpCount;
 
 	// Game info
 	private Point point;
@@ -71,7 +73,7 @@ public class Player implements Serializable {
 		this.stage = stage;
 		this.setHealth(health);
 		this.setMaxHealth(health);
-		this.setJumpPower(10);
+		this.setJumpPower(9);
 		this.realJumpPower = jumpPower;
 		this.setSpeed(speed);
 		this.point = startPoint;
@@ -80,8 +82,9 @@ public class Player implements Serializable {
 		running = false;
 		jumping = false;
 		direction = Direction.FACE_RIGHT;
-		jumpCount = 0;
-		maxJumpHeight = 14;
+		jumpCounter = 0;
+		maxJumpHeight = 13;
+		this.setMaxExtraJumpCount(1);
 
 		loadResources();
 	}
@@ -226,28 +229,37 @@ public class Player implements Serializable {
 			point.translate(0, gravity);
 		}
 		// If we are jumping, make sure we can go up and move upward
-		else if (stage.getBlockAt(point.x + 24, point.y - jumpPower)
+		else if (stage.getBlockAt(point.x + 24, point.y - jumpPower + 4)
 				.getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + 6, point.y - jumpPower)
+				&& stage.getBlockAt(point.x + 6, point.y - jumpPower + 4)
 						.getBlockProperty() == BlockProperty.EMPTY
-				&& stage.getBlockAt(point.x + 16, point.y - jumpPower)
+				&& stage.getBlockAt(point.x + 16, point.y - jumpPower + 4)
 						.getBlockProperty() == BlockProperty.EMPTY && jumping) {
 			point.translate(0, -jumpPower);
 
 			// Inertia
-			jumpCount++;
+			jumpCounter++;
 			if (jumpPower > 0)
 				jumpPower--;
 
 			// Keep track of when to stop jumping
-			if (jumpCount > maxJumpHeight) {
+			if (jumpCounter > maxJumpHeight) {
 				jumping = false;
-				jumpCount = 0;
+				jumpCounter = 0;
 				jumpPower = realJumpPower;
 			}
-		} else {
+		}
+		// grounded
+		else if (isOnGround()) {
+			extraJumpCount = 0;
 			jumping = false;
-			jumpCount = 0;
+			jumpCounter = 0;
+			jumpPower = realJumpPower;
+		}
+		// Hit roof
+		else {
+			jumping = false;
+			jumpCounter = 0;
 			jumpPower = realJumpPower;
 		}
 	}
@@ -274,8 +286,22 @@ public class Player implements Serializable {
 	 */
 	public void setJumping(boolean setJumping) {
 		// Set us to jumping only if we are also grounded
-		if (isOnGround())
+		if (isOnGround()) {
 			this.jumping = setJumping;
+			stage.addParticles(3, ParticleType.DUST, Color.ORANGE, getX() + 16,
+					getY() + 24, 1, 1, 1, 1, 1, 1, 10, 2);
+			stage.addParticles(3, ParticleType.DUST, Color.RED, getX() + 16,
+					getY() + 24, 1, 1, 1, 1, 1, 1, 10, 2);
+		} else if (extraJumpCount < getMaxExtraJumpCount()) {
+			stage.addParticles(3, ParticleType.DUST, Color.ORANGE, getX() + 16,
+					getY() + 24, 1, 1, 1, 1, 1, 1, 10, 2);
+			stage.addParticles(3, ParticleType.DUST, Color.RED, getX() + 16,
+					getY() + 24, 1, 1, 1, 1, 1, 1, 10, 2);
+			extraJumpCount++;
+			this.jumping = setJumping;
+			jumpCounter = 0;
+			jumpPower = realJumpPower;
+		}
 	}
 
 	public int getHealth() {
@@ -443,7 +469,16 @@ public class Player implements Serializable {
 
 	public void dropItem() {
 		inventory.removeItemByIndex(inventory.getSelectedIndex());
-		
+		setSelectedItem(inventory.getSelectedIndex());
+
+	}
+
+	public int getMaxExtraJumpCount() {
+		return maxExtraJumpCount;
+	}
+
+	public void setMaxExtraJumpCount(int maxJumpCount) {
+		this.maxExtraJumpCount = maxJumpCount;
 	}
 
 }

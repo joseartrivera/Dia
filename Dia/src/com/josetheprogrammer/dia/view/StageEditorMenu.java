@@ -61,7 +61,7 @@ public class StageEditorMenu extends JPanel {
 		setLocation(640,0);
 		//setResizable(false);
 		//setTitle("Dia Editor");
-
+		
 		add = new JButton("Add to Inventory");
 		add.setSize(142, 32);
 		add.setLocation(16, 192);
@@ -81,11 +81,40 @@ public class StageEditorMenu extends JPanel {
 			break;
 		case Item:
 			setupItemEditor();
+		case Stage:
+			setupStageEditor();
 		default:
 			break;
 
 		}
 
+	}
+
+	private void setupStageEditor() {
+		previewIcon = new ImageIcon();
+		preview = new JLabel(previewIcon);
+		preview.setLocation(64, 64);
+		preview.setSize(32, 32);
+		add.setText("Change Stage");
+		this.add(preview);
+
+		buildBackgroundList();
+	}
+
+	private void buildBackgroundList() {
+		list = new JList(Resources.getBackgroundList().toArray());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+		listScroller = new JScrollPane(list);
+		listScroller.setSize(160, 208);
+		listScroller.setLocation(206, 16);
+		list.addListSelectionListener(handler);
+		this.add(listScroller);
+		this.repaint();
+		this.validate();
+		
+		list.setSelectedIndex(0);
 	}
 
 	private void setupBlockEditor() {
@@ -95,7 +124,6 @@ public class StageEditorMenu extends JPanel {
 		preview = new JLabel(previewIcon);
 		preview.setLocation(64, 64);
 		preview.setSize(previewIcon.getIconWidth(), previewIcon.getIconWidth());
-		//this.getContentPane().add(preview);
 		this.add(preview);
 
 		tilesetBox = new JCheckBox("Tileset");
@@ -149,6 +177,8 @@ public class StageEditorMenu extends JPanel {
 		this.add(listScroller);
 		this.repaint();
 		this.validate();
+		
+		list.setSelectedIndex(0);
 	}
 
 	private void buildBlockList() {
@@ -173,6 +203,8 @@ public class StageEditorMenu extends JPanel {
 		this.add(listScroller);
 		this.repaint();
 		this.validate();
+		
+		list.setSelectedIndex(0);
 	}
 
 	private void rebuildBlockList() {
@@ -213,6 +245,8 @@ public class StageEditorMenu extends JPanel {
 		this.add(listScroller);
 		this.repaint();
 		this.validate();
+		
+		list.setSelectedIndex(0);
 	}
 
 	private class SharedListSelectionHandler implements ListSelectionListener {
@@ -229,6 +263,9 @@ public class StageEditorMenu extends JPanel {
 						break;
 					case Item:
 						createPlaceableItem(name);
+						break;
+					case Stage:
+						selectBackground(name);
 						break;
 					default:
 						break;
@@ -270,13 +307,23 @@ public class StageEditorMenu extends JPanel {
 		//this.getContentPane().repaint();
 		this.repaint();
 	}
+	
+	private void selectBackground(String name) {
+		preview.setIcon(Resources.getImage("backgrounds", name));
+		this.repaint();
+		
+	}
 
 	private class AddButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
+			if (mode == EditorMode.Stage){
+				game.getStage().setBackground((String) list.getSelectedValue());
+			}
 			if (placeableItem != null) {
 				game.getPlayer().addItemToInventory((Item) placeableItem);
+				return;
 			}
 		}
 	}

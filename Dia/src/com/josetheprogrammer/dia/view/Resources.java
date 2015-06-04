@@ -127,6 +127,13 @@ public class Resources {
 		list.add("hollow");
 		return list;
 	}
+	
+	public static ArrayList<String> getBackgroundList() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("dungeon.png");
+		list.add("sky.png");
+		return list;
+	}
 
 	public static ArrayList<String> getItemList() {
 		ArrayList<String> list = new ArrayList<String>();

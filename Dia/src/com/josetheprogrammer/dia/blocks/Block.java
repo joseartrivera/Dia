@@ -149,45 +149,45 @@ public abstract class Block implements Placeable, Serializable {
 					.getBlockName();
 
 			// Left is dirt, right is dirt, up is empty
-			if (left == blockName && right == blockName && up != blockName)
+			if (left.equals(blockName) && right.equals(blockName) && !up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (left != blockName && right != blockName && up != blockName
-					& down == blockName)
+			else if (!left.equals(blockName) && !right.equals(blockName) && !up.equals(blockName)
+					& down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (left != blockName && right != blockName && up != blockName
-					&& down != blockName)
+			else if (!left.equals(blockName) && !right.equals(blockName) && !up.equals(blockName)
+					&& !down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
 			// Left is dirt, right is empty, up is empty, down is dirt
-			else if (left == blockName && right != blockName && up != blockName
-					&& down == blockName)
+			else if (left.equals(blockName) && !right.equals(blockName) && !up.equals(blockName)
+					&& down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(33, 0, 32, 32));
 			// Left empty, Right dirt, up empty, down dirt
-			else if (left != blockName && right == blockName && up != blockName
-					&& down == blockName)
+			else if (!left.equals(blockName) && right.equals(blockName) && !up.equals(blockName)
+					&& down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(66, 0, 32, 32));
 			// all empty except right
-			else if (left != blockName && right == blockName
-					&& down != blockName && up != blockName)
+			else if (!left.equals(blockName) && right.equals(blockName)
+					&& !down.equals(blockName) && !up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(99, 0, 32, 32));
 			// all empty except left
-			else if (left == blockName && right != blockName
-					&& down != blockName && up != blockName)
+			else if (left.equals(blockName) && !right.equals(blockName)
+					&& !down.equals(blockName) && !up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(132, 0, 32, 32));
 			// all blockNames surrounding
-			else if (left == blockName && right == blockName
-					&& down == blockName && up == blockName)
+			else if (left.equals(blockName) && right.equals(blockName)
+					&& down.equals(blockName) && up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
 			// all surrounding except bottom
-			else if (left == blockName && right == blockName
-					&& down != blockName && up == blockName)
+			else if (left.equals(blockName) && right.equals(blockName)
+					&& !down.equals(blockName) && up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(33, 33, 32, 32));
 			// left and top are dirt
-			else if (left == blockName && right != blockName
-					&& down != blockName && up == blockName)
+			else if (left.equals(blockName) && !right.equals(blockName)
+					&& !down.equals(blockName) && up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(66, 33, 32, 32));
 			// right and top are dirt
-			else if (left != blockName && right == blockName
-					&& down != blockName && up == blockName)
+			else if (!left.equals(blockName) && right.equals(blockName)
+					&& !down.equals(blockName) && up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(99, 33, 32, 32));
 			else
 				setSprite(getSpriteSheet().getSubimage(0, 33, 32, 32));
@@ -233,7 +233,10 @@ public abstract class Block implements Placeable, Serializable {
 	public abstract void setSprite();
 
 	public void place() {
-		stage.placeBlock(this, getX(), getY());
+		if (type == BlockType.DECORATION)
+			stage.placeDecoration(this, getX(), getY());
+		else
+			stage.placeBlock(this, getX(), getY());
 	}
 
 	public void remove() {
