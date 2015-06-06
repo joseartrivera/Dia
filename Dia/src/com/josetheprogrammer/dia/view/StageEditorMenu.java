@@ -81,8 +81,10 @@ public class StageEditorMenu extends JPanel {
 			break;
 		case Item:
 			setupItemEditor();
+			break;
 		case Stage:
 			setupStageEditor();
+			break;
 		default:
 			break;
 

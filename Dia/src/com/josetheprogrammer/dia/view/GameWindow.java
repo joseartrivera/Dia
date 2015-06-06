@@ -141,7 +141,9 @@ public class GameWindow extends JFrame {
 				new FireBreatherMob(game.getStage(), new Point(550, 100)));
 		mob = new CrawlMob(game.getStage(), new Point(350, 100));
 		game.getStage().addMob(mob);
-		game.setStage(Resources.LoadStage("level1.stg", "resources/stages"));
+		Stage stage = Resources.LoadStage("level1.stg", "resources/stages");
+		stage.setStartPoint(300, 615);
+		game.setStage(stage);
 		game.startGame();
 		PlayerKeyListener playerListener = new PlayerKeyListener(
 				game.getPlayer());
