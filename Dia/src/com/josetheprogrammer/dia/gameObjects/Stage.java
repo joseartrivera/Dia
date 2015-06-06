@@ -81,6 +81,7 @@ public class Stage implements Serializable {
 
 		outOfBoundaryBlock = new NormalBlock(this);
 		outOfBoundaryBlock.setBlockName("");
+		outOfBoundaryBlock.setBlockProperty(BlockProperty.EDGE);
 		emptyBlock = new NormalBlock(this);
 		emptyBlock.setBlockType(null);
 		emptyBlock.setBlockProperty(BlockProperty.EMPTY);
@@ -537,6 +538,7 @@ public class Stage implements Serializable {
 	private void readObject(java.io.ObjectInputStream in) throws IOException,
 			ClassNotFoundException {
 		in.defaultReadObject();
-		background = Resources.getImage("backgrounds", backgroundName);
+		this.setBackground(backgroundName);
+		outOfBoundaryBlock.setBlockProperty(BlockProperty.EDGE);
 	}
 }

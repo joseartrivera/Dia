@@ -6,5 +6,5 @@ package com.josetheprogrammer.dia.blocks;
  *
  */
 public enum BlockProperty {
-	EMPTY, GROUND, DEATH 
+	EMPTY, GROUND, DEATH, EDGE
 }

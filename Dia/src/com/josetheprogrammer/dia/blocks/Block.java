@@ -138,32 +138,47 @@ public abstract class Block implements Placeable, Serializable {
 	 */
 	public void resolveTile() {
 		if (getSpriteSheet() != null) {
-			// Get surrounding block types
-			String up = stage.getBlockAt(point.x + 16, point.y - 16)
-					.getBlockName();
-			String down = stage.getBlockAt(point.x + 16, point.y + 48)
-					.getBlockName();
-			String left = stage.getBlockAt(point.x - 16, point.y + 16)
-					.getBlockName();
-			String right = stage.getBlockAt(point.x + 48, point.y + 16)
-					.getBlockName();
+
+			Block upBlock = stage.getBlockAt(point.x + 16, point.y - 16);
+			Block downBlock = stage.getBlockAt(point.x + 16, point.y + 48);
+			Block leftBlock = stage.getBlockAt(point.x - 16, point.y + 16);
+			Block rightBlock = stage.getBlockAt(point.x + 48, point.y + 16);
+			
+			// Get surrounding block names
+			String up = upBlock.getBlockName();
+			String down = downBlock.getBlockName();
+			String left = leftBlock.getBlockName();
+			String right = rightBlock.getBlockName();
+			
+			if (upBlock.getBlockProperty() == BlockProperty.EDGE)
+				up = this.getBlockName();
+			
+			if (downBlock.getBlockProperty() == BlockProperty.EDGE)
+				down = this.getBlockName();
+			
+			if (leftBlock.getBlockProperty() == BlockProperty.EDGE)
+				left = this.getBlockName();
+			
+			if (rightBlock.getBlockProperty() == BlockProperty.EDGE)
+				right = this.getBlockName();
 
 			// Left is dirt, right is dirt, up is empty
-			if (left.equals(blockName) && right.equals(blockName) && !up.equals(blockName))
+			if (left.equals(blockName) && right.equals(blockName)
+					&& !up.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (!left.equals(blockName) && !right.equals(blockName) && !up.equals(blockName)
-					& down.equals(blockName))
+			else if (!left.equals(blockName) && !right.equals(blockName)
+					&& !up.equals(blockName) & down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
-			else if (!left.equals(blockName) && !right.equals(blockName) && !up.equals(blockName)
-					&& !down.equals(blockName))
+			else if (!left.equals(blockName) && !right.equals(blockName)
+					&& !up.equals(blockName) && !down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(0, 0, 32, 32));
 			// Left is dirt, right is empty, up is empty, down is dirt
-			else if (left.equals(blockName) && !right.equals(blockName) && !up.equals(blockName)
-					&& down.equals(blockName))
+			else if (left.equals(blockName) && !right.equals(blockName)
+					&& !up.equals(blockName) && down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(33, 0, 32, 32));
 			// Left empty, Right dirt, up empty, down dirt
-			else if (!left.equals(blockName) && right.equals(blockName) && !up.equals(blockName)
-					&& down.equals(blockName))
+			else if (!left.equals(blockName) && right.equals(blockName)
+					&& !up.equals(blockName) && down.equals(blockName))
 				setSprite(getSpriteSheet().getSubimage(66, 0, 32, 32));
 			// all empty except right
 			else if (!left.equals(blockName) && right.equals(blockName)

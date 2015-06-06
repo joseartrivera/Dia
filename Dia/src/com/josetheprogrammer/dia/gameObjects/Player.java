@@ -239,7 +239,7 @@ public class Player implements Serializable {
 
 			// Inertia
 			jumpCounter++;
-			if (jumpPower > 0)
+			if (jumpPower > 1)
 				jumpPower--;
 
 			// Keep track of when to stop jumping
