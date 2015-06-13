@@ -7,13 +7,14 @@ The game will feature platforming challenges, puzzles, and most importantly acti
 
 Try the <a href='http://war.pvpzone.org/dia.zip'>game demo</a>.
 
-Game controls:
-WASD to move
-E to pickup item
-Left click to use item
-Right click for alt-use (none in the game yet)
-
-Stage editor controls:
-WASD to move camera
-Left click to place block
-Right click to delete
+Game controls:<br>
+WASD to move<br>
+E to pickup item<br>
+Left click to use item<br>
+Right click for alt-use (none in the game yet)<br>
+<br>
+Stage editor controls:<br>
+WASD to move camera<br>
+Left click to place block<br>
+Right click to delete<br>
+X to remove item from inventory<br>
