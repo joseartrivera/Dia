@@ -224,7 +224,7 @@ public class StageEditorMenu extends JPanel {
 	}
 	
 	private void setupItemEditor() {
-		placeableItem = new PlaceableItem(ItemType.SWORD, "sword.gif", game.getStage(), null);
+		placeableItem = new PlaceableItem("sword.gif", game.getStage(), null);
 		previewIcon = new ImageIcon(placeableItem.getInventorySprite());
 		preview = new JLabel(previewIcon);
 		preview.setLocation(64, 64);
@@ -302,7 +302,7 @@ public class StageEditorMenu extends JPanel {
 	}
 	
 	private void createPlaceableItem(String name){
-		placeableItem = new PlaceableItem(ItemType.SWORD, name, game.getStage(), null);
+		placeableItem = new PlaceableItem(name, game.getStage(), null);
 		previewIcon.setImage(placeableItem.getInventorySprite());
 		previewIcon.getImage().flush();
 		preview.setIcon(previewIcon);

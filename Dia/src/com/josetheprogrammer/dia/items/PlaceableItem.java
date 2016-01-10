@@ -14,23 +14,19 @@ public class PlaceableItem extends Item implements EditibleItem {
 	private static final long serialVersionUID = 1L;
 	private Placeable item;
 	private Placeable placeable;
-	private ItemType itemType;
-	private Enum<?> type;
 	private String itemName;
 	@SuppressWarnings("unused")
 	private Stage stage;
 
-	public PlaceableItem(ItemType itemType, String itemName, Stage stage, Enum<?> type) {
+	public PlaceableItem(String itemName, Stage stage, Enum<?> type) {
 		super(stage);
-		this.itemType = itemType;
 		this.itemName = itemName;
 		this.stage = stage;
-		this.type = type;
-		this.item = Creator.createItem(itemType, itemName, stage, type, 0, 0);
+		this.item = Creator.createDefaultItem(itemName, stage);
 	}
 
 	public void generatePlaceable(Stage stage, int x, int y) {
-		placeable = this.item = Creator.createItem(itemType, itemName, stage, type, 0, 0);
+		placeable = this.item = Creator.createDefaultItem(itemName, stage);
 		placeable.setX(x);
 		placeable.setY(y);
 	}

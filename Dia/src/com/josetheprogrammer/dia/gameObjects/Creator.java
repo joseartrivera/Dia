@@ -8,7 +8,9 @@ import com.josetheprogrammer.dia.blocks.NormalBlock;
 import com.josetheprogrammer.dia.items.Item;
 import com.josetheprogrammer.dia.items.ItemType;
 import com.josetheprogrammer.dia.items.LauncherItem;
+import com.josetheprogrammer.dia.items.MeleeDashItem;
 import com.josetheprogrammer.dia.items.MeleeItem;
+import com.josetheprogrammer.dia.items.MeleeTossItem;
 import com.josetheprogrammer.dia.mobs.CrawlMob;
 import com.josetheprogrammer.dia.mobs.FlyingMob;
 import com.josetheprogrammer.dia.mobs.Mob;
@@ -19,9 +21,9 @@ import com.josetheprogrammer.dia.projectiles.FireBall;
 import com.josetheprogrammer.dia.projectiles.Projectile;
 import com.josetheprogrammer.dia.projectiles.ProjectileType;
 
-public class Creator{
-	public static Block createBlock(BlockType blockType, String name, boolean tileset,
-			Stage stage) {
+public class Creator {
+	public static Block createBlock(BlockType blockType, String name,
+			boolean tileset, Stage stage) {
 		Block block = null;
 		switch (blockType) {
 		case SOLID:
@@ -41,6 +43,26 @@ public class Creator{
 		return block;
 	}
 
+	public static Item createDefaultItem(String itemName, Stage stage) {
+		Item item = null;
+
+		if (itemName.equals("fireball.gif")) {
+			item = createItem(ItemType.LAUNCHER, itemName, stage,
+					ProjectileType.FireBall, 4, -6);
+		} else if (itemName.equals("gun.png")) {
+			item = createItem(ItemType.LAUNCHER, itemName, stage,
+					ProjectileType.Bullet, 8, 0);
+		} else if (itemName.equals("spear.png")) {
+			item = createItem(ItemType.TOSS, itemName, stage, null, 0, 0);
+		} else if (itemName.equals("sword.gif")) {
+			item = createItem(ItemType.SWORD, itemName, stage, null, 0, 0);
+		} else if (itemName.equals("Dobble_axe.png")) {
+			item = createItem(ItemType.DASH, itemName, stage, null, 0, 0);
+		}
+
+		return item;
+	}
+
 	public static Item createItem(ItemType itemType, String itemName,
 			Stage stage, Enum<?> type, int xSpeed, int ySpeed) {
 		Item item = null;
@@ -50,8 +72,16 @@ public class Creator{
 			item.setItemName(itemName);
 			break;
 		case LAUNCHER:
-			item = new LauncherItem(stage,(ProjectileType) type, xSpeed, ySpeed);
+			item = new LauncherItem(stage, (ProjectileType) type, xSpeed,
+					ySpeed);
 			item.setItemName(itemName);
+			break;
+		case TOSS:
+			item = new MeleeTossItem(stage);
+			item.setItemName(itemName);
+			break;
+		case DASH:
+			item = new MeleeDashItem(stage);
 			break;
 		default:
 			break;
@@ -104,8 +134,8 @@ public class Creator{
 		}
 		return proj;
 	}
-	
-	public static int getBaseProjectileCooldown(ProjectileType projType){
+
+	public static int getBaseProjectileCooldown(ProjectileType projType) {
 		switch (projType) {
 		case Bullet:
 			return 0;
