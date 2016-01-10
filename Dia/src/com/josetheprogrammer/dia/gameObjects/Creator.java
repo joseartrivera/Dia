@@ -12,6 +12,7 @@ import com.josetheprogrammer.dia.items.MeleeDashItem;
 import com.josetheprogrammer.dia.items.MeleeItem;
 import com.josetheprogrammer.dia.items.MeleeTossItem;
 import com.josetheprogrammer.dia.mobs.CrawlMob;
+import com.josetheprogrammer.dia.mobs.FireBreatherMob;
 import com.josetheprogrammer.dia.mobs.FlyingMob;
 import com.josetheprogrammer.dia.mobs.Mob;
 import com.josetheprogrammer.dia.mobs.MobType;
@@ -113,6 +114,11 @@ public class Creator {
 			mob.setSpeed(2);
 			mob.setMobName(mobName);
 			break;
+		case MOLTEN_GOLEM:
+			mob = new FireBreatherMob(stage, new Point(x, y));
+			mob.setType(mobType);
+			mob.setSpeed(2);
+			mob.setMobName(mobName);
 		default:
 			break;
 		}

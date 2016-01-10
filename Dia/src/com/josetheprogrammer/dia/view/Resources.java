@@ -125,6 +125,7 @@ public class Resources {
 		list.add("spider");
 		list.add("redspider");
 		list.add("hollow");
+		list.add("molten_golem");
 		return list;
 	}
 	
